@@ -32,10 +32,12 @@ The `godot` command is on PATH (`C:\Users\bsutt\bin\godot.exe`, **4.6.1.stable, 
 |---|---|
 | Import assets and refresh the class cache (after creating files outside the editor) | `godot --headless --path babel --import` |
 | Parse-check one script | `godot --headless --path babel --check-only -s res://path/to/file.gd` |
-| Project-wide load check (once ENG-010 exists) | `godot --headless --path babel -s res://tools/ci/check.gd` |
-| Run the GUT tests (once ENG-009 exists) | `godot --headless --path babel -s res://addons/gut/gut_cmdln.gd -gdir=res://tests -gexit` |
+| Project-wide load check: loads every script, scene and resource; exits 1 on any error | `godot --headless --path babel -s res://tools/ci/check.gd` |
+| Run the GUT unit tests (`tests/unit/`, configured in `babel/.gutconfig.json`; exits 1 on failure) | `godot --headless --path babel -s res://addons/gut/gut_cmdln.gd` |
+| Apply or re-apply project settings (display, physics, warnings, layers, input map, autoloads, plugins). **Change settings here, not by hand.** | `godot --headless --path babel -s res://tools/setup/configure_project.gd` |
 | Run the game or one scene | `godot --path babel [--scene res://scenes/...tscn] [--debug-collisions]` |
-| **Capture frames to look at** | `godot --path babel --write-movie <scratchpad>/cap/f.png --fixed-fps 60 --quit-after 120 --scene res://tests/visual/<scene>.tscn`, then Read `f00000119.png`. It needs a real window, so don't add `--headless`. Frames are written at the native 640×360. |
+| **Capture frames to look at** | `babel/tools/capture.sh res://tests/visual/<scene>.tscn [frames] [outdir]`. Writes 640×360 PNGs to `build/captures/<scene>/`, prints any `VISUAL PASS/FAIL` lines the scene logs, and prints the last frame's path for you to Read. It opens a window, so it can't run headless. |
+| Rebuild the greybox TileSet | `godot --headless --path babel -s res://tools/builders/build_greybox_tileset.gd`, then `--import` if it asks, then run it again |
 | Measure FPS | add `--print-fps` |
 | Export a Windows build (once ENG-015 exists) | `godot --headless --path babel --export-release "Windows Desktop" ../build/windows/Babel.exe` |
 | Regenerate the API reference | `godot --headless --doctool .godot-api` |
@@ -52,7 +54,10 @@ Other notes:
 - **Git LFS** stores binary assets (images, audio, video, fonts, zips, `.res`) according to the root `.gitattributes`. Text files are normalized to LF.
   - Before committing the first file of a new binary type, add an LFS rule for it.
   - Check with `git check-attr filter -- <path>`.
-- Commit only when the user asks. Keep commits small, with the backlog ID first in the message (`ENG-002: apply display settings`).
+- **Auto-commit and push** (standing permission from the user, 2026-10-14). After each finished task, or group of small tasks, has passed verification, commit and `git push`.
+  - Put the backlog IDs first in the message, e.g. `ENG-002: apply display settings`.
+  - Include the backlog and session-log update in the same commit.
+  - Never commit work that fails the check or the tests.
 - Never commit `.godot-api/`, `babel/.godot/`, `build/`, secrets, or signed PixelLab download URLs.
 
 ## Project layout (`res://`)
@@ -313,6 +318,10 @@ The full recipes, budget and registry are in `docs/ART_BIBLE.md`.
 - Blurry pixels mean something is overriding the Nearest texture filter, a texture has mipmaps, or an import uses lossy compression. Keep sprite imports `Lossless` with mipmaps off.
 - Sprite or camera jitter usually comes from an un-snapped camera combined with smoothing, or a teleport without `reset_physics_interpolation()`. Inspect it with a 4× capture.
 - Movie Maker cannot render with `--headless`.
+- **HDR 2D is on, so frames read back from a viewport (`get_texture().get_image()`) are linear floats.** Convert them with `Color.linear_to_srgb()` before comparing against palette colors (see `tests/visual/pixel_perfect.gd`). The final on-screen and Movie Maker output is sRGB as usual.
+- **Never `ResourceLoader.load(…, CACHE_MODE_IGNORE)` the script that is currently running** (for example, a `-s` tool reloading itself). It crashes the engine with signal 11.
+- `--check-only` and headless runs **don't print GDScript warnings**; only the editor shows them. Warnings set to Error (like `untyped_declaration`) still fail to load, so the check script catches those.
+- Visual test scenes in `tests/visual/` check themselves where possible: they log `VISUAL PASS`/`VISUAL FAIL` from in-engine measurements, so you don't rely on eyeballing alone.
 - Area2D overlap signals fire inside physics callbacks, so defer any state changes.
 - Pool projectiles and damage numbers (CBT-008); don't `instantiate()` and `queue_free()` hundreds of them per second.
 - `.gitattributes` forces LF line endings, so leave line endings alone.

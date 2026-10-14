@@ -23,20 +23,16 @@ Rules:
 
 The current milestone is **M0 Foundation**. Work top to bottom:
 
-1. ~~ENG-001~~ (done).
-2. **ENG-002 to ENG-006**: project settings, physics, warnings, input map, folders.
-3. **ENG-007, ENG-008**: autoload stubs and the main scene.
-4. **ENG-009 to ENG-011**: GUT, the check script, the capture harness.
-5. **VFX-001**: pixel-perfect verification scene.
-6. **LVL-002**: greybox TileSet.
-7. **PIPE-001**: Elam style anchor. It costs about 10–30 gens; 145 were left on 2026-10-14 and the allowance resets on 2026-10-17.
-8. **PIPE-002, PIPE-003, PIPE-004, PIPE-006**: palette and importers.
+1. ~~ENG-001 to ENG-011, VFX-001, LVL-002~~ (done 2026-10-14).
+2. **PIPE-001**: Elam style anchor. It costs about 10–30 gens and needs the user to approve a candidate. 145 gens were left on 2026-10-14; the allowance resets on 2026-10-17.
+3. **PIPE-004**: sheet packer. It needs no art, so it can be done before PIPE-001.
+4. **PIPE-002, PIPE-003, PIPE-006**: palette and importers, built against real PixelLab output.
 
 **M0 exit criteria:**
-- A greybox test room runs with a placeholder capsule player.
-- Headless tests and the project check pass.
-- Movie Maker capture works through the harness.
-- The Elam anchor is approved and the character and tileset importers work on real PixelLab output.
+- ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
+- ✅ Headless tests and the project check pass.
+- ✅ Movie Maker capture works through the harness.
+- ⬜ The Elam anchor is approved and the character and tileset importers work on real PixelLab output.
 
 **M1 exit criteria (vertical slice "The Gate"):**
 - The intro run and Namtar scene play.
@@ -56,16 +52,16 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
 | ENG-001 | Git repository at the repo root, a root `.gitignore`, and a Git LFS decision | M0 | P0 | S | — | done |
-| ENG-002 | Apply the display and pixel-perfect settings from CLAUDE.md | M0 | P0 | S | — | todo |
-| ENG-003 | Physics settings (60 Hz, interpolation) and names for 2D physics layers 1–14 | M0 | P0 | S | — | todo |
-| ENG-004 | GDScript warnings: `untyped_declaration` set to Error, unsafe warnings on | M0 | P0 | S | — | todo |
-| ENG-005 | Input map with every action and default keyboard and gamepad bindings | M0 | P0 | S | — | todo |
-| ENG-006 | Folder skeleton per CLAUDE.md, plus `art_src/.gdignore` | M0 | P0 | S | — | todo |
-| ENG-007 | The 8 autoload stubs, registered, typed and documented | M0 | P0 | M | ENG-006 | todo |
-| ENG-008 | Main scene (Main/World/HUD/Menus/Transition/Debug), set as the project's main scene | M0 | P0 | S | ENG-007 | todo |
-| ENG-009 | Install GUT, add a sample test, and confirm the CLI command works | M0 | P0 | S | ENG-006 | todo |
-| ENG-010 | `tools/ci/check.gd`: load everything, report failures, exit non-zero on error | M0 | P0 | M | ENG-006 | todo |
-| ENG-011 | Visual capture harness: `tests/visual/` scenes and a `tools/capture.sh` wrapper | M0 | P0 | S | ENG-008 | todo |
+| ENG-002 | Apply the display and pixel-perfect settings from CLAUDE.md | M0 | P0 | S | — | done |
+| ENG-003 | Physics settings (60 Hz, interpolation) and names for 2D physics layers 1–14 | M0 | P0 | S | — | done |
+| ENG-004 | GDScript warnings: `untyped_declaration` set to Error, unsafe warnings on | M0 | P0 | S | — | done |
+| ENG-005 | Input map with every action and default keyboard and gamepad bindings | M0 | P0 | S | — | done |
+| ENG-006 | Folder skeleton per CLAUDE.md, plus `art_src/.gdignore` | M0 | P0 | S | — | done |
+| ENG-007 | The 8 autoload stubs, registered, typed and documented | M0 | P0 | M | ENG-006 | done |
+| ENG-008 | Main scene (Main/World/HUD/Menus/Transition/Debug), set as the project's main scene | M0 | P0 | S | ENG-007 | done |
+| ENG-009 | Install GUT, add a sample test, and confirm the CLI command works | M0 | P0 | S | ENG-006 | done |
+| ENG-010 | `tools/ci/check.gd`: load everything, report failures, exit non-zero on error | M0 | P0 | M | ENG-006 | done |
+| ENG-011 | Visual capture harness: `tests/visual/` scenes and a `tools/capture.sh` wrapper | M0 | P0 | S | ENG-008 | done |
 | ENG-012 | Debug overlay and cheats (F1): FPS, state, velocity, room, collision toggle, god mode, give item, warp | M1 | P1 | M | ENG-008 | todo |
 | ENG-013 | `Logger` subclass writing to `user://logs`, plus an in-game console | M2 | P2 | S | ENG-007 | todo |
 | ENG-015 | Windows export preset (shader baker on, icon) and an export smoke test | M1 | P1 | S | ENG-002 | todo |
@@ -472,7 +468,7 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| VFX-001 | Pixel-perfect verification scene (integer scaling, no shimmer while the camera moves), captured | M0 | P0 | S | ENG-002, ENG-011 | todo |
+| VFX-001 | Pixel-perfect verification scene (integer scaling, no shimmer while the camera moves), captured | M0 | P0 | S | ENG-002, ENG-011 | done |
 | VFX-002 | Lighting baseline: `CanvasModulate` per room, lamp lights, a normal-mapped sprite, banded `light()` shader | M1 | P0 | M | PIPE-005 | todo |
 | VFX-003 | Tile occluders and shadows | M2 | P1 | S | VFX-002 | todo |
 | VFX-004 | Parallax per region with fog tint by depth (ART_BIBLE §5) | M1 | P0 | M | PIPE-007 | todo |
@@ -507,7 +503,7 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 |---|---|---|---|---|---|---|
 | LVL-000 | Progression graph: critical path, relic gates, optional branches (the Wire Spire stays off the critical path), sequence-break rules, as a Mermaid diagram in `docs/progression.md` | M1 | P0 | M | — | todo |
 | LVL-001 | Tower macro map: every Act I region placed on the cell grid (`docs/maps/act1.md`) | M2 | P0 | M | LVL-000 | todo |
-| LVL-002 | Greybox `TileSet`: solid, one-way, 45° slopes, hazard, breakable marker, water | M0 | P0 | S | ENG-003 | todo |
+| LVL-002 | Greybox `TileSet`: solid, one-way, 45° slopes, hazard, breakable marker, water | M0 | P0 | S | ENG-003 | done |
 | LVL-003 | Room metrics guide: jump heights in tiles, door and ceiling clearances, enemy spacing (`docs/level_metrics.md`) | M1 | P0 | S | PLR-004, PLR-013 | todo |
 | LVL-004 | Act II derivation plan: which rooms are mirrored, remixed or new | M4 | P0 | M | LVL-001 | todo |
 
@@ -905,3 +901,22 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - The remote is HTTPS (`https://github.com/Brandon-Sutton/Babel.git`), authenticated with Git Credential Manager through a browser sign-in. The user's SSH key has a passphrase and Windows' ssh-agent is disabled, so SSH can't push from Claude's shell.
   - Gens spent: 0.
   - **Next:** ENG-002 to ENG-006.
+- **2026-10-14 (M0 foundation)**
+  - ENG-002 to ENG-011, VFX-001 and LVL-002 → done.
+  - Project settings are applied by `tools/setup/configure_project.gd`, which is idempotent and is now the way to change settings. It covers the display, physics, warnings, 14 layer names, 14 input actions, 8 autoloads in order, the main scene and the GUT plugin.
+  - Autoload stubs are in `autoload/`. The shared `FileScan` util handles `.remap` files in exported builds.
+  - The main scene boots with zero errors.
+  - GUT **9.6.1** is installed; it's the 4.6 line, while 9.7.x targets Godot 4.7. Tests: 7/7 passing, and a failing test exits 1.
+  - `tools/ci/check.gd` uses a custom `Logger` to catch load errors. It exits 1 on syntax errors and on untyped declarations, which confirms the warning-as-error setting (ENG-004).
+  - `tools/capture.sh` wraps Movie Maker capture.
+  - VFX-001 checks itself and passes: only exact source colors at sub-pixel camera positions, and 3× integer scaling at 1080p.
+  - LVL-002: the greybox TileSet (8 tiles) is generated by `tools/builders/build_greybox_tileset.gd`. In `tests/visual/greybox_room.tscn` the capsule climbs the 45° ramps, crosses the spikes and stops at the wall; the scene checks this itself.
+  - Decisions:
+    - Spike tiles collide as a full tile, flush with the floor. A half-height collider would trap players in an 8 px pit.
+    - Visual tests check themselves where possible and log `VISUAL PASS/FAIL`.
+  - Gotchas found (added to CLAUDE.md):
+    - HDR 2D makes viewport readback linear.
+    - Reloading the running `-s` script with `CACHE_MODE_IGNORE` crashes the engine.
+    - Headless runs don't print GDScript warnings.
+  - Gens spent: 0.
+  - **Next:** PIPE-001 (Elam style anchor; needs the user's approval and about 10–30 gens), or PIPE-004 (no gens needed).
