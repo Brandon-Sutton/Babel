@@ -23,9 +23,8 @@ Rules:
 
 The current milestone is **M0 Foundation**. Work top to bottom:
 
-1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001, PIPE-002~~ (done 2026-10-14).
-2. **PIPE-004**: sheet packer (no gens).
-3. **PIPE-003, PIPE-006**: character and tileset importers built against real PixelLab output. This needs a first Elam animation (for example `breathing-idle`, about 1–3 gens) and one GTE tileset (about 3 gens).
+1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001, PIPE-002, PIPE-004~~ (done 2026-10-14).
+2. **PIPE-003, PIPE-006**: character and tileset importers built against real PixelLab output. This needs a first Elam animation (for example `breathing-idle`, about 1–3 gens) and one GTE tileset (about 3 gens).
 
 **M0 exit criteria:**
 - ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
@@ -78,7 +77,7 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 | PIPE-001 | **Style anchor:** generate Elam (side view, facing east) by 2–3 routes, choose one with the user, record it | M0 | P0 | M | — | done |
 | PIPE-002 | Master palette v1 extracted from the anchor: `assets/palettes/master.{png,hex}`, ART_BIBLE §3 updated | M0 | P0 | S | PIPE-001 | done |
 | PIPE-003 | Character importer: PixelLab frames → fixed-canvas sheet anchored at the feet → `AnimationLibrary`/`SpriteFrames` `.tres` | M0 | P0 | M | ENG-006, PIPE-004 | todo |
-| PIPE-004 | Sheet packer used by every importer (frames → sheet + JSON regions) | M0 | P0 | S | ENG-006 | todo |
+| PIPE-004 | Sheet packer used by every importer (frames → sheet + JSON regions) | M0 | P0 | S | ENG-006 | done |
 | PIPE-005 | Normal-map pairing: `_n.png` → `CanvasTexture` in the importers | M1 | P1 | S | PIPE-003 | todo |
 | PIPE-006 | Tileset importer: sidescroller tileset → `TileSet` `.tres` with physics, terrain set and one-way variants | M0 | P0 | M | LVL-002 | todo |
 | PIPE-007 | Parallax importer: layer PNGs + JSON config → a `Parallax2D` preset scene per region | M1 | P1 | S | PIPE-004 | todo |
@@ -943,3 +942,13 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - New tool: `tools/import/palette_tool.gd` (`extract`, `gpl`).
   - Gens spent: 0.1.
   - **Next:** PIPE-004 (sheet packer), then PIPE-003 with a first idle animation (about 1–3 gens).
+- **2026-10-14 (PIPE-004, sheet packer)**
+  - PIPE-004 → done. `scripts/util/sheet_packer.gd` (`SheetPacker`):
+    - One row per animation, fixed cell size.
+    - Each frame's source pivot (the feet) lands on the shared cell pivot, so PixelLab canvases of different sizes line up.
+    - Frames whose opaque pixels get clipped are reported.
+    - Writes a JSON layout sidecar.
+    - Sprite2D plays it with `frame_coords = (frame, row)`.
+  - 5 unit tests; 12/12 tests pass.
+  - Gens spent: 0.
+  - **Next:** PIPE-003 (character importer). Needs a first Elam animation (`breathing-idle` or a v3 idle, about 1–3 gens).
