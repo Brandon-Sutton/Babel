@@ -23,8 +23,12 @@ Rules:
 
 The current milestone is **M0 Foundation**. Work top to bottom:
 
-1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001, PIPE-002, PIPE-004~~ (done 2026-10-14).
-2. **PIPE-003, PIPE-006**: character and tileset importers built against real PixelLab output. This needs a first Elam animation (for example `breathing-idle`, about 1–3 gens) and one GTE tileset (about 3 gens).
+1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001 to PIPE-004~~ (done 2026-10-14).
+2. **PIPE-006**: tileset importer, built against a real GTE sidescroller tileset (about 3 gens). It is the last M0 item.
+3. Then M1 begins. Suggested order:
+   - PLR-002 and PLR-001 (state machine, player scene, using the imported idle)
+   - PLR-003 and PLR-004 (walk, jump)
+   - ART-001 (Elam's walk, jump and attack animations, about 2–3 gens each)
 
 **M0 exit criteria:**
 - ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
@@ -76,7 +80,7 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 |---|---|---|---|---|---|---|
 | PIPE-001 | **Style anchor:** generate Elam (side view, facing east) by 2–3 routes, choose one with the user, record it | M0 | P0 | M | — | done |
 | PIPE-002 | Master palette v1 extracted from the anchor: `assets/palettes/master.{png,hex}`, ART_BIBLE §3 updated | M0 | P0 | S | PIPE-001 | done |
-| PIPE-003 | Character importer: PixelLab frames → fixed-canvas sheet anchored at the feet → `AnimationLibrary`/`SpriteFrames` `.tres` | M0 | P0 | M | ENG-006, PIPE-004 | todo |
+| PIPE-003 | Character importer: PixelLab frames → fixed-canvas sheet anchored at the feet → `AnimationLibrary`/`SpriteFrames` `.tres` | M0 | P0 | M | ENG-006, PIPE-004 | done |
 | PIPE-004 | Sheet packer used by every importer (frames → sheet + JSON regions) | M0 | P0 | S | ENG-006 | done |
 | PIPE-005 | Normal-map pairing: `_n.png` → `CanvasTexture` in the importers | M1 | P1 | S | PIPE-003 | todo |
 | PIPE-006 | Tileset importer: sidescroller tileset → `TileSet` `.tres` with physics, terrain set and one-way variants | M0 | P0 | M | LVL-002 | todo |
@@ -94,7 +98,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| ART-001 | Elam: base sprite and the 24 animations in ART_BIBLE §6.1, palette-locked, with normal maps | M1 | P0 | L | PIPE-001..005 | todo |
+| ART-001 | Elam: base sprite and the 24 animations in ART_BIBLE §6.1, palette-locked, with normal maps | M1 | P0 | L | PIPE-001..005 | doing |
 | ART-002 | Elam's weapon sprites for the sword and short-sword classes, with attach points | M1 | P0 | S | ART-001 | todo |
 | ART-003 | Slice enemies ENM-001, 002, 003, 006 and 007 (sprites and animations) | M1 | P0 | L | PIPE-003 | todo |
 | ART-004 | Lamassu boss parts and animation | M1 | P0 | M | PIPE-003 | todo |
@@ -952,3 +956,13 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - 5 unit tests; 12/12 tests pass.
   - Gens spent: 0.
   - **Next:** PIPE-003 (character importer). Needs a first Elam animation (`breathing-idle` or a v3 idle, about 1–3 gens).
+- **2026-10-14 (PIPE-003, character importer; first Elam animation)**
+  - PIPE-003 → done. ART-001 → doing (idle done).
+  - **Elam's idle:** v3 animation, east, 8 frames (3 gens).
+    - It came back with 62 colors.
+    - It was palette-locked to `elam.png` (`reduce_colors` with `palette_image_url`, 0.1 gen) down to 30 colors, all in Elam's palette, and saved back to the animation.
+  - **PixelLab's export format:** `metadata.json` maps each animation and direction to its frame files. Animation canvases (132) grow evenly around the rotation canvas (96), so pivots can be derived from the rotation.
+  - **Importer:** `tools/import/import_character.gd`, driven by `art_src/.../elam/import.json`. It outputs `assets/sprites/player/elam/elam.{png,json}` and `elam_anims.tres`. Re-running gives byte-identical files, and the idle's feet sit exactly on the ground line.
+  - **Preview:** `tests/visual/character_preview.tscn` → `VISUAL PASS elam/idle: 8 of 8 frames shown`. The mirrored copy keeps its feet in place. The frame is saved as `docs/art_reviews/2026-10-14_elam_ingame_idle.png`.
+  - Gens spent: 3.1. About 118.7 left; the allowance resets 2026-10-17.
+  - **Next:** PIPE-006 (tileset importer; needs a GTE tileset, about 3 gens), then M1 (PLR-002/001).

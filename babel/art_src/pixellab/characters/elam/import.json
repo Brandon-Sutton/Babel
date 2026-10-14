@@ -1,0 +1,13 @@
+{
+	"slug": "elam",
+	"pixellab_character_id": "a6fa2f9e-2d8f-435c-b6c3-c89e08dceec1",
+	"export_dir": "export",
+	"direction": "east",
+	"cell": [128, 128],
+	"cell_pivot": [64, 124],
+	"output_dir": "res://assets/sprites/player/elam",
+	"sprite_node": "Sprite2D",
+	"animations": {
+		"idle": {"source": "idle", "fps": 8, "loop": true, "grounded": true}
+	}
+}

@@ -1,0 +1,45 @@
+{
+  "group_id": "a8a7ef1c-22ef-458c-90d4-a5dd6a697ffc",
+  "states": [
+    {
+      "character": {
+        "id": "a6fa2f9e-2d8f-435c-b6c3-c89e08dceec1",
+        "name": "Idle",
+        "prompt": "Elam, a tall slender elegant human man with long silver-white hair bound with small gold rings, warm olive-brown skin, long fitted high-collared dark indigo-black frock coat with gold braid trim, black gloves, tall black boots, long black cape with deep crimson lining. Gothic dark fantasy hero, unarmed, standing.",
+        "size": {
+          "width": 96,
+          "height": 96
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "side",
+        "created_at": "2026-10-14T21:23:57.015520+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {
+          "idle": {
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png",
+              "Idle/animations/idle/east/frame_004.png",
+              "Idle/animations/idle/east/frame_005.png",
+              "Idle/animations/idle/east/frame_006.png",
+              "Idle/animations/idle/east/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T21:47:44.452323"
+}

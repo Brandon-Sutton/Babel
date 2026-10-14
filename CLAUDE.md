@@ -38,6 +38,8 @@ The `godot` command is on PATH (`C:\Users\bsutt\bin\godot.exe`, **4.6.1.stable, 
 | Run the game or one scene | `godot --path babel [--scene res://scenes/...tscn] [--debug-collisions]` |
 | **Capture frames to look at** | `babel/tools/capture.sh res://tests/visual/<scene>.tscn [frames] [outdir]`. Writes 640×360 PNGs to `build/captures/<scene>/`, prints any `VISUAL PASS/FAIL` lines the scene logs, and prints the last frame's path for you to Read. It opens a window, so it can't run headless. |
 | Art review sheet: images at N× above, 1× below, with drawn sizes printed. Save sheets the user approves to `docs/art_reviews/`. | `godot --headless --path babel -s res://tools/import/contact_sheet.gd -- <out.png> <scale> <img>...` (OS paths) |
+| Palettes: extract a character's exact colors, or convert the curated `master.gpl` | `godot --headless --path babel -s res://tools/import/palette_tool.gd -- extract <out_base> <img>...` or `-- gpl <in.gpl> <out_base>` |
+| **Import a PixelLab character** (recipe: `art_src/pixellab/characters/<slug>/import.json`; export unzipped in `export/`) → `assets/sprites/.../<slug>.png`, `.json`, `_anims.tres` | `godot --headless --path babel -s res://tools/import/import_character.gd -- res://art_src/pixellab/characters/<slug>/import.json`, then `--import`, then preview with `babel/tools/capture.sh res://tests/visual/character_preview.tscn 100` |
 | Rebuild the greybox TileSet | `godot --headless --path babel -s res://tools/builders/build_greybox_tileset.gd`, then `--import` if it asks, then run it again |
 | Measure FPS | add `--print-fps` |
 | Export a Windows build (once ENG-015 exists) | `godot --headless --path babel --export-release "Windows Desktop" ../build/windows/Babel.exe` |
