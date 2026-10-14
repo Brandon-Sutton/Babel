@@ -1,0 +1,6 @@
+# Engine API reference cache (regenerate with: godot --headless --doctool .godot-api)
+.godot-api/
+
+# Godot cache and exports
+babel/.godot/
+build/

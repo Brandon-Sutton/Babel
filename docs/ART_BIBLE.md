@@ -1,0 +1,275 @@
+# BABEL: Art Bible and PixelLab Pipeline
+
+This document defines how BABEL looks and how its art is made. It is the source of truth for visual specs, palettes, PixelLab recipes and costs, and the **asset registry** (every generated asset and its PixelLab ID).
+
+**Status:** v0.1. The palette and recipes are provisional until the style anchor is approved (PIPE-001 and PIPE-002 in [BACKLOG.md](BACKLOG.md)).
+
+---
+
+## 1. Target look: "Symphony of the Night, with more pixels and more depth"
+
+- **Gothic elegance first.** The silhouettes are tall and slender, with flowing mantles, ornate architecture and big readable bosses. The mood is melancholy grandeur, not grimdark mush.
+- **More pixels per thing:**
+  - Elam is about 64 px tall, versus about 48 px for Alucard. That gives roughly 1.8× the pixel area per character.
+  - The screen is 640×360, about 4× SotN's pixel count, so rooms can carry far more architectural detail.
+- **More depth:**
+  - 4–7 parallax layers per room.
+  - Atmospheric tinting by distance.
+  - Normal-mapped sprites lit by 2D lights.
+  - Sparse dark foreground silhouettes.
+  - Particles: dust motes, embers, rain and bubbles.
+  - HDR glow on magic only.
+- **Never break the grid.** No rotation, non-integer scaling or sub-pixel blending of sprites. Effects that need rotation (some boss parts, spinning projectiles) use frames drawn rotated, or rotate in exact 90° steps. The one exception is large boss parts deliberately rotated on bones; that is allowed and reviewed case by case.
+
+## 2. Resolution, grid and size classes
+
+| Spec | Value |
+|---|---|
+| Internal resolution | **640×360** |
+| Display scaling | Integer only: 2× (1280×720), 3× (1920×1080), 4× (2560×1440), 6× (3840×2160). Other resolutions are letterboxed. |
+| Tile size | **16×16** |
+| Map cell (one screen) | 640×360 = 40 × 22.5 tiles. Room bounds are measured in pixels in whole cells. In odd-height rooms the bottom half-row is solid fill beneath the floor. |
+| Hero | About **64 px** tall standing. Fixed frame canvas **128×96** (W×H), anchored at bottom-center (feet). |
+| Small enemy | ≤ 32 px (bats, masks, wisps) |
+| Medium enemy | 48–80 px (soldiers, ghouls) |
+| Large enemy | 96–128 px (brutes, golems) |
+| Boss | 160–256 px single sprite, or **part-based** (recommended above 160 px) |
+| Item icon | 16×16 (inventory), 32×32 (item-get banner) |
+| Portrait | 64×64 (dialogue), 128×128 (key scenes) |
+| Pixel font | 8 px (HUD and body text), 16 px (titles) |
+
+## 3. Palette
+
+### 3.1 Master ramps (v0, to be replaced by values extracted from the approved anchor in PIPE-002)
+
+| Ramp | Dark → light (hex) |
+|---|---|
+| Bitumen (blacks) | `#0b0a10` `#17141f` `#241e2e` `#3a3047` |
+| Lapis | `#1b2a5c` `#2c4a9a` `#4f7fd1` `#9cc3f0` |
+| Gold | `#6b4a12` `#a8781f` `#e0b34a` `#fbe69b` |
+| Terracotta / brick | `#4a1f17` `#7c3524` `#b45a37` `#df9161` |
+| Bone / parchment | `#6f6553` `#b3a684` `#e8dfc4` `#fff8e6` |
+| Crimson | `#3d0a14` `#7a1325` `#c0263c` `#ef6a6a` |
+| Verdigris | `#183a33` `#2f6b55` `#5fa37c` `#a8d8a0` |
+| Night sky | `#2a2140` `#4b3d6e` `#8b7fb8` `#d4cdf0` |
+
+### 3.2 Region accents (each region adds 2–3 ramps to the master)
+
+| Code | Region | Accent ramps | Fog / ambient tint |
+|---|---|---|---|
+| SHN | Plain of Shinar | Night sky, ember orange | Indigo |
+| GTE | Grand Gate | Lapis, gold | Deep blue |
+| FND | Foundation | Terracotta, soot, kiln red | Smoky brown |
+| GRD | Hanging Gardens | Verdigris, jade, gold | Green-teal haze |
+| ARC | Hall of Tablets | Parchment, lamp gold, ink | Warm sepia |
+| COL | Colosseum Tiers | Sandstone, sunset crimson | Dusky orange |
+| CIS | Cisterns | Teal, drowned blue | Blue-green |
+| CAT | Cathedral of Bells | Stained-glass jewel tones, candle amber, violet | Violet |
+| UND | Underworks | Bone, ash, sickly green | Near-black green |
+| ORR | Orrery | Brass, starlight, navy | Navy |
+| FDY | Iron Foundry | Rust, coal, molten orange | Red-brown smog |
+| WIR | Wire Spire | Slate, sodium yellow, electric cyan | Grey-blue |
+| SUM | Gate of the Gods | Gold, white, deep night | Starlit black |
+| Act II | Abzu Reflection | Shift every region toward teal and violet; lower saturation | Water-caustic overlay |
+
+### 3.3 Palette rules
+
+- **Hue-shift every ramp:** shadows move toward violet or blue, highlights toward warm yellow. Never darken with pure black or lighten with pure white.
+- **Color limits:** at most about 24 colors per character sprite and about 48 per region tileset. All of a character's frames share **one** palette, locked with `reduce_colors` (§7.4).
+- **Readability by layer:** the gameplay layer (anything you can stand on or that can hurt you) has the strongest contrast and a lit top edge. Background layers are darker and lower in saturation. Enemies separate from the background through warm/cool contrast.
+- **Palette swaps:** enemy variants use a palette-swap shader on one sprite (AI-004), not regenerated art.
+
+## 4. Light, shading and outline
+
+- **Authored light** comes from the **upper left**. Generate sprites with *medium* shading so that dynamic 2D lights do not double up on the baked shading.
+- **Outlines:** characters and enemies use a **selective outline** (dark outline that lightens where the light hits). Tiles use selective or none. Backgrounds have none.
+- **Dynamic light:**
+  - `CanvasModulate` sets each room's ambient level, from 0.35 (dark) to 0.8 (exterior).
+  - Lamps and magic are `PointLight2D`s.
+  - Sprites carry normal maps through `CanvasTexture`.
+  - A canvas `light()` shader quantizes light into **3–4 bands**, so lighting looks hand-shaded instead of airbrushed.
+- **Glow** (HDR 2D plus a WorldEnvironment) is reserved for magic, embers, molten metal and holy light. Exceeding 1.0 brightness is an intentional effect, never the default.
+
+## 5. Depth layers
+
+The z-index and CanvasLayer numbers are defined in [CLAUDE.md](../CLAUDE.md#rendering-order).
+
+| Layer | Node | `scroll_scale` | Content | Treatment |
+|---|---|---|---|---|
+| Sky / far | `Parallax2D` | 0.0–0.1 | Sky, moon, distant tower silhouettes | Lowest saturation; 70% toward the fog color |
+| Far architecture | `Parallax2D` | 0.2–0.35 | Distant arches and terraces | 50% toward fog |
+| Mid architecture | `Parallax2D` | 0.5–0.65 | Columns, windows | 30% toward fog |
+| Near background | `Parallax2D` | 0.8–0.9 | Pillars, chains, banners | 15% toward fog |
+| Back wall | `TileMapLayer` "BackWall" | 1.0 | Wall the player walks in front of | Darkened about 30%; no collision |
+| **Gameplay** | `TileMapLayer` "Solid" and "Platforms", plus actors | 1.0 | Floors, walls, platforms, everything interactive | Full contrast |
+| Foreground | `Parallax2D` 1.15–1.3, or `TileMapLayer` "FgDeco" | >1.0 | Silhouetted pillars, vines, chains | Nearly black and sparse. **Never hides a hazard or pickup.** |
+| Atmosphere | `GPUParticles2D`, light shafts | — | Dust, embers, rain, bubbles | Additive or mix blending, low alpha |
+
+## 6. Animation guidelines
+
+### 6.1 Elam's animation set (all facing east; mirrored for west with `flip_h`)
+
+| Animation | Frames | FPS | Notes |
+|---|---|---|---|
+| `idle` | 8 | 8 | Breathing and mantle sway |
+| `walk` | 8–10 | 12 | |
+| `turn` | 3 | 15 | |
+| `jump_up` / `jump_apex` / `fall` | 2 / 2 / 2 | 10 | Loop the last frame |
+| `land` | 3 | 15 | |
+| `crouch` / `stand_up` | 2 / 2 | 15 | |
+| `back_dash` | 4 | 15 | Low and gliding, like SotN |
+| `attack_slash` | 6–8 | 20 | 1–2 anticipation frames, 2 active, 3 recovery |
+| `attack_stab` | 6 | 20 | Short swords and spears |
+| `attack_heavy` | 8–10 | 16 | Great swords and maces |
+| `crouch_attack` | 6 | 20 | |
+| `jump_attack` | 6 | 20 | |
+| `guard` | 3 | 15 | Shield raised; hold the last frame |
+| `hurt` | 3 | 12 | |
+| `death` | 10 | 10 | |
+| `cast` | 8 | 14 | Throat glyphs glow (lit through an emission mask) |
+| `throw` | 6 | 18 | Relic Arms |
+| `double_jump` | 6–8 | 18 | Somersault |
+| `dive_kick` | 3 | 15 | |
+| `swim` | 8 | 10 | |
+| `transform` | 8 | 16 | Shared start of all form changes |
+| `item_get` | 4 | 10 | Relic pickup pose |
+| `interact` | 2 | 10 | Reading or looking up |
+
+That is about 24 animations at roughly 2.5 generations each.
+
+### 6.2 Animation rules
+
+- **Anchor:** feet at bottom-center, identical in every frame and every animation. The importer pads all frames to the character's fixed canvas.
+- **Weapons are separate sprites** attached to a hand bone or offset track. One set of attack animations then serves every weapon in a class, which is a big generation saving.
+- **Frame data lives in the AnimationPlayer** (hitbox on and off, SFX, VFX), not in the art.
+- **Smears:** fast attacks get one or two smear frames, either generated or painted with `pixelart_workbench`.
+
+## 7. PixelLab recipes
+
+Before calling any PixelLab tool, load its schema with ToolSearch (`select:mcp__pixellab__<tool>`), because the tools are deferred. Costs come from the tool schemas as of 2026-10-14. The response's cost line is authoritative, so record it in the registry.
+
+### 7.1 Recipe table
+
+| Asset class | Tool | Key parameters | Cost (gens) | Notes |
+|---|---|---|---|---|
+| Hero, NPC or humanoid enemy (rigged) | `create_character` | `view:"side"`, `mode:"v3"` (best) or `"standard"` (cheap tests), `size` 64–96, `outline:"selective outline"`, `detail:"high detail"` | standard 1 · v3 2–9 · pro 10–25 | Use the **east** facing; mirror for west. v3 without a reference image always makes 8 directions. |
+| New character in an approved style | `create_character_pro_flash` with `style_image` set to the anchor, or `create_character` with `mode:"pro"` and `style_character_id` | `view:"side"`, width/height in multiples of 4 | Check with `get_pro_flash_capabilities` (free) | `style_character_id` requires an 8-direction anchor |
+| Character animation | `animate_character` | `directions:["east"]`, `mode:"v3"` with `action_description`, or `"template"` with `template_animation_id` (walk, run, idle), `keep_first_frame:false` | template 1 per direction; v3 `ceil(w·h·frames/65536)` per direction (64 px at 8 frames = 1; 96–128 px = 2–3) | Use v3 first, then pixminimax for long clips (up to 40 frames). `delete_animation` before re-rolling. |
+| Non-humanoid enemy or creature | `create_object_pro_flash` (`n_directions:1`, `view:"side"`), then `animate_object` (`mode:"v3"`) | Up to 256 px | Image cost plus v3 animation | Quadrupeds such as Lion form and hounds can use `create_character` with `body_type:"quadruped"` and `template` lion or dog for rigged animation |
+| Boss (part-based) | `create_object_pro_flash` or `create_image_pro` for each part (head, torso, arms…) | Transparent background | ~10–40 per boss | Assemble with `Skeleton2D` or Node2D plus AnimationPlayer |
+| Sidescroller tileset | `create_sidescroller_tileset` | `tile_size:16`, `lower_description` (body material), `transition_description` (top surface), `transition_size` 0–0.5, chain `base_tile_id` within a region | **2–3** | Inspect the returned layout once, then map it into a Godot terrain set (PIPE-006) |
+| Back-wall texture / seamless fill | `create_image_pixen` | 64–128 px square, multiple of 4, prompt "seamless tileable" | **1** | Check seams by tiling 3×3 in a test scene; fix with `pixelart_workbench` |
+| Background layer | `create_image_pixen` | Up to 680×384 (area ≤ 512²), `no_background:false` for opaque far layers, `true` for cutouts | **1** | Cheapest high-res option. For a forced palette, use `create_image_pixflux` with `color_image_url` (≤ 400 px) or run `reduce_colors` afterwards |
+| Hero-quality background or key art | `create_image_pro` | Up to 688×384, `palette` as hex list, `reference_images` | 10–25 | Use sparingly (title screen, boss arenas) |
+| Props and decor (batch) | `create_1_direction_object` | `view:"sidescroller"`, `size` (≤ 42 → 64 candidates, ≤ 85 → 16, ≤ 170 → 4), `item_descriptions` for distinct items | 10–25 per call | One call can fill a region's prop list. Finalize with `select_object_frames`. |
+| Prop matched to a background | `create_map_object` | `view:"side"`, `background_image` for style matching | See response | |
+| Item icons (batch) | `create_1_direction_object` with `size` ≤ 32 and up to 64 `item_descriptions`; or `create_image_pro` at 16–32 px | 64 per call | 10–25 per call | Pack into an atlas (PIPE-009) |
+| Normal map | `create_normal_map` | `image:"character:<id>:east:<animation>"` returns a strip, `convention:"opengl"` | **0.5** | Pair it with the diffuse sheet in a `CanvasTexture` |
+| Palette lock | `reduce_colors` | All frames of an animation **together**, `palette_image_url` set to the character's palette strip | **0.1** | Prevents palette drift between frames |
+| Dialogue portrait | `create_portrait_character` | `direction:"character_to_portrait"`, `view:"side"`, `result_size` 64 or 128 | 10 (≤ 64 px) / 15 (128 px) | |
+| UI panels and frames | `create_ui_asset` | `style_image_base64` set to the anchor screenshot, `elements` | 10–25 | Slice into 9-patch `StyleBoxTexture` |
+| Pixel font | `create_font` | `glyph_px` 8 or 16 | 15 | Returns a TTF and an atlas. There is no space glyph, so set the space advance in Godot. |
+| VFX (hits, spells, auras) | `vfx_workbench` | `start [--sprite …]`, `add_part`, `render`, `export --game-pack` | **Free** | Exports a spritesheet with JSON |
+| Cleanup and polish | `pixelart_workbench` | `lint`, `repair`, `selout`, `shade`, `clean-lines`, `score` | **Free** | Keep fixes with `save_to_asset` (free) |
+| Fix one region of an image | `inpaint_image` | Rectangle or mask | 10–25 | **Images over 256 px need Tier 2.** We are on Tier 1. |
+
+### 7.2 Prompt templates
+
+- **Style suffix** (append to every sprite prompt):
+  `side view, 2D action RPG sprite, dark gothic Mesopotamian fantasy, 32-bit console era pixel art, rich hue-shifted shading, selective dark outline, light from upper left`
+- **Character:**
+  `<who>, <silhouette and costume>, <2-3 palette words>, full body, facing right, <style suffix>`
+- **Enemy:** as for a character, plus `<threatening pose>` and `<how it attacks>` (this gives the animation stage something to work from).
+- **Background layer:**
+  `<scene>, side-scrolling game background, <distant|mid|near> layer, <palette words>, atmospheric depth, no characters, no text, 32-bit console era pixel art`
+- **Tileset:** `lower_description` names the solid body material and `transition_description` names the surface (moss, sand, glazed tiles, rust).
+
+**Avoid in prompts:**
+- Franchise or trademark names. We want our own identity, and the models don't need them.
+- `isometric` and `top-down` in side-view prompts.
+- Words like "blurry", "photo" or "3D render".
+
+### 7.3 Consistency workflow
+
+1. **Style anchors.** Approve one anchor per asset class and record it in §10:
+   - Elam (characters)
+   - GTE solid tileset (tiles)
+   - GTE mid-background layer (backgrounds)
+   - HUD frame (UI)
+2. **Characters:** pass the anchor as `style_image` or `style_character_id`.
+3. **Tilesets:** chain `base_tile_id` within a region. Carry one tile over between neighboring regions so their edges match.
+4. **Backgrounds:** force the region palette (pixflux `color_image_url`, or `reduce_colors` with `palette_image_url`).
+5. **Animations:** run `reduce_colors` over every frame together, using the character's palette strip.
+6. **Review gate:** view every asset at 1× and 4× (Read the PNG) before import. Reject it for any of:
+   - mixed-resolution pixels or anti-aliased halos on transparent edges
+   - colors outside the palette
+   - wrong facing or inconsistent feet anchor
+   - anatomy that breaks between frames
+   - silhouettes that don't read at 1×
+
+### 7.4 Working rules for Claude sessions
+
+- **Budget:**
+  - Run `get_balance` before any batch.
+  - State the estimated cost before any action over 25 generations, or any batch over 50, and get the user's OK.
+  - Keep about 10% of the monthly allowance in reserve for fixes.
+- **Waiting:** use `wait_for_jobs` (free) instead of sleep or poll loops.
+- **Passing images:** prefer URLs, or `upload:<id>` via `get_upload_url`, over inline base64. MCP clients truncate large base64 arguments.
+- **Downloading:** fetch results with `curl` into `babel/art_src/pixellab/<kind>/<slug>/`, and unzip ZIPs there. **Never copy signed download URLs into docs or code**; record only PixelLab IDs.
+- **Sizing:** never rescale generated art by a non-integer factor. If the size is wrong, regenerate at the right size or use `unzoom_image` for upscaled pixel art.
+- **Registry:** after each asset, update §10 with its ID, tool, cost and status.
+
+## 8. Generation budget
+
+The Tier 1 subscription gives **2,000 generations per month**, refilling on about the 17th. Check `get_balance`; on 2026-10-14 there were 145 left before the reset. There is also a small daily bonus once the allowance is used up.
+
+| Asset group | Volume | Estimated gens |
+|---|---|---|
+| Elam: base and about 24 animations | 25 assets | ~65 |
+| Elam forms: 3 forms × about 8 animations | 27 | ~70 |
+| Sera: prologue moveset and boss | ~19 | ~50 |
+| NPCs (5) and portraits (~15) | 20 | ~180 |
+| Act I enemies: 60 × (create plus ~4 animations) | 60 | ~480 |
+| Act I bosses, part-based | 14 | ~490 |
+| Sidescroller tilesets: 13 regions × 3 | 39 | ~100 |
+| Back-wall and fill textures (pixen) | ~40 | ~40 |
+| Backgrounds: 13 × 6 layers × about 3 attempts (pixen) | 78 | ~235 |
+| Props: about 20 batch calls | ~20 | ~360 |
+| Item icons: about 250 in batches of 64 | ~5 | ~100 |
+| UI kit and fonts | ~6 | ~90 |
+| Normal maps (~350 strips) | 350 | ~175 |
+| Palette locks (~400) | 400 | ~40 |
+| VFX | — | 0 (free) |
+| Act II content | — | ~900 |
+| Rework reserve (about 15%) | — | ~500 |
+| **Total** | | **~3,900** (about 2 months of allowance, spread over the schedule) |
+
+## 9. Import pipeline (implemented in PIPE-003 to PIPE-008)
+
+```
+PixelLab job ─▶ wait_for_jobs ─▶ get_* (status, URLs)
+  ─▶ curl ─▶ babel/art_src/pixellab/<kind>/<slug>/        (raw files; Godot ignores this folder via .gdignore)
+  ─▶ review (Read PNG) ─▶ fix (pixelart_workbench ─▶ save_to_asset) ─▶ re-download
+  ─▶ importer (godot --headless -s res://tools/import/<importer>.gd -- <args>)
+  ─▶ babel/assets/<kind>/<slug>/<slug>.png (+ _n.png normal map) + .tres (SpriteFrames / AnimationLibrary / TileSet)
+  ─▶ registry row (§10)
+```
+
+## 10. Asset registry
+
+### 10.1 Style anchors
+
+| Class | Slug | PixelLab ID | Approved | Notes |
+|---|---|---|---|---|
+| Character | `elam` | — | — | PIPE-001 |
+| Tileset | `gte_solid` | — | — | |
+| Background | `gte_bg_mid` | — | — | |
+| UI | `hud_frame` | — | — | |
+
+### 10.2 Assets
+
+Status values: `concept`, `approved`, `imported`, `final`, `rejected`.
+
+| Slug | Kind | Tool / mode | PixelLab ID(s) | Size | Gens | Status | Godot path | Notes |
+|---|---|---|---|---|---|---|---|---|
+| *(none yet)* | | | | | | | | |
