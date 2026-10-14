@@ -1,0 +1,56 @@
+GIMP Palette
+Name: Babel Master v1
+Columns: 8
+#
+# BABEL master palette v1 (PIPE-002, 2026-10-14). Ramps run dark -> light; names are <ramp>_<n>.
+# From the approved Elam anchor: bitumen, indigo (coat; lighter steps from the night ramp), gold (shared
+# with olive skin), crimson (darks from Elam, lights for blood/magic), silver (hair), lapis (glyph glow).
+# Region ramps from ART_BIBLE 3.1 v0: bone, terracotta, verdigris. Regenerate png/hex with palette_tool gpl.
+  2   2   2	bitumen_0
+ 17  16  17	bitumen_1
+ 22  22  22	bitumen_2
+ 36  32  34	bitumen_3
+ 41  41  42	bitumen_4
+ 59  53  52	bitumen_5
+ 70  67  66	bitumen_6
+108 103 101	bitumen_7
+ 22  19  31	indigo_0
+ 46  41  57	indigo_1
+ 75  61 110	indigo_2
+139 127 184	indigo_3
+212 205 240	indigo_4
+ 97  66  36	gold_0
+130  99  63	gold_1
+159 115  69	gold_2
+172 134  75	gold_3
+197 156  92	gold_4
+212 176 110	gold_5
+251 230 155	gold_6
+ 56   6  17	crimson_0
+103  17  32	crimson_1
+192  38  60	crimson_2
+239 106 106	crimson_3
+138 126 113	silver_0
+148 137 132	silver_1
+168 161 150	silver_2
+173 178 181	silver_3
+194 195 195	silver_4
+216 216 215	silver_5
+243 238 236	silver_6
+ 27  42  92	lapis_0
+ 44  74 154	lapis_1
+ 61 100 181	lapis_2
+ 79 127 209	lapis_3
+156 195 240	lapis_4
+111 101  83	bone_0
+179 166 132	bone_1
+232 223 196	bone_2
+255 248 230	bone_3
+ 74  31  23	terracotta_0
+124  53  36	terracotta_1
+180  90  55	terracotta_2
+223 145  97	terracotta_3
+ 24  58  51	verdigris_0
+ 47 107  85	verdigris_1
+ 95 163 124	verdigris_2
+168 216 160	verdigris_3

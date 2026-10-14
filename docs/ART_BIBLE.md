@@ -40,18 +40,27 @@ This document defines how BABEL looks and how its art is made. It is the source 
 
 ## 3. Palette
 
-### 3.1 Master ramps (v0, to be replaced by values extracted from the approved anchor in PIPE-002)
+### 3.1 Master ramps (v1, PIPE-002, 2026-10-14)
 
-| Ramp | Dark → light (hex) |
-|---|---|
-| Bitumen (blacks) | `#0b0a10` `#17141f` `#241e2e` `#3a3047` |
-| Lapis | `#1b2a5c` `#2c4a9a` `#4f7fd1` `#9cc3f0` |
-| Gold | `#6b4a12` `#a8781f` `#e0b34a` `#fbe69b` |
-| Terracotta / brick | `#4a1f17` `#7c3524` `#b45a37` `#df9161` |
-| Bone / parchment | `#6f6553` `#b3a684` `#e8dfc4` `#fff8e6` |
-| Crimson | `#3d0a14` `#7a1325` `#c0263c` `#ef6a6a` |
-| Verdigris | `#183a33` `#2f6b55` `#5fa37c` `#a8d8a0` |
-| Night sky | `#2a2140` `#4b3d6e` `#8b7fb8` `#d4cdf0` |
+- **Source of truth:** `babel/assets/palettes/master.gpl`, a GIMP palette with ramps named `<ramp>_<n>`. Regenerate `master.png` (one row per ramp) and `master.hex` with `palette_tool.gd gpl`.
+- **Where the colors come from:** the approved Elam anchor, plus the region ramps from v0.
+- **Review sheet:** `docs/art_reviews/2026-10-14_master_palette_v1.png`.
+
+| Ramp | Dark → light (hex) | Use |
+|---|---|---|
+| Bitumen | `#020202` `#111011` `#161616` `#242022` `#29292a` `#3b3534` `#464342` `#6c6765` | Cape, boots, outlines, dark stone |
+| Indigo | `#16131f` `#2e2939` `#4b3d6e` `#8b7fb8` `#d4cdf0` | Elam's coat; night sky; deep shadows |
+| Gold | `#614224` `#82633f` `#9f7345` `#ac864b` `#c59c5c` `#d4b06e` `#fbe69b` | Braid, trim, relics; **shared with olive skin** |
+| Crimson | `#380611` `#671120` `#c0263c` `#ef6a6a` | Cape lining, blood, crimson magic |
+| Silver | `#8a7e71` `#948984` `#a8a196` `#adb2b5` `#c2c3c3` `#d8d8d7` `#f3eeec` | Hair, steel, moonlight |
+| Lapis | `#1b2a5c` `#2c4a9a` `#3d64b5` `#4f7fd1` `#9cc3f0` | Glyph glow, glazed brick, water magic |
+| Bone | `#6f6553` `#b3a684` `#e8dfc4` `#fff8e6` | Parchment, bone, UI text |
+| Terracotta | `#4a1f17` `#7c3524` `#b45a37` `#df9161` | Mudbrick, kilns |
+| Verdigris | `#183a33` `#2f6b55` `#5fa37c` `#a8d8a0` | Gardens, oxidized bronze |
+
+**Per-character palettes:** `babel/assets/palettes/<character>.png`/`.hex` hold the character's exact colors, extracted with `palette_tool.gd extract`. `elam.png` has 32 colors.
+- Lock every new animation's frames to it: `reduce_colors` with `palette_image_url` pointing at that file (upload it with `get_upload_url`).
+- The anchor itself was reduced from 75 AI colors to 32 with `reduce_colors` (job `6a0442be`). Visually it's identical.
 
 ### 3.2 Region accents (each region adds 2–3 ramps to the master)
 
@@ -75,7 +84,7 @@ This document defines how BABEL looks and how its art is made. It is the source 
 ### 3.3 Palette rules
 
 - **Hue-shift every ramp:** shadows move toward violet or blue, highlights toward warm yellow. Never darken with pure black or lighten with pure white.
-- **Color limits:** at most about 24 colors per character sprite and about 48 per region tileset. All of a character's frames share **one** palette, locked with `reduce_colors` (§7.4).
+- **Color limits:** at most 32 colors per hero-size character (about 24 for smaller sprites) and about 48 per region tileset. All of a character's frames share **one** palette, locked with `reduce_colors` and the character's palette file (§3.1).
 - **Readability by layer:** the gameplay layer (anything you can stand on or that can hurt you) has the strongest contrast and a lit top edge. Background layers are darker and lower in saturation. Enemies separate from the background through warm/cool contrast.
 - **Palette swaps:** enemy variants use a palette-swap shader on one sprite (AI-004), not regenerated art.
 

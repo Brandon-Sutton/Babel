@@ -23,10 +23,9 @@ Rules:
 
 The current milestone is **M0 Foundation**. Work top to bottom:
 
-1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001~~ (done 2026-10-14).
-2. **PIPE-002**: master palette from the approved Elam anchor (no gens).
-3. **PIPE-004**: sheet packer (no gens).
-4. **PIPE-003, PIPE-006**: character and tileset importers built against real PixelLab output. This needs a first Elam animation (for example `breathing-idle`, about 1–3 gens) and one GTE tileset (about 3 gens).
+1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001, PIPE-002~~ (done 2026-10-14).
+2. **PIPE-004**: sheet packer (no gens).
+3. **PIPE-003, PIPE-006**: character and tileset importers built against real PixelLab output. This needs a first Elam animation (for example `breathing-idle`, about 1–3 gens) and one GTE tileset (about 3 gens).
 
 **M0 exit criteria:**
 - ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
@@ -77,7 +76,7 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
 | PIPE-001 | **Style anchor:** generate Elam (side view, facing east) by 2–3 routes, choose one with the user, record it | M0 | P0 | M | — | done |
-| PIPE-002 | Master palette v1 extracted from the anchor: `assets/palettes/master.{png,hex}`, ART_BIBLE §3 updated | M0 | P0 | S | PIPE-001 | todo |
+| PIPE-002 | Master palette v1 extracted from the anchor: `assets/palettes/master.{png,hex}`, ART_BIBLE §3 updated | M0 | P0 | S | PIPE-001 | done |
 | PIPE-003 | Character importer: PixelLab frames → fixed-canvas sheet anchored at the feet → `AnimationLibrary`/`SpriteFrames` `.tres` | M0 | P0 | M | ENG-006, PIPE-004 | todo |
 | PIPE-004 | Sheet packer used by every importer (frames → sheet + JSON regions) | M0 | P0 | S | ENG-006 | todo |
 | PIPE-005 | Normal-map pairing: `_n.png` → `CanvasTexture` in the importers | M1 | P1 | S | PIPE-003 | todo |
@@ -936,3 +935,11 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - New tool: `tools/import/contact_sheet.gd` (review sheets that print drawn sizes).
   - Gens spent: 23.1 (round 1: 11; round 2: 12.1). About 122 left; the allowance resets 2026-10-17.
   - **Next:** PIPE-002 (palette from the anchor), PIPE-004 (sheet packer), then PIPE-003 with a first idle animation.
+- **2026-10-14 (PIPE-002, palettes)**
+  - PIPE-002 → done.
+  - The Elam anchor was reduced from 75 colors (AI noise, many near-duplicate blacks) to 32 with `reduce_colors` across all 4 rotations together, then saved back with `save_to_asset`. It looks identical.
+  - `assets/palettes/elam.{png,hex}` holds Elam's 32 colors, used to lock future animation frames.
+  - `assets/palettes/master.gpl` is the curated source: 9 ramps, 48 colors. `master.{png,hex}` are generated from it. ART_BIBLE §3.1 and §3.3 are updated.
+  - New tool: `tools/import/palette_tool.gd` (`extract`, `gpl`).
+  - Gens spent: 0.1.
+  - **Next:** PIPE-004 (sheet packer), then PIPE-003 with a first idle animation (about 1–3 gens).
