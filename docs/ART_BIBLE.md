@@ -10,7 +10,7 @@ This document defines how BABEL looks and how its art is made. It is the source 
 
 - **Gothic elegance first.** The silhouettes are tall and slender, with flowing mantles, ornate architecture and big readable bosses. The mood is melancholy grandeur, not grimdark mush.
 - **More pixels per thing:**
-  - Elam is about 64 px tall, versus about 48 px for Alucard. That gives roughly 1.8× the pixel area per character.
+  - Elam is about 90 px tall, versus about 48 px for Alucard. That gives roughly 3.5× the pixel area per character.
   - The screen is 640×360, about 4× SotN's pixel count, so rooms can carry far more architectural detail.
 - **More depth:**
   - 4–7 parallax layers per room.
@@ -29,11 +29,11 @@ This document defines how BABEL looks and how its art is made. It is the source 
 | Display scaling | Integer only: 2× (1280×720), 3× (1920×1080), 4× (2560×1440), 6× (3840×2160). Other resolutions are letterboxed. |
 | Tile size | **16×16** |
 | Map cell (one screen) | 640×360 = 40 × 22.5 tiles. Room bounds are measured in pixels in whole cells. In odd-height rooms the bottom half-row is solid fill beneath the floor. |
-| Hero | About **64 px** tall standing. Fixed frame canvas **128×96** (W×H), anchored at bottom-center (feet). |
-| Small enemy | ≤ 32 px (bats, masks, wisps) |
-| Medium enemy | 48–80 px (soldiers, ghouls) |
-| Large enemy | 96–128 px (brutes, golems) |
-| Boss | 160–256 px single sprite, or **part-based** (recommended above 160 px) |
+| Hero | About **90 px** tall standing (the approved anchor is 91 px on a 96×96 PixelLab canvas), about 25% of screen height. Fixed frame canvas **128×128**, anchored at bottom-center (feet). The user chose this size on 2026-10-14 for more pixel detail. |
+| Small enemy | ≤ 40 px (bats, masks, wisps) |
+| Medium enemy | 64–112 px (soldiers, ghouls) |
+| Large enemy | 128–176 px (brutes, golems) |
+| Boss | 192–256 px single sprite, or **part-based** (recommended above 192 px) |
 | Item icon | 16×16 (inventory), 32×32 (item-get banner) |
 | Portrait | 64×64 (dialogue), 128×128 (key scenes) |
 | Pixel font | 8 px (HUD and body text), 16 px (titles) |
@@ -207,7 +207,23 @@ Before calling any PixelLab tool, load its schema with ToolSearch (`select:mcp__
    - anatomy that breaks between frames
    - silhouettes that don't read at 1×
 
-### 7.4 Working rules for Claude sessions
+### 7.4 Proven recipe: the Elam anchor (2026-10-14)
+
+This is the route the user approved. Reuse it for every major character (Sera, NPCs, bosses' humanoid forms).
+
+1. **Style reference.** The user's style reference is a pixel-art gothic-aristocrat piece, kept locally at `docs/art_reviews/reference_image.png` and gitignored because it's third-party art.
+   - Crop it to the figure and upload it with `get_upload_url`.
+   - Run `unzoom_image` (`quantize:-1`) to recover the native pixel grid. That job is `6e98c25d-991a-4672-9303-e3295ae2493b`; pass `https://api.pixellab.ai/mcp/images/6e98c25d-991a-4672-9303-e3295ae2493b/download` as the `style_image_url`. Uploads expire after 3 days; the unzoom job output is kept in the gallery as asset `e638b8a1`.
+2. **Front-facing candidates:** `create_image_pro` at 96×96, `no_background:true`, with `style_image_url` set to the unzoomed reference and all four `style_copy` aspects. It costs 10 gens for 4 candidates.
+   - The prompt must state a **human** (rounded ears; "not an elf") and "front view facing the viewer".
+   - Pick a candidate that is **straight-on**: a 3/4 view mislabels every direction in the next step.
+3. **Rotate:** `create_character` with `mode:"v3"`, `view:"side"`, `n_directions:4` and `reference_image_url` set to the chosen candidate. It costs 2 gens and gives a rigged character, so template and v3 animations work.
+4. **Identity details:** add them by hand with `pixelart_workbench edit` (`patch_pixels`, free), then `save_to_asset` back to each rotation.
+5. **Review:** use `tools/import/contact_sheet.gd`, write the sheet to `docs/art_reviews/`, and get the user's approval.
+
+**Avoid:** anything that reads as a copy of the reference's character. Each design needs its own identifying details (for Elam: olive-brown skin, gold hair rings, cylinder-seal clasp, lapis throat glyph, cuneiform-like gold cuffs).
+
+### 7.5 Working rules for Claude sessions
 
 - **Budget:**
   - Run `get_balance` before any batch.
@@ -261,7 +277,7 @@ PixelLab job ─▶ wait_for_jobs ─▶ get_* (status, URLs)
 
 | Class | Slug | PixelLab ID | Approved | Notes |
 |---|---|---|---|---|
-| Character | `elam` | — | — | PIPE-001 |
+| Character | `elam` | `a6fa2f9e-2d8f-435c-b6c3-c89e08dceec1` | 2026-10-14 | v3 side view, 4 directions, 96×96, 91 px tall. Use east (flip for west). The east and south rotations carry hand-added details. Recipe in §7.4. |
 | Tileset | `gte_solid` | — | — | |
 | Background | `gte_bg_mid` | — | — | |
 | UI | `hud_frame` | — | — | |
@@ -272,4 +288,7 @@ Status values: `concept`, `approved`, `imported`, `final`, `rejected`.
 
 | Slug | Kind | Tool / mode | PixelLab ID(s) | Size | Gens | Status | Godot path | Notes |
 |---|---|---|---|---|---|---|---|---|
-| *(none yet)* | | | | | | | | |
+| `elam` | character | `create_character` v3 with reference (from `create_image_pro` with style_image) | `a6fa2f9e-2d8f-435c-b6c3-c89e08dceec1` | 96×96 | 2 (+10 for candidates, 0.1 unzoom) | approved | `art_src/pixellab/characters/elam/` (not yet imported) | **Style anchor.** Front source: image job `663ab2ea` index 3. East and south edited with the workbench (hair rings, clasp, throat glyph). |
+| `elam_cand_standard` | character | `create_character` standard | `031e2437-edd4-4a81-99d1-615bc68591d4` | 92×92 | 1 | rejected | — | Too simple, pale. Sheet: `docs/art_reviews/2026-10-14_elam_anchor.png` |
+| `elam_cand_v3` | character | `create_character` v3 | `09a2d9a3-bf4a-440d-b2d6-30601191f763` | 96×96 | 3 | rejected | — | Best of round 1, but read as an elf |
+| `elam_cand_proflash` | character | `create_character_pro_flash` | `3f796778-f13d-4939-9cc6-c0176c3ff321` | 96×96 | 7 | rejected | — | Robed, softer |

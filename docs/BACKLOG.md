@@ -23,16 +23,17 @@ Rules:
 
 The current milestone is **M0 Foundation**. Work top to bottom:
 
-1. ~~ENG-001 to ENG-011, VFX-001, LVL-002~~ (done 2026-10-14).
-2. **PIPE-001**: Elam style anchor. It costs about 10–30 gens and needs the user to approve a candidate. 145 gens were left on 2026-10-14; the allowance resets on 2026-10-17.
-3. **PIPE-004**: sheet packer. It needs no art, so it can be done before PIPE-001.
-4. **PIPE-002, PIPE-003, PIPE-006**: palette and importers, built against real PixelLab output.
+1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001~~ (done 2026-10-14).
+2. **PIPE-002**: master palette from the approved Elam anchor (no gens).
+3. **PIPE-004**: sheet packer (no gens).
+4. **PIPE-003, PIPE-006**: character and tileset importers built against real PixelLab output. This needs a first Elam animation (for example `breathing-idle`, about 1–3 gens) and one GTE tileset (about 3 gens).
 
 **M0 exit criteria:**
 - ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
 - ✅ Headless tests and the project check pass.
 - ✅ Movie Maker capture works through the harness.
-- ⬜ The Elam anchor is approved and the character and tileset importers work on real PixelLab output.
+- ✅ The Elam anchor is approved (2026-10-14).
+- ⬜ The character and tileset importers work on real PixelLab output.
 
 **M1 exit criteria (vertical slice "The Gate"):**
 - The intro run and Namtar scene play.
@@ -75,7 +76,7 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| PIPE-001 | **Style anchor:** generate Elam (side view, facing east) by 2–3 routes, choose one with the user, record it | M0 | P0 | M | — | todo |
+| PIPE-001 | **Style anchor:** generate Elam (side view, facing east) by 2–3 routes, choose one with the user, record it | M0 | P0 | M | — | done |
 | PIPE-002 | Master palette v1 extracted from the anchor: `assets/palettes/master.{png,hex}`, ART_BIBLE §3 updated | M0 | P0 | S | PIPE-001 | todo |
 | PIPE-003 | Character importer: PixelLab frames → fixed-canvas sheet anchored at the feet → `AnimationLibrary`/`SpriteFrames` `.tres` | M0 | P0 | M | ENG-006, PIPE-004 | todo |
 | PIPE-004 | Sheet packer used by every importer (frames → sheet + JSON regions) | M0 | P0 | S | ENG-006 | todo |
@@ -920,3 +921,18 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
     - Headless runs don't print GDScript warnings.
   - Gens spent: 0.
   - **Next:** PIPE-001 (Elam style anchor; needs the user's approval and about 10–30 gens), or PIPE-004 (no gens needed).
+- **2026-10-14 (PIPE-001, Elam style anchor)**
+  - PIPE-001 → done. The approved anchor is PixelLab character `a6fa2f9e-2d8f-435c-b6c3-c89e08dceec1` (v3, side view, 4 directions, 91 px tall on a 96×96 canvas). The full recipe is in ART_BIBLE §7.4.
+  - **Round 1:** standard, v3 and Pro Flash routes. The user preferred v3's quality but said it read as an elf, and asked for a regeneration using their reference image as the style guide.
+  - **Round 2:**
+    - The reference was unzoomed and used as `style_image` for `create_image_pro`, giving 4 candidates.
+    - The straight-on candidate was rotated with v3 and approved.
+    - Hand-placed details (workbench, free): gold hair rings, cylinder-seal clasp, lapis throat glyph. Saved to the east and south rotations.
+    - Review sheets: `docs/art_reviews/2026-10-14_elam_anchor*.png`.
+  - Decisions:
+    - **Hero is about 90 px tall** (the user's choice, for detail). ART_BIBLE size classes and the GDD tuning values are scaled to match.
+    - The reference image stays local and gitignored because it's third-party art.
+    - Characters must not read as copies of the reference's character.
+  - New tool: `tools/import/contact_sheet.gd` (review sheets that print drawn sizes).
+  - Gens spent: 23.1 (round 1: 11; round 2: 12.1). About 122 left; the allowance resets 2026-10-17.
+  - **Next:** PIPE-002 (palette from the anchor), PIPE-004 (sheet packer), then PIPE-003 with a first idle animation.

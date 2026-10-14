@@ -67,7 +67,7 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN). I
 
 | Character | Role (SotN analog) | Notes |
 |---|---|---|
-| **Elam** | Protagonist (Alucard) | Ageless scribe-mason of Nimrod's court and keeper of the First Tongue. Tall and androgynously elegant, with long white hair bound in gold rings and lapis-blue eyes. Wears a dark indigo mantle lined with crimson and gold cuneiform. Cuneiform marks on his throat glow when he speaks a Word. Calm, sorrowful and dryly witty. He speaks rarely. |
+| **Elam** | Protagonist (Alucard) | Ageless scribe-mason of Nimrod's court and keeper of the First Tongue. A tall, elegant human with olive-brown skin, long silver-white hair bound with gold rings, and lapis-blue eyes. Gothic-aristocrat silhouette: a high-collared indigo-black frock coat with gold braid and cuneiform-patterned cuffs, a gold cylinder-seal clasp at the collar, and a long black cape lined in crimson. A lapis glyph at his throat glows when he speaks a Word. Calm, sorrowful and dryly witty. He speaks rarely. The approved sprite is in ART_BIBLE §10.1. |
 | **Sera Valcourt** | Richter | The tower-breaker who won the last rising. Elam finds her at the summit as the "Herald of the Tower," speaking only a confounded tongue. She is bound by Ashipu. Her weapon, the Measuring Chain, is a surveyor's chain used like a whip. |
 | **Dr. Adela Rask** | Maria | Danish philologist with the archaeological dig. She is searching for Sera, who is her friend. She gives Elam the **Interpreter's Lens**. In Act II she can be lost or rescued, which affects the ending. |
 | **Nimrod, the Hunter-King** | Dracula | Builder of the tower: a giant archer who, in legend, shot an arrow at heaven that came back bloodied. He sleeps in the tower's reflected foundation. |
@@ -180,13 +180,13 @@ Starting tuning values are listed below. They live in `PlayerTuning.tres` and wi
 
 | Parameter | Start value | Notes |
 |---|---|---|
-| Elam standing height | ~64 px | About 18% of screen height (SotN is about 20%) |
-| Walk speed | 140 px/s | |
-| Back-dash | ~72 px over 0.25 s | Cancellable after 0.15 s |
-| Jump height | ~140 px (about 2.2 body heights) | Time to apex 0.42 s |
-| Jump velocity | 667 px/s | Derived from height and time to apex |
-| Gravity | 1590 px/s² | Derived from height and time to apex |
-| Max fall speed | 720 px/s | |
+| Elam standing height | ~90 px (the approved sprite is 91 px) | About 25% of screen height (SotN is about 21%); chosen for pixel detail |
+| Walk speed | 180 px/s | Crosses a screen in about 3.5 s (SotN: about 2.8 s) |
+| Back-dash | ~100 px over 0.25 s | Cancellable after 0.15 s |
+| Jump height | ~144 px (9 tiles, about 1.6 body heights) | Time to apex 0.42 s |
+| Jump velocity | 686 px/s | Derived from height and time to apex (2h/t) |
+| Gravity | 1633 px/s² | Derived from height and time to apex (2h/t²) |
+| Max fall speed | 800 px/s | |
 | Coyote time / jump buffer | 6 frames each | |
 
 ### 6.2 Relics (movement and keys)
@@ -356,7 +356,7 @@ The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I 
 
 ## 10. Art direction (summary)
 
-The look is SotN's gothic elegance at 640×360 with 16 px tiles and an approximately 64 px hero. Depth comes from 4–7 parallax layers per region, atmospheric tinting by depth, normal-mapped sprites under 2D lights with banded (quantized) lighting, and HDR glow for magic. Each region has its own era palette built on a shared master ramp of bitumen black, lapis, gold, terracotta, bone and crimson. The full specification is in [ART_BIBLE.md](ART_BIBLE.md).
+The look is SotN's gothic elegance at 640×360 with 16 px tiles and an approximately 90 px hero. Depth comes from 4–7 parallax layers per region, atmospheric tinting by depth, normal-mapped sprites under 2D lights with banded (quantized) lighting, and HDR glow for magic. Each region has its own era palette built on a shared master ramp of bitumen black, lapis, gold, terracotta, bone and crimson. The full specification is in [ART_BIBLE.md](ART_BIBLE.md).
 
 ## 11. Audio direction
 

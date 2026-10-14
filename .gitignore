@@ -1,6 +1,9 @@
 # Engine API reference cache (regenerate with: godot --headless --doctool .godot-api)
 .godot-api/
 
+# Third-party reference art (style references only): never commit or ship
+docs/art_reviews/reference_*
+
 # Godot cache and exports
 babel/.godot/
 build/
