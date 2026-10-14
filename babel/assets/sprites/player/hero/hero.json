@@ -1,0 +1,113 @@
+{
+	"animations": {
+		"attack": {
+			"frame_ms": [
+				33,
+				33,
+				34,
+				50,
+				50,
+				55,
+				55,
+				57
+			],
+			"frames": 8,
+			"loop": false,
+			"row": 7
+		},
+		"backdash": {
+			"frame_ms": [
+				63,
+				63,
+				63,
+				63
+			],
+			"frames": 4,
+			"loop": false,
+			"row": 5
+		},
+		"crouch": {
+			"frame_ms": [
+				42,
+				42,
+				42,
+				42
+			],
+			"frames": 4,
+			"loop": false,
+			"row": 4
+		},
+		"fall": {
+			"frame_ms": [
+				100,
+				100,
+				100
+			],
+			"frames": 3,
+			"loop": false,
+			"row": 3
+		},
+		"hurt": {
+			"frame_ms": [
+				71,
+				71,
+				71,
+				71
+			],
+			"frames": 4,
+			"loop": false,
+			"row": 6
+		},
+		"idle": {
+			"frame_ms": [
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125
+			],
+			"frames": 8,
+			"loop": true,
+			"row": 0
+		},
+		"jump": {
+			"frame_ms": [
+				83,
+				83,
+				83,
+				83
+			],
+			"frames": 4,
+			"loop": false,
+			"row": 2
+		},
+		"walk": {
+			"frame_ms": [
+				83,
+				83,
+				83,
+				83,
+				83,
+				83,
+				83,
+				83
+			],
+			"frames": 8,
+			"loop": true,
+			"row": 1
+		}
+	},
+	"cell": [
+		160,
+		128
+	],
+	"columns": 8,
+	"pivot": [
+		80,
+		124
+	],
+	"rows": 8
+}

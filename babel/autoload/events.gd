@@ -16,3 +16,5 @@ signal boss_defeated(boss_id: StringName)
 signal flag_set(flag: StringName, value: bool)
 ## The player's HP reached zero.
 signal player_died
+## Show a short on-screen notice, e.g. a relic's name and what it does.
+signal notice(title: String, detail: String)

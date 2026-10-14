@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/world/pickups/relic_pickup.gd" id="1_relic"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_relic"]
+size = Vector2(16, 20)
+
+[node name="RelicPickup" type="Area2D"]
+z_index = 10
+collision_layer = 256
+collision_mask = 4
+monitorable = false
+script = ExtResource("1_relic")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_relic")

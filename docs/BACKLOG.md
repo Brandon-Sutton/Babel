@@ -25,12 +25,14 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 
 **M0 is complete (2026-10-14).** The current milestone is **M1 Vertical Slice**.
 
-1. Get the user's verdict on the GTE tileset style (`docs/art_reviews/2026-10-14_gte_tileset*.png`). If they don't like it, regenerate before building more rooms on it.
-2. **WLD-023**: dual-grid art layer, so PixelLab tiles line up with greybox and logic cells.
-3. M1 core, in suggested order:
-   - PLR-002 and PLR-001 (state machine, player scene, using the imported idle)
-   - PLR-003 and PLR-004 (walk, jump)
-   - ART-001 (Elam's walk, jump and attack animations, about 2–3 gens each)
+**Playable core is in (2026-10-14).** Movement, the sword attack, stats and leveling, three enemies, the HUD, the status screen and the relic double jump all run in the sandbox room. The user's priority is the game: keep building gameplay ahead of the art pipeline.
+
+Next, in suggested order:
+1. **Enemy art** (ART-003): PixelLab sprites for the Mudborn, Gate Spearman and Humbaba Mask, replacing the drawn placeholders.
+2. **Hero animations still missing:** crouch attack, jump attack, death (ART-001).
+3. **SotN feel:** afterimages on back-dash (PLR-011), hit sparks (VFX-012), screen shake (CBT-005).
+4. **Systems:** game-over screen (UI-014, completes PLR-010), votive lamps and drops (WLD-007, INV-006), save room (SAV-001/002).
+5. **World:** room transitions (WLD-001/002), then dual-grid tile art (WLD-023) once the user has decided on the GTE tileset style.
 
 **M0 exit criteria:**
 - ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
@@ -120,19 +122,19 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| PLR-001 | Player scene: `CharacterBody2D`, `Sprite2D`, `AnimationPlayer`, capsule collider, component slots | M1 | P0 | M | ENG-007, PLR-002 | todo |
-| PLR-002 | State machine framework (`StateMachine`, `@abstract State`), shared with enemies and bosses | M1 | P0 | M | ENG-006 | todo |
-| PLR-003 | Walk, turn and stop with acceleration and deceleration from `PlayerTuning.tres` | M1 | P0 | S | PLR-001 | todo |
-| PLR-004 | Jump: variable height, 6-frame coyote time, 6-frame buffer, max fall speed | M1 | P0 | S | PLR-001 | todo |
-| PLR-005 | Back-dash (SotN signature): glide distance, cancel windows, optional i-frames flag | M1 | P0 | S | PLR-001 | todo |
-| PLR-006 | Crouch (shorter hurtbox); drop through one-way platforms with Down + Jump | M1 | P0 | S | PLR-001, WLD-005 | todo |
-| PLR-007 | Per-hand attacks: `attack_right`/`attack_left` call the equipped item's `use()`; `WeaponData` drives animation, hitbox and timing | M1 | P0 | M | CBT-001, INV-001 | todo |
-| PLR-008 | Jump-attack and crouch-attack variants; landing cancels | M1 | P0 | S | PLR-007 | todo |
-| PLR-009 | Hurt: knockback arc, i-frames with flicker, hit-stop hook | M1 | P0 | S | CBT-002 | todo |
-| PLR-010 | Death leads to the game-over flow | M1 | P0 | S | UI-014 | todo |
+| PLR-001 | Player scene: `CharacterBody2D`, `Sprite2D`, `AnimationPlayer`, capsule collider, component slots | M1 | P0 | M | ENG-007, PLR-002 | done |
+| PLR-002 | State machine framework (`StateMachine`, `@abstract State`), shared with enemies and bosses | M1 | P0 | M | ENG-006 | done |
+| PLR-003 | Walk, turn and stop with acceleration and deceleration from `PlayerTuning.tres` | M1 | P0 | S | PLR-001 | done |
+| PLR-004 | Jump: variable height, 6-frame coyote time, 6-frame buffer, max fall speed | M1 | P0 | S | PLR-001 | done |
+| PLR-005 | Back-dash (SotN signature): glide distance, cancel windows, optional i-frames flag | M1 | P0 | S | PLR-001 | done |
+| PLR-006 | Crouch (shorter hurtbox); drop through one-way platforms with Down + Jump | M1 | P0 | S | PLR-001, WLD-005 | done |
+| PLR-007 | Per-hand attacks: `attack_right`/`attack_left` call the equipped item's `use()`; `WeaponData` drives animation, hitbox and timing | M1 | P0 | M | CBT-001, INV-001 | done |
+| PLR-008 | Jump-attack and crouch-attack variants; landing cancels | M1 | P0 | S | PLR-007 | done |
+| PLR-009 | Hurt: knockback arc, i-frames with flicker, hit-stop hook | M1 | P0 | S | CBT-002 | done |
+| PLR-010 | Death leads to the game-over flow | M1 | P0 | S | UI-014 | doing |
 | PLR-011 | Afterimage trail for back-dash, Lion form and high speed | M1 | P1 | S | PLR-005 | todo |
 | PLR-012 | Interact (Up): doors, NPCs, save points, lifts, inscriptions, with a prompt | M1 | P0 | S | PLR-001 | todo |
-| PLR-013 | Double jump (Gazelle Anklet) | M1 | P0 | S | REL-002 | todo |
+| PLR-013 | Double jump (Gazelle Anklet) | M1 | P0 | S | REL-002 | done |
 | PLR-014 | Dive kick (Gazelle Anklet; Down + Jump in the air) | M2 | P1 | S | PLR-013 | todo |
 | PLR-015 | Guard with a shield: hold to block, chip damage, block VFX | M2 | P0 | S | INV-004 | todo |
 | PLR-016 | High jump (Wings of Etana) | M3 | P0 | S | REL-002 | todo |
@@ -140,7 +142,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | PLR-018 | Plumb Line grapple: anchor detection, swing, rappel | M3 | P0 | L | REL-002 | todo |
 | PLR-020 | Footstep SFX chosen by the tile's `surface` custom data | M2 | P2 | S | AUD-003 | todo |
 | PLR-021 | Movement VFX: landing dust, turn skid, wall bump | M2 | P2 | S | VFX-012 | todo |
-| PLR-022 | Walking up and down 45° slopes and stairs, including attacking on slopes | M1 | P0 | S | WLD-005 | todo |
+| PLR-022 | Walking up and down 45° slopes and stairs, including attacking on slopes | M1 | P0 | S | WLD-005 | doing |
 | PLR-023 | Use food and potions from a hand slot | M2 | P1 | S | INV-005 | todo |
 | PLR-024 | Corner correction: nudge around ceiling corners and ledge lips | M1 | P1 | S | PLR-004 | todo |
 
@@ -150,25 +152,25 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| CBT-001 | Hitbox and hurtbox components with a `DamageInfo` payload (amount, damage types, element, knockback, source, status chance) | M1 | P0 | M | ENG-003 | todo |
-| CBT-002 | `HealthComponent` with `damaged`, `healed` and `died` signals and an invulnerability timer | M1 | P0 | S | — | todo |
-| CBT-003 | Damage formula v1: attack vs. defense, resist/weak/absorb/immune, crits from LCK, with unit tests | M1 | P0 | M | CBT-001 | todo |
-| CBT-004 | Pooled damage numbers that pop like SotN's (heals green, crits large) | M1 | P1 | S | CBT-001 | todo |
-| CBT-005 | Hit-stop and screen-shake service, scaled by the accessibility setting | M1 | P1 | S | — | todo |
-| CBT-006 | Enemy hit reactions: flash shader, knockback, stagger threshold (poise) | M1 | P0 | S | VFX-005 | todo |
+| CBT-001 | Hitbox and hurtbox components with a `DamageInfo` payload (amount, damage types, element, knockback, source, status chance) | M1 | P0 | M | ENG-003 | done |
+| CBT-002 | `HealthComponent` with `damaged`, `healed` and `died` signals and an invulnerability timer | M1 | P0 | S | — | done |
+| CBT-003 | Damage formula v1: attack vs. defense, resist/weak/absorb/immune, crits from LCK, with unit tests | M1 | P0 | M | CBT-001 | doing |
+| CBT-004 | Pooled damage numbers that pop like SotN's (heals green, crits large) | M1 | P1 | S | CBT-001 | done |
+| CBT-005 | Hit-stop and screen-shake service, scaled by the accessibility setting | M1 | P1 | S | — | doing |
+| CBT-006 | Enemy hit reactions: flash shader, knockback, stagger threshold (poise) | M1 | P0 | S | VFX-005 | done |
 | CBT-007 | Data-driven status effects: Poison, Burn, Curse, Confounded, Fired, Stun, Slow | M2 | P0 | M | CBT-001 | todo |
 | CBT-008 | Projectile base class and `ProjectilePool` | M1 | P0 | M | CBT-001 | todo |
 | CBT-009 | Shield interactions: block, and reflect projectiles with certain shields | M2 | P1 | S | PLR-015 | todo |
 | CBT-010 | VFX and SFX variants per element | M3 | P2 | S | VFX-012 | todo |
 | CBT-011 | Enemy name and HP readout on hit (Codex Scroll) | M2 | P1 | S | REL-001 | todo |
-| CBT-012 | Contact damage from enemy bodies, and the player's i-frame rules | M1 | P0 | S | CBT-001 | todo |
+| CBT-012 | Contact damage from enemy bodies, and the player's i-frame rules | M1 | P0 | S | CBT-001 | done |
 
 ### RPG: Stats and progression
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| RPG-001 | `PlayerStats` model (base, derived, modifier stack), recomputed on equip, level-up and status changes | M2 | P0 | M | INV-004 | todo |
-| RPG-002 | XP curve for levels 1–99, level-up FX and SFX, stat gains, reduced XP when out-leveled | M2 | P0 | S | RPG-001 | todo |
+| RPG-001 | `PlayerStats` model (base, derived, modifier stack), recomputed on equip, level-up and status changes | M2 | P0 | M | INV-004 | doing |
+| RPG-002 | XP curve for levels 1–99, level-up FX and SFX, stat gains, reduced XP when out-leveled | M2 | P0 | S | RPG-001 | done |
 | RPG-003 | Max-up pickups: Clay Vessel, Reed Pipe, Votive Lamp | M2 | P0 | S | RPG-001 | todo |
 | RPG-004 | Breath regeneration scaled by INT | M2 | P0 | S | RPG-001 | todo |
 | RPG-005 | Luck: drop rates, crit chance, hidden pity counter | M2 | P1 | S | INV-007 | todo |
@@ -257,8 +259,8 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
 | REL-001 | `RelicData` and on/off toggling in the menu (SotN style) | M2 | P0 | S | INV-001 | todo |
-| REL-002 | Ability-gating API (`Game.has_ability()`) plus a debug grant | M1 | P0 | S | ENG-007 | todo |
-| REL-003 | Relic and item-get presentation: freeze, banner with name and description, jingle | M1 | P0 | S | UI-004 | todo |
+| REL-002 | Ability-gating API (`Game.has_ability()`) plus a debug grant | M1 | P0 | S | ENG-007 | done |
+| REL-003 | Relic and item-get presentation: freeze, banner with name and description, jingle | M1 | P0 | S | UI-004 | doing |
 | REL-004 | Word of Opening and Word-sealed doors | M3 | P0 | S | WLD-008 | todo |
 | REL-005 | Interpreter's Lens: resolves confounded speech and reveals the Binding Seal | M3 | P0 | S | NPC-002 | todo |
 | REL-006 | The five Tongue relics | M3 | P1 | S | NPC-002 | todo |
@@ -321,13 +323,13 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| AI-001 | Enemy base scene and `EnemyData` (stats, resistances, drops, XP, Codex text) | M1 | P0 | M | CBT-001, CBT-002, PLR-002 | todo |
-| AI-002a | Behaviors A: patrol, chase, sine-wave floater, swoop, spear poke and guard | M1 | P0 | M | AI-001 | todo |
+| AI-001 | Enemy base scene and `EnemyData` (stats, resistances, drops, XP, Codex text) | M1 | P0 | M | CBT-001, CBT-002, PLR-002 | done |
+| AI-002a | Behaviors A: patrol, chase, sine-wave floater, swoop, spear poke and guard | M1 | P0 | M | AI-001 | doing |
 | AI-002b | Behaviors B: thrower, caster, jumper, burrow ambush, ceiling crawler | M2 | P0 | M | AI-001 | todo |
 | AI-002c | Behaviors C: tether/binder, phaser, swarm, elite duelist that reacts to the player | M3 | P0 | M | AI-001 | todo |
-| AI-003 | Perception: line-of-sight raycasts, aggro and leash ranges, facing | M1 | P0 | S | AI-001 | todo |
+| AI-003 | Perception: line-of-sight raycasts, aggro and leash ranges, facing | M1 | P0 | S | AI-001 | doing |
 | AI-004 | Palette-variant shader and variant data (one sprite, many enemies) | M2 | P1 | S | VFX-005 | todo |
-| AI-005 | Spawn rules: respawn on room re-entry, dormant off-screen, maximum active count | M1 | P0 | S | AI-001 | todo |
+| AI-005 | Spawn rules: respawn on room re-entry, dormant off-screen, maximum active count | M1 | P0 | S | AI-001 | doing |
 | AI-006 | Codex data and kill counts | M2 | P1 | S | AI-001 | todo |
 
 ### ENM: Enemy roster
@@ -337,12 +339,12 @@ Each row covers design, art (PixelLab), `EnemyData`, behavior and the Codex entr
 | ID | Enemy | Region | Archetype | Size | MS | Pri | Status |
 |---|---|---|---|---|---|---|---|
 | ENM-001 | Mud Bat | SHN | Sine-wave flyer that comes in swarms | S | M1 | P0 | todo |
-| ENM-002 | Mudborn (a dead builder sealed in clay) | SHN | Slow melee walker | M | M1 | P0 | todo |
+| ENM-002 | Mudborn (a dead builder sealed in clay) | SHN | Slow melee walker | M | M1 | P0 | doing |
 | ENM-003 | Pitch Ooze | SHN | Crawler that leaves burning pitch | S | M1 | P0 | todo |
 | ENM-004 | Carrion Vulture | SHN | Swoop diver | M | M3 | P1 | todo |
 | ENM-005 | Girtablullu (scorpion-man) | SHN | Ranged sting, guards | M | M3 | P1 | todo |
-| ENM-006 | Humbaba Mask | GTE | Sine-wave floater (the Medusa-head role) | S | M1 | P0 | todo |
-| ENM-007 | Gate Spearman (shade of a Babylonian guard) | GTE | Spear poke, guards | M | M1 | P0 | todo |
+| ENM-006 | Humbaba Mask | GTE | Sine-wave floater (the Medusa-head role) | S | M1 | P0 | doing |
+| ENM-007 | Gate Spearman (shade of a Babylonian guard) | GTE | Spear poke, guards | M | M1 | P0 | doing |
 | ENM-008 | Glazed Lion (living Ishtar Gate relief) | GTE | Pounces out of the wall | M | M3 | P1 | todo |
 | ENM-009 | Sirrush Hatchling | GTE | Hopper that spits fire | S | M3 | P1 | todo |
 | ENM-010 | Clay Golemling | FND | Tank that splits into two | M | M3 | P0 | todo |
@@ -448,11 +450,11 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
 | UI-001 | Theme: pixel font, StyleBoxes, gamepad focus visuals | M1 | P0 | M | PIPE-010 | todo |
-| UI-002 | HUD: HP and Breath bars, Embers count, Relic Arm icon | M1 | P0 | S | UI-001 | todo |
+| UI-002 | HUD: HP and Breath bars, Embers count, Relic Arm icon | M1 | P0 | S | UI-001 | done |
 | UI-003 | Boss HP bar and name card | M1 | P0 | S | UI-001 | todo |
 | UI-004 | Item and relic banner, toast stack | M1 | P0 | S | UI-001 | todo |
 | UI-005 | Pause menu shell: tabs, gamepad navigation, correct tree pausing | M2 | P0 | M | UI-001 | todo |
-| UI-006 | Status screen | M2 | P0 | S | UI-005, RPG-001 | todo |
+| UI-006 | Status screen | M2 | P0 | S | UI-005, RPG-001 | done |
 | UI-007 | Equip screen with stat comparison | M2 | P0 | M | UI-005, INV-004 | todo |
 | UI-008 | Items screen (use, sort) | M2 | P0 | S | UI-005 | todo |
 | UI-009 | Utterances screen with glyph-syllable inputs | M2 | P1 | S | SPL-002 | todo |
@@ -478,7 +480,7 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | VFX-002 | Lighting baseline: `CanvasModulate` per room, lamp lights, a normal-mapped sprite, banded `light()` shader | M1 | P0 | M | PIPE-005 | todo |
 | VFX-003 | Tile occluders and shadows | M2 | P1 | S | VFX-002 | todo |
 | VFX-004 | Parallax per region with fog tint by depth (ART_BIBLE §5) | M1 | P0 | M | PIPE-007 | todo |
-| VFX-005 | Shader library: hit flash, dissolve, palette swap, outline, mantle dye | M1 | P0 | M | ENG-006 | todo |
+| VFX-005 | Shader library: hit flash, dissolve, palette swap, outline, mantle dye | M1 | P0 | M | ENG-006 | doing |
 | VFX-006 | Glow for magic (HDR 2D plus WorldEnvironment) | M1 | P1 | S | ENG-002 | todo |
 | VFX-007 | Water: reflection, refraction and caustics | M3 | P0 | M | WLD-010 | todo |
 | VFX-008 | Weather and atmosphere: sand, rain, embers, dust motes, god rays, lightning | M3 | P1 | M | — | todo |
@@ -982,3 +984,30 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Finding:** with corner tiles, the solid edge sits half a tile inside the painted cells. Added WLD-023 (dual-grid art layer) to line the art up with the 16 px grid.
   - Gens spent: 2.6. **115.7 left**; the allowance resets 2026-10-17.
   - **Next:** the user's verdict on the GTE tileset style, then WLD-023, then M1 player work (PLR-002/001/003/004).
+- **2026-10-14 (playable core: movement, combat, stats, enemies)**
+  - **New main character:** the user's reference image (`assets/e99196a6-….jpg` at the repo root, a folder for user-supplied reference art) replaces the previous Elam look.
+    - Pipeline: flood-fill the baked checkerboard to white, then unzoom.
+    - Then `create_image_pro` with the reference as both design reference and style image. Candidate 1 was picked, then rotated with v3 into character `aa0091a3-fdf9-4ffa-a82e-207c905c5126`.
+    - Animations: idle, walk, jump (split into jump and fall), crouch, back-dash and hurt with v3. The v3 "attack" had no swing, so it was rejected and replaced by a PixMiniMax sword slash (`attack_sword`, 1 gen) with a baked smear arc.
+    - Imported with 160×128 cells, widened for the sword slash.
+  - **Player** (`scenes/actors/player/`): seven states (Ground, Air, Crouch, Backdash, Attack, Hurt, Dead) on a `StateMachine` with an `@abstract` State. It covers:
+    - SotN-style instant walk and facing; variable jump, coyote time and jump buffer; dropping through one-way platforms.
+    - Back-dash that cancels into an attack or jump; ground, crouch and air attacks timed by `WeaponData`.
+    - Knockback, invulnerability with flicker, death and respawn, and a "LEVEL UP" popup.
+    - Tuning is in `data/player/player_tuning.tres`. Jump speed is solved for the 60 Hz step, so the apex is exactly 144 px.
+  - **Combat:** `Hitbox`, `Hurtbox`, `HealthComponent`, `DamageInfo`, `Combat.damage` (attack − defense/2, crit ×1.5 from LCK), hit-stop, a hit-flash shader, and pixel-font damage numbers.
+  - **Stats:** `PlayerStats` on `Game.stats` (LV, XP curve, STR/CON/INT/LCK, HP/MP, ATK/DEF), with the HUD and a status screen on Esc/Start.
+  - **Enemies:** an `@abstract Enemy` base plus three behaviors, Mudborn, Gate Spearman and Humbaba Mask (with spawner). Their art is still placeholder.
+  - **Room:** the sandbox room (3 screens wide) holds the Gazelle Anklet relic (double jump) and a wall that needs it. The main scene loads it and respawns everything on death.
+  - **Tests:**
+    - Unit tests: 34/34 pass.
+    - `tests/visual/gameplay_test.tscn`: 8/8 checks pass (walk 180 px/s, apex 144.1 px, back-dash 100 px, crouch, sword kill +12 XP, contact damage, i-frames, level-up).
+    - `tests/visual/sandbox_tour.tscn`: 4/4 pass (camera keeps the floor in view, relic pickup and banner, double jump over the 160 px wall, Spearman thrust).
+  - **Bugs found and fixed by the tests:**
+    - `PlayerStats` redeclared Resource's built-in `changed` signal.
+    - Damage numbers spawned at the world origin.
+    - The camera `offset` ignored the room limits.
+    - The mask spawner's typed lambda broke on freed masks.
+    - Jump apex overshoot and back-dash short by one frame.
+  - Gens spent: about 31 (hero candidates 10, rotation 2, 7 animations 18, attack 1, unzoom 0.1). **84.6 left** until the 2026-10-17 reset.
+  - **Next:** see **Now**.

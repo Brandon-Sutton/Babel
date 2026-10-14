@@ -1,0 +1,117 @@
+{
+  "group_id": "36757585-268d-49f1-a536-ba266520f0b1",
+  "states": [
+    {
+      "character": {
+        "id": "aa0091a3-fdf9-4ffa-a82e-207c905c5126",
+        "name": "Idle",
+        "prompt": "Tall lean human man with short swept silver-grey hair, long dark charcoal frock coat with dark purple and silver plate armor on shoulders, chest and forearms, crimson vest, black trousers, tall laced black boots with silver buckles, long dark cape with deep crimson lining. Gothic dark fantasy hero, unarmed, standing.",
+        "size": {
+          "width": 96,
+          "height": 96
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "side",
+        "created_at": "2026-10-14T22:09:14.841715+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {
+          "hurt": {
+            "east": [
+              "Idle/animations/hurt/east/frame_000.png",
+              "Idle/animations/hurt/east/frame_001.png",
+              "Idle/animations/hurt/east/frame_002.png",
+              "Idle/animations/hurt/east/frame_003.png"
+            ]
+          },
+          "backdash": {
+            "east": [
+              "Idle/animations/backdash/east/frame_000.png",
+              "Idle/animations/backdash/east/frame_001.png",
+              "Idle/animations/backdash/east/frame_002.png",
+              "Idle/animations/backdash/east/frame_003.png"
+            ]
+          },
+          "walk": {
+            "east": [
+              "Idle/animations/walk/east/frame_000.png",
+              "Idle/animations/walk/east/frame_001.png",
+              "Idle/animations/walk/east/frame_002.png",
+              "Idle/animations/walk/east/frame_003.png",
+              "Idle/animations/walk/east/frame_004.png",
+              "Idle/animations/walk/east/frame_005.png",
+              "Idle/animations/walk/east/frame_006.png",
+              "Idle/animations/walk/east/frame_007.png"
+            ]
+          },
+          "attack": {
+            "east": [
+              "Idle/animations/attack/east/frame_000.png",
+              "Idle/animations/attack/east/frame_001.png",
+              "Idle/animations/attack/east/frame_002.png",
+              "Idle/animations/attack/east/frame_003.png",
+              "Idle/animations/attack/east/frame_004.png",
+              "Idle/animations/attack/east/frame_005.png",
+              "Idle/animations/attack/east/frame_006.png",
+              "Idle/animations/attack/east/frame_007.png"
+            ]
+          },
+          "idle": {
+            "east": [
+              "Idle/animations/idle/east/frame_000.png",
+              "Idle/animations/idle/east/frame_001.png",
+              "Idle/animations/idle/east/frame_002.png",
+              "Idle/animations/idle/east/frame_003.png",
+              "Idle/animations/idle/east/frame_004.png",
+              "Idle/animations/idle/east/frame_005.png",
+              "Idle/animations/idle/east/frame_006.png",
+              "Idle/animations/idle/east/frame_007.png"
+            ]
+          },
+          "crouch": {
+            "east": [
+              "Idle/animations/crouch/east/frame_000.png",
+              "Idle/animations/crouch/east/frame_001.png",
+              "Idle/animations/crouch/east/frame_002.png",
+              "Idle/animations/crouch/east/frame_003.png"
+            ]
+          },
+          "jump": {
+            "east": [
+              "Idle/animations/jump/east/frame_000.png",
+              "Idle/animations/jump/east/frame_001.png",
+              "Idle/animations/jump/east/frame_002.png",
+              "Idle/animations/jump/east/frame_003.png",
+              "Idle/animations/jump/east/frame_004.png",
+              "Idle/animations/jump/east/frame_005.png",
+              "Idle/animations/jump/east/frame_006.png",
+              "Idle/animations/jump/east/frame_007.png"
+            ]
+          },
+          "attack_sword": {
+            "east": [
+              "Idle/animations/attack_sword/east/frame_000.png",
+              "Idle/animations/attack_sword/east/frame_001.png",
+              "Idle/animations/attack_sword/east/frame_002.png",
+              "Idle/animations/attack_sword/east/frame_003.png",
+              "Idle/animations/attack_sword/east/frame_004.png",
+              "Idle/animations/attack_sword/east/frame_005.png",
+              "Idle/animations/attack_sword/east/frame_006.png",
+              "Idle/animations/attack_sword/east/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T22:22:56.805079"
+}

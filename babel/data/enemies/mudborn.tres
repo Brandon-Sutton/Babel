@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/enemy_data.gd" id="1_enemy"]
+
+[resource]
+script = ExtResource("1_enemy")
+id = &"mudborn"
+display_name = "Mudborn"
+max_hp = 30
+attack = 8
+defense = 2
+xp = 12
+move_speed = 36.0
+aggro_range = 200.0
+poise = 12
+contact_damage = true

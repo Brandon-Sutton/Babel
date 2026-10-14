@@ -10,8 +10,8 @@ const Greybox := preload("res://tools/builders/build_greybox_tileset.gd")
 const TILE_SET: TileSet = preload("res://assets/tilesets/greybox/greybox_tileset.tres")
 const FLOOR_ROW: int = 20
 
-@export var sprite_dir: String = "res://assets/sprites/player/elam"
-@export var slug: String = "elam"
+@export var sprite_dir: String = "res://assets/sprites/player/hero"
+@export var slug: String = "hero"
 @export var animation_name: StringName = &"idle"
 
 var _seen: Dictionary[Vector2i, bool] = {}

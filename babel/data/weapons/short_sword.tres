@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/weapon_data.gd" id="1_weapon"]
+
+[resource]
+script = ExtResource("1_weapon")
+id = &"short_sword"
+display_name = "Short Sword"
+attack = 5
+startup_frames = 6
+active_frames = 6
+recovery_frames = 10
+reach = 46.0
+hitbox_height = 30.0
+knockback = 140.0
+hit_stop_frames = 4

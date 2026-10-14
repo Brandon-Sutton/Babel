@@ -10,6 +10,7 @@ BABEL is a 2D side-view action-RPG metroidvania for PC. It is a spiritual succes
 | `docs/BACKLOG.md` | Every feature as a tracked task (ID, milestone, priority, status, dependencies), the "Now" queue, and the session log. The source of truth for **what's next**. |
 | `docs/ART_BIBLE.md` | Visual spec, palettes, PixelLab recipes and costs, and the **asset registry** of PixelLab IDs. |
 | `babel/` | The Godot project (`res://`). This is the folder to open in Godot. |
+| `assets/` (repo root) | **Reference art supplied by the user**, such as the main character's design. Use it as the source when recreating sprites with PixelLab. It is not part of the Godot project. |
 | `.godot-api/` | XML API reference dumped from the installed engine. Grep it to confirm a class, method or setting exists in 4.6.1 before using it, e.g. `grep -o 'name="[a-z_]*"' .godot-api/doc/classes/TileMapLayer.xml`. |
 
 ## Session workflow
@@ -41,6 +42,7 @@ The `godot` command is on PATH (`C:\Users\bsutt\bin\godot.exe`, **4.6.1.stable, 
 | Palettes: extract a character's exact colors, or convert the curated `master.gpl` | `godot --headless --path babel -s res://tools/import/palette_tool.gd -- extract <out_base> <img>...` or `-- gpl <in.gpl> <out_base>` |
 | **Import a PixelLab character** (recipe: `art_src/pixellab/characters/<slug>/import.json`; export unzipped in `export/`) → `assets/sprites/.../<slug>.png`, `.json`, `_anims.tres` | `godot --headless --path babel -s res://tools/import/import_character.gd -- res://art_src/pixellab/characters/<slug>/import.json`, then `--import`, then preview with `babel/tools/capture.sh res://tests/visual/character_preview.tscn 100` |
 | **Import a PixelLab sidescroller tileset** (recipe: `art_src/pixellab/tilesets/<slug>/import.json`, with `tileset.png` + `metadata.json` beside it) → `assets/tilesets/<region>/<slug>.png` + `.tres` | `godot --headless --path babel -s res://tools/import/import_tileset.gd -- res://art_src/pixellab/tilesets/<slug>/import.json`, then `--import` and run it again if it asks; preview with `babel/tools/capture.sh res://tests/visual/tileset_room.tscn 440` |
+| **Gameplay regression checks** (scripted input on the real player and the real game; every line must be VISUAL PASS) | `babel/tools/capture.sh res://tests/visual/gameplay_test.tscn 660` and `babel/tools/capture.sh res://tests/visual/sandbox_tour.tscn 720` |
 | Rebuild the greybox TileSet | `godot --headless --path babel -s res://tools/builders/build_greybox_tileset.gd`, then `--import` if it asks, then run it again |
 | Measure FPS | add `--print-fps` |
 | Export a Windows build (once ENG-015 exists) | `godot --headless --path babel --export-release "Windows Desktop" ../build/windows/Babel.exe` |

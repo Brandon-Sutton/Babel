@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/world/rooms/test/sandbox_room.gd" id="1_room"]
+
+[node name="SandboxRoom" type="Node2D"]
+script = ExtResource("1_room")

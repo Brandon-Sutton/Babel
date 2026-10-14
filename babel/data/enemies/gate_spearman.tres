@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/enemy_data.gd" id="1_enemy"]
+
+[resource]
+script = ExtResource("1_enemy")
+id = &"gate_spearman"
+display_name = "Gate Spearman"
+max_hp = 44
+attack = 10
+defense = 4
+xp = 20
+move_speed = 52.0
+aggro_range = 220.0
+poise = 10
+contact_damage = true

@@ -13,8 +13,10 @@ extends SceneTree
 ##   }
 ##
 ## "source" is the animation name in the export's metadata.json; rows follow the order in
-## "animations". "frame_ms" (per-frame durations) overrides "fps". "grounded" animations
-## are checked to keep the feet on the ground line in every frame.
+## "animations". "frames" picks and orders source frames by index, so one PixelLab
+## animation can feed several (a jump split into "jump" and "fall"). "frame_ms"
+## (per-frame durations) overrides "fps". "grounded" animations are checked to keep the
+## feet on the ground line in every frame.
 ##
 ## The feet pivot comes from the rotation for "direction": the bottom of its opaque pixels
 ## and the centre of the boots. PixelLab grows animation canvases evenly around the
@@ -72,8 +74,14 @@ func _import(recipe_path: String) -> bool:
 		if not by_direction.has(direction):
 			printerr("import_character: no '%s' frames for animation '%s' in the export" % [direction, source])
 			return false
+		var frame_paths: Array = by_direction[direction]
+		if spec.has("frames"):
+			var picked: Array = []
+			for index: Variant in spec["frames"]:
+				picked.append(frame_paths[int(index)])
+			frame_paths = picked
 		var frames: Array[Image] = []
-		for frame_path: String in by_direction[direction]:
+		for frame_path: String in frame_paths:
 			var frame: Image = _load_image(export_dir.path_join(frame_path))
 			if frame == null:
 				return false
