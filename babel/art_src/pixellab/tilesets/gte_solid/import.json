@@ -1,0 +1,9 @@
+{
+	"slug": "gte_solid",
+	"pixellab_tileset_id": "187ea0fe-4e3f-4d6f-b9e4-6cf18fb1b195",
+	"image": "tileset.png",
+	"metadata": "metadata.json",
+	"output_dir": "res://assets/tilesets/gte",
+	"terrain_name": "gte_lapis_brick",
+	"kind": "solid"
+}

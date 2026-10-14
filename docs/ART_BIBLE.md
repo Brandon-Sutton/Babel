@@ -282,6 +282,13 @@ The Tier 1 subscription gives **2,000 generations per month**, refilling on abou
 
 **Updating an animation:** re-download the export ZIP after every PixelLab change. That includes `save_to_asset` fixes and palette locks.
 
+**Tilesets (PIPE-006, done).** Download PixelLab's `image` (use `curl -L`; it redirects) and `metadata` into `babel/art_src/pixellab/tilesets/<slug>/` next to an `import.json`. The importer (`tools/import/import_tileset.gd`):
+- **Terrain:** PixelLab's 16 corner-based "Wang" tiles become a MATCH_CORNERS terrain set. Each tile's "lower" corners are terrain 0, so the terrain brush and `set_cells_terrain_connect` autotile.
+- **Collision:** built from the solid corner quadrants, merged with `BitMap.opaque_to_polygons`, so floors are flat and grid-aligned.
+- **Output:** `<slug>.png` + `<slug>.tres` in the region folder.
+
+**Corner-tile caveat:** the solid edge (art and collision) sits **half a tile inside** the painted cells. WLD-023 (dual grid) will line the art up with the 16 px logic grid used by greybox rooms.
+
 **Before saving an animation, lock its palette:**
 1. Upload the frames and `assets/palettes/<slug>.png` with `get_upload_url`.
 2. Run `reduce_colors` with `palette_image_url` over all the frames together.
@@ -304,7 +311,7 @@ PixelLab job ─▶ wait_for_jobs ─▶ get_* (status, URLs)
 | Class | Slug | PixelLab ID | Approved | Notes |
 |---|---|---|---|---|
 | Character | `elam` | `a6fa2f9e-2d8f-435c-b6c3-c89e08dceec1` | 2026-10-14 | v3 side view, 4 directions, 96×96, 91 px tall. Use east (flip for west). The east and south rotations carry hand-added details. Recipe in §7.4. |
-| Tileset | `gte_solid` | — | — | |
+| Tileset | `gte_solid` | `187ea0fe-4e3f-4d6f-b9e4-6cf18fb1b195` (base tile `144c7114-b7b4-49f3-b6f1-4004d3ca1beb` for chaining) | **pending the user's review** | Lapis glazed brick with a gold-gem cap, 16 px. Review: `docs/art_reviews/2026-10-14_gte_tileset*.png` |
 | Background | `gte_bg_mid` | — | — | |
 | UI | `hud_frame` | — | — | |
 
@@ -316,6 +323,7 @@ Status values: `concept`, `approved`, `imported`, `final`, `rejected`.
 |---|---|---|---|---|---|---|---|---|
 | `elam` | character | `create_character` v3 with reference (from `create_image_pro` with style_image) | `a6fa2f9e-2d8f-435c-b6c3-c89e08dceec1` | 96×96 | 2 (+10 for candidates, 0.1 unzoom) | approved | `art_src/pixellab/characters/elam/` (not yet imported) | **Style anchor.** Front source: image job `663ab2ea` index 3. East and south edited with the workbench (hair rings, clasp, throat glyph). |
 | `elam/idle` | animation (east) | `animate_character` v3, 8 frames, `keep_first_frame:false`, then palette-locked (`reduce_colors` job `c1adef4a`) | group `55a12780-566f-4524-8195-f712a25c80ac` | 132×132 | 3.1 | imported | `assets/sprites/player/elam/` (row 0) | 30 of Elam's colors; feet on the ground line in all frames. In-game check: `docs/art_reviews/2026-10-14_elam_ingame_idle.png` |
+| `gte_solid` | sidescroller tileset | `create_sidescroller_tileset` (lower: lapis glazed brick with gold mortar; transition: gold-glazed cap with rosettes; transition_size 0.25; highly detailed, detailed shading, selective outline) | `187ea0fe-4e3f-4d6f-b9e4-6cf18fb1b195` | 16 px ×16 tiles | 2.6 | imported (style pending review) | `assets/tilesets/gte/gte_solid.{png,tres}` | Demo room PASS (0 holes in 256 cells). The cap's gems read bright, like lamps. |
 | `elam_cand_standard` | character | `create_character` standard | `031e2437-edd4-4a81-99d1-615bc68591d4` | 92×92 | 1 | rejected | — | Too simple, pale. Sheet: `docs/art_reviews/2026-10-14_elam_anchor.png` |
 | `elam_cand_v3` | character | `create_character` v3 | `09a2d9a3-bf4a-440d-b2d6-30601191f763` | 96×96 | 3 | rejected | — | Best of round 1, but read as an elf |
 | `elam_cand_proflash` | character | `create_character_pro_flash` | `3f796778-f13d-4939-9cc6-c0176c3ff321` | 96×96 | 7 | rejected | — | Robed, softer |

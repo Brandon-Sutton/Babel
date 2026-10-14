@@ -23,9 +23,11 @@ Rules:
 
 The current milestone is **M0 Foundation**. Work top to bottom:
 
-1. ~~ENG-001 to ENG-011, VFX-001, LVL-002, PIPE-001 to PIPE-004~~ (done 2026-10-14).
-2. **PIPE-006**: tileset importer, built against a real GTE sidescroller tileset (about 3 gens). It is the last M0 item.
-3. Then M1 begins. Suggested order:
+**M0 is complete (2026-10-14).** The current milestone is **M1 Vertical Slice**.
+
+1. Get the user's verdict on the GTE tileset style (`docs/art_reviews/2026-10-14_gte_tileset*.png`). If they don't like it, regenerate before building more rooms on it.
+2. **WLD-023**: dual-grid art layer, so PixelLab tiles line up with greybox and logic cells.
+3. M1 core, in suggested order:
    - PLR-002 and PLR-001 (state machine, player scene, using the imported idle)
    - PLR-003 and PLR-004 (walk, jump)
    - ART-001 (Elam's walk, jump and attack animations, about 2–3 gens each)
@@ -35,7 +37,7 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - ✅ Headless tests and the project check pass.
 - ✅ Movie Maker capture works through the harness.
 - ✅ The Elam anchor is approved (2026-10-14).
-- ⬜ The character and tileset importers work on real PixelLab output.
+- ✅ The character and tileset importers work on real PixelLab output (2026-10-14).
 
 **M1 exit criteria (vertical slice "The Gate"):**
 - The intro run and Namtar scene play.
@@ -83,7 +85,7 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 | PIPE-003 | Character importer: PixelLab frames → fixed-canvas sheet anchored at the feet → `AnimationLibrary`/`SpriteFrames` `.tres` | M0 | P0 | M | ENG-006, PIPE-004 | done |
 | PIPE-004 | Sheet packer used by every importer (frames → sheet + JSON regions) | M0 | P0 | S | ENG-006 | done |
 | PIPE-005 | Normal-map pairing: `_n.png` → `CanvasTexture` in the importers | M1 | P1 | S | PIPE-003 | todo |
-| PIPE-006 | Tileset importer: sidescroller tileset → `TileSet` `.tres` with physics, terrain set and one-way variants | M0 | P0 | M | LVL-002 | todo |
+| PIPE-006 | Tileset importer: sidescroller tileset → `TileSet` `.tres` with physics, terrain set and one-way variants | M0 | P0 | M | LVL-002 | done |
 | PIPE-007 | Parallax importer: layer PNGs + JSON config → a `Parallax2D` preset scene per region | M1 | P1 | S | PIPE-004 | todo |
 | PIPE-008 | VFX importer: `vfx_workbench` export → `SpriteFrames` + a one-shot `VfxPlayer` scene | M1 | P1 | S | PIPE-004 | todo |
 | PIPE-009 | Icon atlas pipeline: batch icon sheet → one `AtlasTexture` per item id | M2 | P1 | S | PIPE-004 | todo |
@@ -288,6 +290,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | WLD-020 | Collapsing-floor sequences (Foundation) | M3 | P1 | S | WLD-012 | todo |
 | WLD-021 | Room builder: create a new room scene from the template with arguments (region, id, size) | M1 | P0 | S | WLD-001 | todo |
 | WLD-022 | Templates for the Quiet Room (save) and the Builders' Lift room | M1 | P0 | S | WLD-021 | todo |
+| WLD-023 | **Dual-grid art layer:** derive PixelLab corner tiles from the room's logic and collision cells (greybox) on a layer offset by half a tile, so art and collision line up with the 16 px grid and each room's tile art is automatic | M1 | P0 | M | PIPE-006, LVL-002 | todo |
 
 ### MAP: Map and completion
 
@@ -966,3 +969,16 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Preview:** `tests/visual/character_preview.tscn` → `VISUAL PASS elam/idle: 8 of 8 frames shown`. The mirrored copy keeps its feet in place. The frame is saved as `docs/art_reviews/2026-10-14_elam_ingame_idle.png`.
   - Gens spent: 3.1. About 118.7 left; the allowance resets 2026-10-17.
   - **Next:** PIPE-006 (tileset importer; needs a GTE tileset, about 3 gens), then M1 (PLR-002/001).
+- **2026-10-14 (PIPE-006, tileset importer: M0 complete)**
+  - PIPE-006 → done. **M0 is complete.**
+  - **GTE tileset:** generated with `create_sidescroller_tileset`; 16 corner-based Wang tiles, 2.6 gens.
+    - The image endpoint redirects, so download it with `curl -L`.
+    - `metadata.json` gives each tile's corner flags (lower = solid, upper = air) and its position in the sheet.
+  - **Importer:** `tools/import/import_tileset.gd` with an `import.json` recipe.
+    - Produces a MATCH_CORNERS terrain set; corner bits come from the metadata, and the all-air tile is skipped.
+    - Collision comes from solid corner quadrants merged with `BitMap.opaque_to_polygons` (L-shapes and diagonals handled).
+    - Output: `assets/tilesets/gte/gte_solid.{png,tres}`.
+  - **Demo room:** `tests/visual/tileset_room.tscn` paints with `set_cells_terrain_connect` → VISUAL PASS (0 holes in 256 cells; the capsule lands and stops at the wall).
+  - **Finding:** with corner tiles, the solid edge sits half a tile inside the painted cells. Added WLD-023 (dual-grid art layer) to line the art up with the 16 px grid.
+  - Gens spent: 2.6. **115.7 left**; the allowance resets 2026-10-17.
+  - **Next:** the user's verdict on the GTE tileset style, then WLD-023, then M1 player work (PLR-002/001/003/004).
