@@ -183,6 +183,12 @@ Every item Elam equips is drawn on him (GDD §6.7), so each body frame needs to 
   - `start_standing_pole.png`, the scythe.
   - Crouching attacks start from the set's own crouch end frame (`start_crouched_<type>.png`) and are pinned with an end frame (`end_crouched_<type>.png`, made by `repaint_rod.py`).
   - PixelLab runs at most 8 jobs at once.
+  - **Operational limits:**
+    - The character export ZIP returns an error ("still being generated", HTTP 423) until every queued job finishes, so download after the whole batch.
+    - `get_upload_url` links last 15 minutes; uploads are kept for 3 days.
+    - Frame links from `get_character` only work with their `?t=` query.
+    - Generations refill around the 17th of each month (Tier 1: 2,000).
+  - **Before importing,** check raw frames with `art_src/pixellab/characters/hero/rig/review_rod.py <frames_dir> <out.png>`. It prints each frame's grip and angle and draws them.
   - A wide two-handed grip is anchored on the rear fist.
 - **Two-handed stance set (EQV-016, now the `scythe_*` set):** `two_handed_*` animations from the upright-pole start frame, and `rig/start_crouched_pole.png` for the crouching slash. Every two-handed weapon uses this set unless it names its own `stance`.
 - **When the model swings the wrong way, pin the end pose.** Pass `end_frame_url` with a copy of the start frame whose rod is erased and repainted in the target direction, as was done for `rig/end_crouched_pole_chop.png`.
