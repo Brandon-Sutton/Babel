@@ -79,7 +79,7 @@ func _check_pieces() -> void:
 		if sprite.visible:
 			visible_count += 1
 	var expected: PackedStringArray = ["short_sword", "lapis_shield", "scribes_circlet", "seal_of_shamash",
-			"seal_of_nergal", "gazelle_anklet", "gazelle_anklet"]
+			"seal_of_nergal", "gazelle_anklet", "gazelle_anklet", "builders_plan"]
 	var missing: PackedStringArray = []
 	for id: String in expected:
 		if not names.has(id):

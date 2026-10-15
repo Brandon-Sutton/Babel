@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_ixulf"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/builders_plan.png" id="2_g3yn4"]
+
+[resource]
+script = ExtResource("1_ixulf")
+texture = ExtResource("2_g3yn4")
+pivot = Vector2(11, 1)
+points = Array[StringName]([&"belt"])

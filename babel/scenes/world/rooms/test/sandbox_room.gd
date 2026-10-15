@@ -33,6 +33,11 @@ const WIDTH: int = 120
 const HEIGHT: int = 23
 const FLOOR_ROW: int = 20
 
+## Where the room's top-left map cell sits on the world map (MAP-001; cells are one
+## screen, 640×360 px).
+var map_cell: Vector2i = Vector2i.ZERO
+## Region code for the map's colours (GDD §5.2); the sandbox is a test space.
+var region: StringName = &"test"
 ## Where the player appears (feet), in room coordinates.
 var spawn_point: Vector2 = Vector2(4 * TILE, FLOOR_ROW * TILE)
 ## Camera limits for this room.

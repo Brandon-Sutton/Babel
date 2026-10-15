@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RelicData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/relic_data.gd" id="1_relic"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/builders_plan.tres" id="2_gkruo"]
+
+[resource]
+script = ExtResource("1_relic")
+ability = &"map"
+worn = ExtResource("2_gkruo")
+id = &"builders_plan"
+display_name = "Builder's Plan"
+description = "The master builder's plan of the tower, pressed in clay. It shows where you have been and where you have yet to go. Tab to read it."

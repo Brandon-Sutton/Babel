@@ -71,6 +71,8 @@ func _initialize() -> void:
 		&"potsherd_seal": Piece.new(_cylinder_seal(Color("d08a5a"), Color("8a4a2a")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 		&"seal_of_humbaba": Piece.new(_cylinder_seal(Color("8ad0a0"), Color("2e7a50")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 		&"gate_guard_helm": Piece.new(_helm(), Vector2(9, 9), [&"head"], WornArt.Layer.FRONT, false),
+		# The map relic (REL-008): a clay tablet tied at the back of the belt.
+		&"builders_plan": Piece.new(_plan_tablet(), Vector2(11, 1), [&"belt"], WornArt.Layer.FRONT, false),
 	}
 	var needs_import: bool = false
 	for id: StringName in pieces:
@@ -352,5 +354,27 @@ func _helm() -> Image:
 	_rect(image, 2, 10, 3, 2, BRONZE_DARK)
 	image.set_pixel(2, 10, BRONZE)
 	_rect(image, 14, 10, 1, 2, BRONZE)
+	_outline(image)
+	return image
+
+
+## The Builder's Plan: a small clay tablet on a cord, incised with a plan of rooms. The
+## cord's top is at the left, so it hangs behind the belt point when facing right.
+func _plan_tablet() -> Image:
+	var clay_light: Color = Color("d8a878")
+	var clay: Color = Color("b07a4a")
+	var clay_dark: Color = Color("6e4628")
+	var image: Image = _canvas(9, 11)
+	image.set_pixel(7, 1, GOLD_DARK)
+	image.set_pixel(6, 2, GOLD_DARK)
+	_rect(image, 1, 3, 6, 7, clay)
+	_rect(image, 1, 3, 6, 1, clay_light)
+	_rect(image, 1, 3, 1, 7, clay_light)
+	_rect(image, 6, 4, 1, 6, clay_dark)
+	_rect(image, 2, 9, 5, 1, clay_dark)
+	# Incised plan: two rooms and a passage.
+	_rect(image, 2, 5, 2, 1, clay_dark)
+	_rect(image, 3, 6, 1, 2, clay_dark)
+	_rect(image, 4, 7, 1, 1, clay_dark)
 	_outline(image)
 	return image

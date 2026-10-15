@@ -1,0 +1,87 @@
+{
+	"version": 1,
+	"cell_size": [
+		640,
+		360
+	],
+	"rooms": [
+		{
+			"id": "sandbox_room",
+			"scene": "res://scenes/world/rooms/test/sandbox_room.tscn",
+			"region": "test",
+			"secret": false,
+			"origin": [
+				0,
+				0
+			],
+			"cells": [
+				[
+					0,
+					0
+				],
+				[
+					1,
+					0
+				],
+				[
+					2,
+					0
+				]
+			]
+		},
+		{
+			"id": "sandbox_room/secret/EastRoom",
+			"scene": "res://scenes/world/rooms/test/sandbox_room.tscn",
+			"region": "test",
+			"secret": true,
+			"origin": [
+				0,
+				0
+			],
+			"cells": [
+				[
+					3,
+					0
+				]
+			]
+		},
+		{
+			"id": "sandbox_room/secret/Cellar",
+			"scene": "res://scenes/world/rooms/test/sandbox_room.tscn",
+			"region": "test",
+			"secret": true,
+			"origin": [
+				0,
+				0
+			],
+			"cells": [
+				[
+					2,
+					1
+				]
+			]
+		}
+	],
+	"openings": [
+		[
+			[
+				2,
+				0
+			],
+			[
+				3,
+				0
+			]
+		],
+		[
+			[
+				2,
+				0
+			],
+			[
+				2,
+				1
+			]
+		]
+	]
+}

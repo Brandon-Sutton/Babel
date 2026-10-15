@@ -105,6 +105,7 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN). I
   - **Words** gate sealed doors.
   - **Tongues** gate optional NPC content and inscriptions.
 - **Fast travel and saving:** about one **Builders' Lift** (teleport) per region plus one at key junctions, and a **Quiet Room** (save) every 8–12 cells along the critical path.
+- **The map (decided 2026-10-15, MAP-001..003).** The map is a relic, the **Builder's Plan**, found later in the game. With it, Tab shows the whole tower one screen per cell: explored cells in their region's colour, unexplored cells dim (where Elam has yet to go), secret rooms only once found, walls around each room with gaps where rooms connect, Elam's position blinking, and the share explored (secrets count past 100%). Cells are discovered as Elam walks them, whether or not he has the plan yet.
 - **Secrets behind breakable walls (decided 2026-10-15, WLD-006).** As in SotN, walls, floors and ceilings can hide secret rooms.
   - A **hidden** breakable tile looks exactly like the wall around it and takes 3 hits; a **cracked brick** shows it can be broken and takes 2. Touching breakable tiles crack together and crumble together.
   - Elam's weapons, weapon arts and Relic Arms break them; a crouching strike breaks floors. Enemies can't.
@@ -207,6 +208,7 @@ Starting tuning values are listed below. They live in `PlayerTuning.tres` and wi
 | Bitumen Plate | Walk over burning pitch and spikes | Spike Breaker |
 | Silver Seal, Gold Seal | Open the Orrery's inner chamber | Silver/Gold Ring |
 | Codex Scroll | Shows enemy names and HP | Faerie Scroll |
+| **Builder's Plan** | The map: where Elam has been, where he has yet to go, and where he is (Tab). Carried from the start until the level pass places it | (new: in SotN the map is always available, and the Castle Map reveals unexplored rooms) |
 | Wanderer's Cube | Lamps drop items more often | Cube of Zoe |
 | **Interpreter's Lens** | Understand any spoken tongue; reveals the Binding Seal | Holy Glasses |
 | Tongues (Akkadian, Latin, Liturgical, Mechanist, Telegraphic) | Read the matching inscriptions and NPC speech | (new) |

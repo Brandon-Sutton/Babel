@@ -33,11 +33,12 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - The pause menu has the status sheet and the SotN equipment screen.
 - Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
 - **Everything Elam equips is visible on him** (2026-10-15): weapon in hand, shield, circlet, seals, relic anklet, bronze plates and the mantle lining. The swing smear takes the weapon's colour.
+- **Map** (2026-10-15, MAP-001..003, MAP-009, REL-008): Tab opens the Builder's Plan: explored cells blue, unexplored dim, secret rooms once found, Elam blinking, % explored. The plan is a relic (carried from the start for now). After changing a room, rebuild `data/world_index.json`.
 - **Secrets** (2026-10-15, WLD-006): hidden breakable walls and floors (look like the wall, 3 hits) and cracked bricks (2 hits), with secret rooms off camera behind them. In the sandbox: a cracked block in the middle stretch, a hidden floor just past the double-jump wall over a cellar, and a hidden stretch of the far right wall into a secret room. F1 outlines them.
 - **Enemies drop gear** (2026-10-15, INV-013): each enemy has a loot table with a common and a rare piece of gear found only as drops (Potsherd Seal, Riverclay Mail, Gate Guard's Helm, Watchman's Mantle, Seal of Humbaba). Dropped gear stays on the floor.
 - **SotN specials pass** (2026-10-15, logic only; art waits for the refill, ART-018): running (double-tap and hold), Relic Arms paid in Embers (Sling Stone, Clay Tablet; V or Up + Attack), Utterances by command input (Išātu: ↓↘→ + Attack), a Breath-paid weapon art per weapon type (←→ + Attack), and equipment that grants abilities and passives. Debug keys F1–F5.
 
-**Playtest wanted (game feel, log the verdict here):** breakable walls (3 hits for hidden ones, 2 for cracked bricks; the crack, rubble and camera pan into a secret room); how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
+**Playtest wanted (game feel, log the verdict here):** the map's readability (cell size 24×14 px, colours, the blinking marker); breakable walls (3 hits for hidden ones, 2 for cracked bricks; the crack, rubble and camera pan into a secret room); how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
@@ -322,6 +323,7 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | REL-005 | Interpreter's Lens: resolves confounded speech and reveals the Binding Seal | M3 | P0 | S | NPC-002 | todo |
 | REL-006 | The five Tongue relics | M3 | P1 | S | NPC-002 | todo |
 | REL-007 | Codex Scroll, Wanderer's Cube, Bitumen Plate, Silver and Gold Seals | M3 | P1 | S | REL-001 | todo |
+| REL-008 | The Builder's Plan: the relic that unlocks the map (MAP-003), worn as a clay tablet on the belt. Carried from the start for now; placed in the world with the level pass | M1 | P0 | S | MAP-003 | done |
 
 ### WLD: World systems
 
@@ -356,14 +358,15 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| MAP-001 | World index builder: scan rooms → `data/world_index.json` (cells, exits, icons) | M1 | P0 | M | WLD-001 | todo |
-| MAP-002 | Per-cell discovery tracking, saved | M1 | P0 | S | MAP-001 | todo |
-| MAP-003 | Full map screen: pan, region colors, icons, player marker, % | M1 | P0 | M | MAP-002, UI-001 | todo |
+| MAP-001 | World index builder: scan rooms → `data/world_index.json` (cells, exits, icons). First pass: cells, secret rooms and openings from the rooms' tiles; icons in MAP-010 | M1 | P0 | M | WLD-001 | done |
+| MAP-002 | Per-cell discovery tracking, saved | M1 | P0 | S | MAP-001 | done |
+| MAP-003 | Full map screen: pan, region colors, icons, player marker, %. First pass without icons (MAP-010) | M1 | P0 | M | MAP-002, UI-001 | done |
+| MAP-010 | Map icons: save altars, lifts, bosses, uncollected items; doors drawn from room exits once WLD-002 exists | M1 | P1 | S | MAP-003, WLD-002 | todo |
 | MAP-004 | Optional minimap on the HUD | M2 | P1 | S | MAP-003 | todo |
-| MAP-005 | Surveyor's Maps sold by region (reveal unvisited outlines) | M3 | P2 | S | NPC-004 | todo |
+| MAP-005 | Surveyor's Maps sold by region (reveal unvisited outlines). Revisit: the Builder's Plan (REL-008) already shows unvisited rooms | M3 | P2 | S | NPC-004 | todo |
 | MAP-006 | Player-placed map pins | M3 | P2 | S | MAP-003 | todo |
 | MAP-007 | Completion %: Act I 100%, Act II 200%, plus the secret bonus | M2 | P0 | S | MAP-002 | todo |
-| MAP-009 | Secret areas (WLD-006 `SecretArea`) are hidden on the map until entered; finding one counts toward the secret bonus (MAP-007) | M2 | P0 | S | MAP-002, WLD-006 | todo |
+| MAP-009 | Secret areas (WLD-006 `SecretArea`) are hidden on the map until entered; finding one counts toward the secret bonus (MAP-007) | M2 | P0 | S | MAP-002, WLD-006 | done |
 | MAP-008 | Exit consistency validator: exits of adjacent cells must pair up (run in CI) | M1 | P0 | S | MAP-001 | todo |
 
 ### SAV: Saving, checkpoints and fast travel
@@ -924,6 +927,12 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - A plain attack press still attacks normally.
 - **ENG-012 (first pass)**
   - Debug builds only: F1 toggles an overlay (state, velocity, HP/Breath/Embers, abilities, recent inputs), F2 gives every item, Relic Arm and spell, F3 refills HP, Breath and Embers, F4 toggles god mode, F5 cycles the carried Relic Arm.
+- **MAP-001..003, MAP-009, REL-008 (map, first pass)**
+  - `tools/world/build_world_index.gd` instantiates every room scene and writes `data/world_index.json`: each room's map cells (640×360 px each, placed by the room's `map_cell`), its region, its secret areas as their own hidden rooms, and the openings between neighbouring cells read from the Solid tiles (breakable tiles count as open).
+  - `WorldMap` marks the cell Elam stands in as discovered, saves the discovered cells with the game and restores them on load; it reports % explored (secret cells add a bonus beyond 100%).
+  - The Builder's Plan (relic, ability `map`) is carried from the start for now and shows on Elam's belt. Without it, Tab only says there is no map.
+  - Tab opens the map and pauses: explored cells filled in the region's colour, unexplored cells dim, secret rooms hidden until entered, room walls with gaps where rooms connect, Elam's position blinking, % explored. Arrow keys pan; Tab, Esc or Back closes. The pause menu and the map don't open over each other.
+  - Unit tests: index contents, cell maths, % explored, the save round trip. A visual test walks Elam through the sandbox in the real game, opens the map and checks what it draws, including a found secret room.
 - **WLD-006**
   - Breakable tiles are painted like any other tile: a hidden variant of the solid tile that looks identical (3 hits) and the cracked brick (2 hits). The hit count is the tile's `breakable` custom data; touching breakable cells break together.
   - Player weapons, weapon arts and Relic Arms break them; enemy attacks don't. Each hit cracks and flashes the tiles; the last one crumbles them into rubble with a shake.
@@ -1349,3 +1358,13 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Tests:** new `tests/visual/secrets_test.tscn` 6/6 (hidden wall pixel-identical to the plain wall, sword breaks it in 3, secret room shown only once entered and the camera pans back, crouching strikes break a hidden floor into the cellar, Sling Stones break a cracked block, broken tiles stay broken on rebuild); unit 79/79 (5 new in `test_breakable_tiles.gd`); regression 74/74.
   - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
   - **Next:** the user tries the sandbox secrets. Later: WLD-024 breakable variants for the PixelLab tilesets, MAP-009 when the map exists.
+- **2026-10-15 (the map: MAP-001..003, MAP-009, REL-008)**
+  - **The user's request:** a map system that shows the map, where Elam is, where he has been and where he has yet to go, gated by a relic found later in the game but given for now.
+  - **World index (MAP-001):** `tools/world/build_world_index.gd` instantiates each room under `scenes/world/rooms/`, reads its `bounds`, `map_cell` and `region`, records its cells (640×360 px each), each `SecretArea` as its own secret room, and the openings between cells of different rooms from the Solid tiles (breakable tiles count as open). The sandbox gives 3 room cells, 2 secret cells (east room, cellar) and 2 openings.
+  - **Discovery (MAP-002):** `WorldMap` marks the cell under Elam's feet every physics frame, reports % explored (secret cells add past 100%), and saves the discovered cells in the save file (`"map"`).
+  - **Map screen (MAP-003, MAP-009):** `scenes/ui/map/map_screen.gd` on the Menus layer. Tab opens it and pauses; explored cells in the region's colour, unexplored dim with dim walls, secret rooms hidden until entered, double walls between rooms with a gap at openings, a blinking marker kept inside Elam's cell, % explored. Arrows pan; Tab, Esc or Back close, and the same Esc press doesn't open the pause menu.
+  - **Builder's Plan (REL-008):** relic with ability `map`, granted at start by `Game.STARTING_RELICS` for now; worn as a clay tablet at the back of the belt. Without it Tab shows "NO MAP".
+  - **Lessons:** a `-s` tool script compiles before the autoloads exist, so it can't reach classes that use them (duck typing by group instead), and nodes added in `_initialize()` aren't in the tree until the first frame. Added to CLAUDE.md.
+  - **Tests:** new `tests/visual/map_test.tscn` 5/5 in the real game (discovery, the drawn cell colours, Esc closes without the pause menu, no plan no map, a found secret room with its door); unit 86/86 (7 new in `test_world_map.gd`); regression 80/80 (equipment_test counts the plan on the belt).
+  - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** the user tries the map. Later: MAP-010 icons, MAP-004 minimap, MAP-007 full completion rules, MAP-008 exit validator once rooms connect (WLD-002).

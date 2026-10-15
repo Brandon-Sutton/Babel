@@ -9,6 +9,9 @@ const STARTING_EQUIPMENT: Dictionary[StringName, StringName] = {
 ## Carried and known from the start for now so every feature can be tried (playtest).
 const STARTING_RELIC_ARM: StringName = &"sling_stone"
 const STARTING_SPELLS: Array[StringName] = [&"isatu"]
+## Relics owned from the start for now: the Builder's Plan (the map, REL-008) will be
+## found in the world with the level pass.
+const STARTING_RELICS: Array[StringName] = [&"builders_plan"]
 const STARTING_INVENTORY: Array[StringName] = [
 	&"sappara", &"bronze_mace", &"lion_greatsword", &"scythe_of_ninurta",
 	&"lapis_shield", &"scribes_circlet", &"seal_of_shamash",
@@ -111,4 +114,8 @@ func reset() -> void:
 	spells.clear()
 	for spell_id: StringName in STARTING_SPELLS:
 		learn_spell(spell_id)
+	for relic_id: StringName in STARTING_RELICS:
+		var relic: RelicData = item(relic_id) as RelicData
+		if relic != null:
+			grant_ability(relic.ability)
 	play_time = 0.0

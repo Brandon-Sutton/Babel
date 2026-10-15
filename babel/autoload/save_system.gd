@@ -91,6 +91,7 @@ func build_save(room_path: String, position: Vector2) -> Dictionary:
 		"flags": flags,
 		"relic_arm": String(Game.stats.relic_arm.id) if Game.stats.relic_arm != null else "",
 		"spells": spells,
+		"map": WorldMap.save_data(),
 	}
 
 
@@ -121,6 +122,7 @@ func apply_save(data: Dictionary) -> void:
 		for spell_id: Variant in data["spells"]:
 			Game.learn_spell(StringName(str(spell_id)))
 	Game.play_time = float(data.get("play_time", 0.0))
+	WorldMap.load_data(data.get("map", {}))
 
 
 ## Where a save resumes: its position as a Vector2 (ZERO if missing).
