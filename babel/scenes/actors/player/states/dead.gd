@@ -17,7 +17,7 @@ func enter(_previous: StringName) -> void:
 	player.invulnerable_frames = 0
 	player.velocity = Vector2(player.knockback_direction * 80.0, -200.0)
 	player.sprite.modulate = Color(1.0, 0.55, 0.55)
-	player.play_animation(&"death" if player.animation_player.has_animation(&"death") else &"hurt")
+	player.play_animation(&"death" if player.animation_player.has_animation(&"death") else &"hurt", true)
 
 
 func physics_update(delta: float) -> void:

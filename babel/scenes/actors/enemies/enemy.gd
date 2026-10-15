@@ -76,12 +76,14 @@ func _setup_sprite() -> void:
 	play_animation(&"idle")
 
 
-## Plays [param animation_name] if the sprite has it (no-op on the placeholder).
-func play_animation(animation_name: StringName) -> void:
+## Plays [param animation_name] if the sprite has it (no-op on the placeholder). A
+## finished non-looping animation holds its last frame; [param restart] replays it.
+func play_animation(animation_name: StringName, restart: bool = false) -> void:
 	if animation_player == null or not animation_player.has_animation(animation_name):
 		return
-	if animation_player.current_animation != animation_name:
+	if restart or animation_player.assigned_animation != animation_name:
 		animation_player.play(animation_name)
+		animation_player.seek(0.0, true)
 
 
 func _physics_process(delta: float) -> void:

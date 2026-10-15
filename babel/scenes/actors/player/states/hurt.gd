@@ -13,7 +13,7 @@ func enter(_previous: StringName) -> void:
 	player.stop_attack()
 	var knockback: Vector2 = player.tuning.knockback
 	player.velocity = Vector2(player.knockback_direction * knockback.x, knockback.y)
-	player.play_animation(&"hurt")
+	player.play_animation(&"hurt", true)
 
 
 func physics_update(delta: float) -> void:

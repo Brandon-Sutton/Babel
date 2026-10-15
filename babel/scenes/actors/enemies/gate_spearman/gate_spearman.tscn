@@ -63,11 +63,11 @@ shape = SubResource("RectangleShape2D_contact")
 
 [node name="SpearHitbox" type="Area2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(44, -50)
 collision_layer = 128
 collision_mask = 16
 monitorable = false
 script = ExtResource("5_hitbox")
 
-[node name="Shape" type="CollisionShape2D" parent="SpearHitbox"]
+[node name="SpearShape" type="CollisionShape2D" parent="SpearHitbox"]
+unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_spear")

@@ -40,6 +40,54 @@
               "Idle/animations/walk/east/frame_007.png"
             ]
           },
+          "sweep": {
+            "east": [
+              "Idle/animations/sweep/east/frame_000.png",
+              "Idle/animations/sweep/east/frame_001.png",
+              "Idle/animations/sweep/east/frame_002.png",
+              "Idle/animations/sweep/east/frame_003.png",
+              "Idle/animations/sweep/east/frame_004.png",
+              "Idle/animations/sweep/east/frame_005.png",
+              "Idle/animations/sweep/east/frame_006.png",
+              "Idle/animations/sweep/east/frame_007.png"
+            ]
+          },
+          "leap": {
+            "east": [
+              "Idle/animations/leap/east/frame_000.png",
+              "Idle/animations/leap/east/frame_001.png",
+              "Idle/animations/leap/east/frame_002.png",
+              "Idle/animations/leap/east/frame_003.png",
+              "Idle/animations/leap/east/frame_004.png",
+              "Idle/animations/leap/east/frame_005.png",
+              "Idle/animations/leap/east/frame_006.png",
+              "Idle/animations/leap/east/frame_007.png"
+            ]
+          },
+          "anti_air": {
+            "east": [
+              "Idle/animations/anti_air/east/frame_000.png",
+              "Idle/animations/anti_air/east/frame_001.png",
+              "Idle/animations/anti_air/east/frame_002.png",
+              "Idle/animations/anti_air/east/frame_003.png",
+              "Idle/animations/anti_air/east/frame_004.png",
+              "Idle/animations/anti_air/east/frame_005.png",
+              "Idle/animations/anti_air/east/frame_006.png",
+              "Idle/animations/anti_air/east/frame_007.png"
+            ]
+          },
+          "cast": {
+            "east": [
+              "Idle/animations/cast/east/frame_000.png",
+              "Idle/animations/cast/east/frame_001.png",
+              "Idle/animations/cast/east/frame_002.png",
+              "Idle/animations/cast/east/frame_003.png",
+              "Idle/animations/cast/east/frame_004.png",
+              "Idle/animations/cast/east/frame_005.png",
+              "Idle/animations/cast/east/frame_006.png",
+              "Idle/animations/cast/east/frame_007.png"
+            ]
+          },
           "thrust": {
             "east": [
               "Idle/animations/thrust/east/frame_000.png",
@@ -57,5 +105,5 @@
     }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-15T06:58:51.234464"
+  "export_date": "2026-10-15T07:17:32.076646"
 }

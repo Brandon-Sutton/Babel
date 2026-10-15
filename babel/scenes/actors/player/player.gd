@@ -181,12 +181,23 @@ func take_hit(info: DamageInfo) -> bool:
 
 
 ## Plays [param animation_name], falling back to idle if the sheet doesn't have it yet.
-func play_animation(animation_name: StringName) -> void:
+## A finished non-looping animation (crouch, jump) holds its last frame rather than
+## restarting; pass [param restart] to play it again from the start.
+func play_animation(animation_name: StringName, restart: bool = false) -> void:
 	var name_to_play: StringName = animation_name if animation_player.has_animation(animation_name) else &"idle"
 	if not animation_player.has_animation(name_to_play):
 		return
-	if animation_player.current_animation != name_to_play:
+	if restart or animation_player.assigned_animation != name_to_play:
 		animation_player.play(name_to_play)
+		animation_player.seek(0.0, true)
+
+
+## Shows the last frame of [param animation_name] (e.g. already crouched).
+func hold_last_frame(animation_name: StringName) -> void:
+	if not animation_player.has_animation(animation_name):
+		return
+	animation_player.play(animation_name)
+	animation_player.seek(animation_player.current_animation_length, true)
 
 
 ## Puts the player back at [param at] after death or a room change.

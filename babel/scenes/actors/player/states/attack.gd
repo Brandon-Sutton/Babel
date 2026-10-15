@@ -37,8 +37,7 @@ func enter(previous: StringName) -> void:
 		animation = &"attack"
 	else:
 		_needs_arc = false
-	player.play_animation(animation)
-	player.animation_player.seek(0.0, true)
+	player.play_animation(animation, true)
 	# Stretch the swing art to this weapon's timing (the mace is slower than the sword).
 	var swing_seconds: float = _weapon.total_frames() / 60.0
 	var art_seconds: float = player.animation_player.current_animation_length

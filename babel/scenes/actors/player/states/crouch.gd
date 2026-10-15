@@ -5,9 +5,12 @@ extends State
 @onready var player: Player = owner as Player
 
 
-func enter(_previous: StringName) -> void:
+func enter(previous: StringName) -> void:
 	player.set_crouching(true)
 	player.velocity.x = 0.0
+	# Coming out of a crouching slash: stay down instead of replaying the crouch-down.
+	if previous == &"Attack":
+		player.hold_last_frame(&"crouch")
 
 
 func exit() -> void:

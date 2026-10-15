@@ -31,11 +31,14 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - Afterimages, hit sparks and screen shake are in.
 - Votive lamps drop embers, shekels and items; the save altar saves, and death returns you to the last save.
 - The pause menu has the status sheet and the SotN equipment screen.
+- Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
+
+**Playtest wanted (game feel, log the verdict here):** the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
 Next, in suggested order:
-1. **Hero animations still missing:** crouch attack, jump attack, death (ART-001). Use PixMiniMax for weapon actions.
+1. **Hero animations still missing:** jump attack, death (ART-001). Use PixMiniMax for weapon actions.
 2. **Readability:** enemy rim or outline shader (VFX-016).
 3. **Systems:**
    - game-over screen (UI-014, completes PLR-010)
@@ -129,6 +132,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | ART-014 | Title key art and logo | M5 | P1 | M | — | todo |
 | ART-015 | Act II drowned variants: palette plans and new overlay art | M4 | P0 | L | VFX-010 | todo |
 | ART-016 | Weapon-specific swing art: the Sappara and Bronze Mace reuse the sword slash (stretched to their timing) | M2 | P2 | M | ART-001 | todo |
+| ART-017 | A lower crouch pose for Elam, so high attacks can be ducked visibly. The current crouch is 59 px tall and the Spearman's stab (46–53 px) crosses the head, so a crouch does not dodge it. | M2 | P2 | S | ART-001 | todo |
 
 ### PLR: Player controller
 
@@ -345,6 +349,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | AI-004 | Palette-variant shader and variant data (one sprite, many enemies) | M2 | P1 | S | VFX-005 | todo |
 | AI-005 | Spawn rules: respawn on room re-entry, dormant off-screen, maximum active count | M1 | P0 | S | AI-001 | doing |
 | AI-006 | Codex data and kill counts | M2 | P1 | S | AI-001 | todo |
+| AI-007 | Ceiling check before leaping attacks: the Spearman's leap rises 125 px, so skip it under a low ceiling (raycast) | M1 | P1 | S | AI-003 | todo |
 
 ### ENM: Enemy roster
 
@@ -358,7 +363,7 @@ Each row covers design, art (PixelLab), `EnemyData`, behavior and the Codex entr
 | ENM-004 | Carrion Vulture | SHN | Swoop diver | M | M3 | P1 | todo |
 | ENM-005 | Girtablullu (scorpion-man) | SHN | Ranged sting, guards | M | M3 | P1 | todo |
 | ENM-006 | Humbaba Mask | GTE | Sine-wave floater (the Medusa-head role) | S | M1 | P0 | done |
-| ENM-007 | Gate Spearman (shade of a Babylonian guard) | GTE | Spear poke, guards | M | M1 | P0 | done |
+| ENM-007 | Gate Spearman (shade of a Babylonian guard) | GTE | Stab, floor sweep, anti-air thrust, fireball, leap-plunge | M | M1 | P0 | done |
 | ENM-008 | Glazed Lion (living Ishtar Gate relief) | GTE | Pounces out of the wall | M | M3 | P1 | todo |
 | ENM-009 | Sirrush Hatchling | GTE | Hopper that spits fire | S | M3 | P1 | todo |
 | ENM-010 | Clay Golemling | FND | Tank that splits into two | M | M3 | P0 | todo |
@@ -710,6 +715,7 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
 - **PLR-006**
   - Crouching shortens the hurtbox.
   - Down + Jump drops through one-way platforms only.
+  - Holding Down keeps the crouch: the pose settles once and holds instead of restarting.
 - **PLR-007**
   - Swapping the equipped `WeaponData` changes the animation, hitbox and damage with no code change.
   - The hitbox is active only on the active frames, verified in a `--debug-collisions` capture.
@@ -832,6 +838,11 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - Enemies respawn on room re-entry.
   - Off-screen enemies go dormant.
   - The maximum active count is respected.
+- **ENM-007** (Gate Spearman)
+  - Five telegraphed attacks, each with an answer: stab (jump it or back-dash), floor sweep (jump it), anti-air (drawn by jumping in close), fireball (crouch, jump or cut it with a weapon), leap-plunge (step out from under).
+  - A staggering hit during any wind-up cancels the attack.
+  - Hitboxes match the painted spear. The anti-air reach past the painted tip is shown by a spear-light streak.
+  - `tests/visual/spearman_test.tscn` checks each answer, and every check passes.
 - **BOSS-000**
   - Entering the arena locks it and shows the name card and HP bar.
   - Phases change at HP thresholds.
@@ -1059,3 +1070,23 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
     - `JSON.parse_string` printed an extra engine error on corrupt saves.
   - Gens spent: 24. **60.6 left** until the 2026-10-17 reset.
   - **Next:** see **Now**.
+- **2026-10-15 (constant crouch, crouching slash, Gate Spearman moveset)**
+  - **Crouch "not constant" fixed:** after a non-looping animation finished, `AnimationPlayer.current_animation` went empty, so `play_animation` restarted the crouch every frame (the jump pose had the same bug). `Player` and `Enemy` now compare `assigned_animation`, so a finished animation holds its last frame; `restart` replays on purpose. Leaving a crouching slash with Down held goes straight to the held crouch pose.
+  - **Crouching slash:** a new PixMiniMax animation (`crouch_attack`, group 780ffc93, 1 gen), frames 0–5. Frames 6–7 stand up, so they are dropped. The low hitbox is unchanged.
+  - **Gate Spearman (ENM-007)**, rewritten as one attack table, `Spec` (wind-up, active and recover frames; hitbox; power; lunge; animations):
+    - **Stab:** close, chest height. The painted spear crosses a crouching head, so the hitbox is honest and a crouch does not dodge it. Jump it or back-dash out. ART-017 tracks a lower crouch.
+    - **Sweep:** close, alternating with the stab. It scrapes the floor front to back; jump it.
+    - **Anti-air:** chosen whenever the player is airborne and above within 110 px. The wind-up is only 12 frames. The hitbox reaches past the painted tip, and a gold spear-light streak is drawn over that reach.
+    - **Fireball:** at 150 px or more, on a 160-frame cooldown. The cast frame holds the painted fireball, then the real `Fireball` (`scenes/actors/enemies/projectiles/`) replaces it at the same spot. It climbs 9 px so it clears a crouch, flies 170 px/s, bursts on walls, and can be cut by a sword stroke (it has a Hurtbox on enemy_hurtbox).
+    - **Leap:** at 100–220 px, on a 200-frame cooldown. It rises so the apex is over the player, then plunges spear-down at 620 px/s. Contact damage is off while airborne, so the plunge lands the hit. It lands with a shake and a spark.
+    - A staggering hit in any wind-up cancels the attack. Aggro range is raised to 340. Tests can set `forced_attack`.
+  - **Art:** four PixMiniMax animations on 34128d92 (sweep 50b04977, anti_air 7f951b80, cast 88715c3d, leap 7ad06154; 1 gen each), split into wind-up, active and recover in `import.json`. The fireball sprite is cropped from cast frame 5 (no generation).
+  - **Importer:** a new per-animation `lift` re-seats airborne frames that PixelLab painted above the feet line (leap rise 13 px, plunge 18 px). The Spearman cell grew to 192×132, so the sweep's spear tip no longer clips.
+  - **Tests:** new `tests/visual/spearman_test.tscn`, 12/12. It covers constant crouch, crouching slash, stab vs crouch, standing and jumping, sweep vs standing and jumping, anti-air chosen and connecting, fireball vs standing and crouching, sword cuts fireball, and leap plunge. Regression: gameplay 8/8, sandbox tour 4/4, systems 9/9, unit 46/46.
+  - **Bugs found by looking at captures:**
+    - The fireball blinked out for one frame at the hand-off. It needed `reset_physics_interpolation()` after placement.
+    - Contact damage stole the plunge's hit.
+    - The stab's painted spear crossed a crouching head the hitbox missed. The hitbox was made honest.
+  - **Design choice to confirm:** the user named three attacks (upward thrust, fireball, jumping-down attack); the fourth, the floor sweep, is Claude's pick and is easy to swap.
+  - Gens spent: 5. **About 55.6 left** until the 2026-10-17 reset.
+  - **Next:** the user's playtest of the Spearman and the crouch, then **Now** item 1 (jump attack and death art).

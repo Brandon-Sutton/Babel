@@ -11,6 +11,6 @@ attack = 10
 defense = 4
 xp = 20
 move_speed = 52.0
-aggro_range = 220.0
+aggro_range = 340.0
 poise = 10
 contact_damage = true

@@ -323,6 +323,16 @@ The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I 
 - Tether/binder
 - Elite duelist
 
+**Every attack has a readable answer.** An attack winds up with a visible telegraph, its hitbox matches the painted weapon, and the player has a counter: crouch, jump, back-dash, cut the projectile, or stagger it during the wind-up. Any reach beyond the art is drawn as an effect, such as a spear-light streak. The **Gate Spearman** sets the pattern:
+
+| Attack | When | Answer |
+|---|---|---|
+| Stab | close | jump it or back-dash out; a crouch does not dodge it |
+| Floor sweep | close, alternating with the stab | jump it |
+| Anti-air thrust (short wind-up) | the player jumps in close or over it | don't jump at it |
+| Fireball | 150 px or more away | crouch, jump, or cut it with a weapon |
+| Leap-plunge | 100–220 px away | step out from under the landing |
+
 **Boss rules:**
 - The arena locks when the fight begins.
 - A title card shows the boss's name, SotN style.

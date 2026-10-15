@@ -9,7 +9,7 @@ var _frame: int = 0
 
 func enter(_previous: StringName) -> void:
 	_frame = 0
-	player.play_animation(&"backdash")
+	player.play_animation(&"backdash", true)
 	player.afterimages.active = true
 
 

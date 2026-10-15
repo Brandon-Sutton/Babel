@@ -3,7 +3,7 @@
 	"pixellab_character_id": "34128d92-d7bb-4210-b36f-d66d7112add1",
 	"export_dir": "export",
 	"direction": "east",
-	"cell": [192, 128],
+	"cell": [192, 132],
 	"cell_pivot": [96, 124],
 	"output_dir": "res://assets/sprites/enemies/gate_spearman",
 	"sprite_node": "Sprite2D",
@@ -12,6 +12,19 @@
 		"idle": {"source": "walk", "frames": [0], "fps": 1, "loop": true},
 		"windup": {"source": "thrust", "frames": [0, 1, 2], "frame_ms": [120, 160, 190]},
 		"thrust": {"source": "thrust", "frames": [3, 4, 5], "frame_ms": [40, 45, 50]},
-		"recover": {"source": "thrust", "frames": [6, 7], "frame_ms": [200, 400]}
+		"recover": {"source": "thrust", "frames": [6, 7], "frame_ms": [200, 400]},
+		"sweep_windup": {"source": "sweep", "frames": [0, 1, 2], "frame_ms": [100, 140, 160]},
+		"sweep": {"source": "sweep", "frames": [3, 4], "frame_ms": [80, 87]},
+		"sweep_recover": {"source": "sweep", "frames": [5, 6, 7], "frame_ms": [150, 200, 250]},
+		"anti_air_windup": {"source": "anti_air", "frames": [0, 1], "frame_ms": [80, 120]},
+		"anti_air": {"source": "anti_air", "frames": [2, 3, 4], "frame_ms": [50, 57, 60]},
+		"anti_air_recover": {"source": "anti_air", "frames": [5, 6, 7], "frame_ms": [150, 180, 203]},
+		"cast_windup": {"source": "cast", "frames": [0, 1, 2, 3, 4], "frame_ms": [60, 90, 90, 90, 103]},
+		"cast": {"source": "cast", "frames": [5], "frame_ms": [100]},
+		"cast_recover": {"source": "cast", "frames": [6, 7], "frame_ms": [250, 417]},
+		"leap_windup": {"source": "leap", "frames": [0, 1], "frame_ms": [120, 147]},
+		"leap_rise": {"source": "leap", "frames": [2, 3, 4], "frame_ms": [120, 130, 140], "lift": 13},
+		"leap_plunge": {"source": "leap", "frames": [5], "frame_ms": [100], "lift": 18},
+		"leap_land": {"source": "leap", "frames": [6, 7], "frame_ms": [250, 417]}
 	}
 }

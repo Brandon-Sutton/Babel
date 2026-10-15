@@ -16,7 +16,9 @@ extends SceneTree
 ## "animations". "frames" picks and orders source frames by index, so one PixelLab
 ## animation can feed several (a jump split into "jump" and "fall"). "frame_ms"
 ## (per-frame durations) overrides "fps". "grounded" animations are checked to keep the
-## feet on the ground line in every frame.
+## feet on the ground line in every frame. "lift" (px) is how far above the feet line
+## PixelLab painted an airborne animation (a leap drawn mid-air in its canvas); its
+## frames are moved down by that much so the art sits on the body that does the jumping.
 ##
 ## The feet pivot comes from the rotation for "direction": the bottom of its opaque pixels
 ## and the centre of the boots. PixelLab grows animation canvases evenly around the
@@ -88,7 +90,8 @@ func _import(recipe_path: String) -> bool:
 			frames.append(frame)
 		animations[StringName(anim_name)] = frames
 		var growth: Vector2i = frames[0].get_size() - rotation.get_size()
-		pivots[StringName(anim_name)] = rotation_pivot + Vector2i(floori(growth.x / 2.0), floori(growth.y / 2.0))
+		var lift: int = int(spec.get("lift", 0))
+		pivots[StringName(anim_name)] = rotation_pivot + Vector2i(floori(growth.x / 2.0), floori(growth.y / 2.0) - lift)
 
 	var packed: SheetPacker.Result = SheetPacker.pack(animations, pivots, cell, cell_pivot)
 	var ok: bool = packed.warnings.is_empty()

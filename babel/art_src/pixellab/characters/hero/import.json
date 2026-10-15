@@ -15,6 +15,7 @@
 		"crouch": {"source": "crouch", "fps": 24},
 		"backdash": {"source": "backdash", "fps": 16},
 		"hurt": {"source": "hurt", "fps": 14},
-		"attack": {"source": "attack_sword", "frame_ms": [33, 33, 34, 50, 50, 55, 55, 57]}
+		"attack": {"source": "attack_sword", "frame_ms": [33, 33, 34, 50, 50, 55, 55, 57]},
+		"crouch_attack": {"source": "crouch_attack", "frames": [0, 1, 2, 3, 4, 5], "frame_ms": [40, 40, 40, 60, 80, 100], "grounded": true}
 	}
 }
