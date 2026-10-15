@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_6l2ap"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/scribes_circlet.png" id="2_cunrw"]
+
+[resource]
+script = ExtResource("1_6l2ap")
+texture = ExtResource("2_cunrw")
+pivot = Vector2(7, 2)
+points = Array[StringName]([&"head"])

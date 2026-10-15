@@ -3,19 +3,19 @@
 	"pixellab_character_id": "aa0091a3-fdf9-4ffa-a82e-207c905c5126",
 	"export_dir": "export",
 	"direction": "east",
-	"cell": [160, 128],
-	"cell_pivot": [80, 124],
+	"cell": [208, 136],
+	"cell_pivot": [104, 124],
 	"output_dir": "res://assets/sprites/player/hero",
 	"sprite_node": "Sprite2D",
 	"animations": {
-		"idle": {"source": "idle", "fps": 8, "loop": true, "grounded": true},
-		"walk": {"source": "walk", "fps": 12, "loop": true},
-		"jump": {"source": "jump", "frames": [1, 2, 3, 4], "fps": 12},
-		"fall": {"source": "jump", "frames": [5, 6, 7], "fps": 10},
-		"crouch": {"source": "crouch", "fps": 24},
-		"backdash": {"source": "backdash", "fps": 16},
-		"hurt": {"source": "hurt", "fps": 14},
-		"attack": {"source": "attack_sword", "frame_ms": [33, 33, 34, 50, 50, 55, 55, 57]},
-		"crouch_attack": {"source": "crouch_attack", "frames": [0, 1, 2, 3, 4, 5], "frame_ms": [40, 40, 40, 60, 80, 100], "grounded": true}
+		"idle": {"source": "rig_idle", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "fps": 8, "loop": true, "grounded": true, "guide_prop": true},
+		"walk": {"source": "rig_walk", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "fps": 12, "loop": true, "guide_prop": true},
+		"jump": {"source": "rig_jump", "frames": [2, 3, 4], "fps": 12, "guide_prop": true},
+		"fall": {"source": "rig_jump", "frames": [5, 6, 7], "fps": 10, "guide_prop": true},
+		"crouch": {"source": "rig_crouch", "frames": [1, 2, 3, 4], "fps": 24, "guide_prop": true},
+		"backdash": {"source": "rig_backdash", "frames": [1, 2, 3, 4], "fps": 16, "guide_prop": true},
+		"hurt": {"source": "rig_hurt", "frames": [1, 2, 3, 4], "fps": 14, "guide_prop": true},
+		"attack": {"source": "rig_attack", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "frame_ms": [30, 35, 35, 50, 50, 55, 55, 57], "guide_prop": true},
+		"crouch_attack": {"source": "rig_crouch_attack", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "frame_ms": [60, 90, 50, 40, 40, 30, 30, 27], "grounded": true, "guide_prop": true}
 	}
 }

@@ -19,12 +19,19 @@ extends SceneTree
 ## feet on the ground line in every frame. "lift" (px) is how far above the feet line
 ## PixelLab painted an airborne animation (a leap drawn mid-air in its canvas); its
 ## frames are moved down by that much so the art sits on the body that does the jumping.
+## "guide_prop": true marks animations drawn with the key-green rod in Elam's hand
+## (EQV-002): the rod is erased from the art, its grip and angle become the `hand_r`
+## attach point, and any key-green swing smear goes to <slug>_smear.png.
+##
+## Every frame also gets body attach points (head, neck, chest, belt, ankles), stored
+## per animation as "anchors" in the layout JSON, relative to the feet, facing right.
 ##
 ## The feet pivot comes from the rotation for "direction": the bottom of its opaque pixels
 ## and the centre of the boots. PixelLab grows animation canvases evenly around the
 ## rotation canvas, so each animation's pivot is the rotation pivot plus half the growth.
 ##
-## Outputs <output_dir>/<slug>.png (sheet), <slug>.json (layout) and <slug>_anims.tres
+## Outputs <output_dir>/<slug>.png (sheet), <slug>.json (layout with anchors),
+## <slug>_smear.png (when any animation has a smear) and <slug>_anims.tres
 ## (AnimationLibrary keyed on <sprite_node>:frame_coords). Re-running gives identical files.
 ## Exits 1 on missing frames, clipped frames or feet that leave the ground line.
 ##
@@ -67,6 +74,9 @@ func _import(recipe_path: String) -> bool:
 	print("import_character: %s rotation %s, feet pivot %s" % [direction, rotation.get_size(), rotation_pivot])
 
 	var animations: Dictionary[StringName, Array] = {}
+	var smears: Dictionary[StringName, Array] = {}
+	var anchors: Dictionary[StringName, Array] = {}
+	var has_smear: bool = false
 	var pivots: Dictionary[StringName, Vector2i] = {}
 	var recipe_animations: Dictionary = recipe["animations"]
 	for anim_name: String in recipe_animations:
@@ -88,10 +98,32 @@ func _import(recipe_path: String) -> bool:
 			if frame == null:
 				return false
 			frames.append(frame)
-		animations[StringName(anim_name)] = frames
 		var growth: Vector2i = frames[0].get_size() - rotation.get_size()
 		var lift: int = int(spec.get("lift", 0))
-		pivots[StringName(anim_name)] = rotation_pivot + Vector2i(floori(growth.x / 2.0), floori(growth.y / 2.0) - lift)
+		var pivot: Vector2i = rotation_pivot + Vector2i(floori(growth.x / 2.0), floori(growth.y / 2.0) - lift)
+		pivots[StringName(anim_name)] = pivot
+		var frame_anchors: Array = []
+		var frame_smears: Array = []
+		if spec.get("guide_prop", false):
+			var extracted: Array[GuideProp.Extraction] = GuideProp.extract_animation(frames)
+			for i: int in frames.size():
+				var e: GuideProp.Extraction = extracted[i]
+				frames[i] = e.body
+				frame_smears.append(e.smear)
+				has_smear = has_smear or e.is_smear
+				var hand: Vector2 = e.grip - Vector2(pivot)
+				var points: Dictionary = _points_json(GuideProp.body_points(e.body, pivot))
+				points["hand_r"] = [snappedf(hand.x, 0.1), snappedf(hand.y, 0.1), roundf(e.angle)]
+				points["smear"] = e.is_smear
+				frame_anchors.append(points)
+			print("import_character: %s guide prop: %s" % [anim_name, _hand_summary(extracted)])
+		else:
+			for frame: Image in frames:
+				frame_anchors.append(_points_json(GuideProp.body_points(frame, pivot)))
+				frame_smears.append(Image.create_empty(frame.get_width(), frame.get_height(), false, Image.FORMAT_RGBA8))
+		animations[StringName(anim_name)] = frames
+		smears[StringName(anim_name)] = frame_smears
+		anchors[StringName(anim_name)] = frame_anchors
 
 	var packed: SheetPacker.Result = SheetPacker.pack(animations, pivots, cell, cell_pivot)
 	var ok: bool = packed.warnings.is_empty()
@@ -107,11 +139,21 @@ func _import(recipe_path: String) -> bool:
 		var entry: Dictionary = packed.layout["animations"][anim_name]
 		entry["frame_ms"] = _frame_durations_ms(spec, entry["frames"])
 		entry["loop"] = spec.get("loop", false)
+		entry["anchors"] = anchors[StringName(anim_name)]
+		entry["hands"] = spec.get("guide_prop", false)
 	var err: Error = SheetPacker.save(packed, ProjectSettings.globalize_path(output_dir.path_join(slug + ".png")),
 			ProjectSettings.globalize_path(output_dir.path_join(slug + ".json")))
 	if err != OK:
 		printerr("import_character: writing the sheet failed: ", error_string(err))
 		return false
+	var smear_path: String = ProjectSettings.globalize_path(output_dir.path_join(slug + "_smear.png"))
+	if has_smear:
+		err = SheetPacker.pack(smears, pivots, cell, cell_pivot).image.save_png(smear_path)
+		if err != OK:
+			printerr("import_character: writing the smear sheet failed: ", error_string(err))
+			return false
+	elif FileAccess.file_exists(smear_path):
+		DirAccess.remove_absolute(smear_path)
 	var library_path: String = output_dir.path_join(slug + "_anims.tres")
 	err = ResourceSaver.save(_build_library(packed.layout, recipe.get("sprite_node", "Sprite2D")), library_path)
 	if err != OK:
@@ -136,6 +178,20 @@ func _feet_pivot(image: Image) -> Vector2i:
 				count += 1
 	var feet_x: int = roundi(float(sum_x) / count) if count > 0 else used.get_center().x
 	return Vector2i(feet_x, bottom)
+
+
+func _points_json(points: Dictionary[StringName, Vector2]) -> Dictionary:
+	var json: Dictionary = {}
+	for key: StringName in points:
+		json[String(key)] = [snappedf(points[key].x, 0.1), snappedf(points[key].y, 0.1)]
+	return json
+
+
+func _hand_summary(extracted: Array[GuideProp.Extraction]) -> String:
+	var parts: PackedStringArray = []
+	for e: GuideProp.Extraction in extracted:
+		parts.append("smear" if e.is_smear else ("%d deg" % roundi(e.angle) if e.has_rod else "no rod"))
+	return ", ".join(parts)
 
 
 ## Grounded animations must keep their lowest opaque row on the ground line in each cell.

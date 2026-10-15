@@ -14,6 +14,14 @@ enum Kind { WEAPON, SHIELD, HEAD, BODY, MANTLE, SEAL }
 @export var intelligence: int = 0
 @export var luck: int = 0
 
+@export_group("Visible on Elam")
+## Rigid sprite worn or held (weapons, shields, helms, seals, add-on armor pieces).
+@export var worn: WornArt
+## Material recolored while equipped: &"plates" (body armor) or &"lining" (mantles).
+@export var dye_material: StringName
+## Replacement ramp for [member dye_material], dark to light.
+@export var dye_ramp: PackedColorArray = []
+
 
 ## Short label for the kind, for menus.
 func kind_label() -> String:

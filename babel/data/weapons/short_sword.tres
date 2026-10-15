@@ -1,19 +1,15 @@
 [gd_resource type="Resource" script_class="WeaponData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data_types/weapon_data.gd" id="1_weapon"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/short_sword.tres" id="2_alogo"]
 
 [resource]
 script = ExtResource("1_weapon")
+startup_frames = 6
+attack = 5
+worn = ExtResource("2_alogo")
+dye_ramp = PackedColorArray()
 id = &"short_sword"
 display_name = "Short Sword"
 description = "A plain iron blade from the kilns of Shinar. Quick to swing."
 price = 30
-kind = 0
-attack = 5
-startup_frames = 6
-active_frames = 6
-recovery_frames = 10
-reach = 46.0
-hitbox_height = 30.0
-knockback = 140.0
-hit_stop_frames = 4

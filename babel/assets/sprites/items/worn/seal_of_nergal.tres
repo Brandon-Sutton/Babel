@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_tjss6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/seal_of_nergal.png" id="2_l8qj0"]
+
+[resource]
+script = ExtResource("1_tjss6")
+texture = ExtResource("2_l8qj0")
+pivot = Vector2(3, 1)
+points = Array[StringName]([&"seal"])

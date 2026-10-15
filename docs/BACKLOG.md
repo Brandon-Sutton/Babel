@@ -32,14 +32,15 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - Votive lamps drop embers, shekels and items; the save altar saves, and death returns you to the last save.
 - The pause menu has the status sheet and the SotN equipment screen.
 - Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
+- **Everything Elam equips is visible on him** (2026-10-15): weapon in hand, shield, circlet, seals, relic anklet, bronze plates and the mantle lining. The swing smear takes the weapon's colour.
 
 **Playtest wanted (game feel, log the verdict here):** the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
 Next, in suggested order:
-1. **Hero animations still missing:** jump attack, death (ART-001). Use PixMiniMax for weapon actions.
-2. **Readability:** enemy rim or outline shader (VFX-016).
+1. **Visible equipment (EQV):** after the 2026-10-17 refill, regenerate the rest of Elam's set with the guide prop (EQV-009): jump attack, death, guard, cast, throw, double jump, landing and more. Then PixelLab worn art (EQV-012).
+2. **Relics:** `RelicData` for every relic with a worn spot, plus menu toggling (EQV-010, REL-001).
 3. **Systems:**
    - game-over screen (UI-014, completes PLR-010)
    - title screen with continue (UI-012, SAV-005)
@@ -211,6 +212,27 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | INV-012 | Elam's starting gear and Namtar's gear strip (the Act II recovery is in NAR-013) | M1 | P0 | S | INV-001, NAR-005 | doing |
 | INV-013 | Enemy loot tables (`EnemyData.loot`), rolled on death | M2 | P1 | S | INV-007 | todo |
 | INV-014 | Item icons in the equip menu and pickups (needs PIPE-009) | M2 | P2 | S | PIPE-009 | todo |
+
+### EQV: Visible equipment (paper doll)
+
+The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal and relic is visible on Elam in every animation. Design: GDD §6.7 "Visible equipment". Pipeline: ART_BIBLE §6.3.
+
+| ID | Task | MS | Pri | Size | Deps | Status |
+|---|---|---|---|---|---|---|
+| EQV-001 | Design: slot-by-slot display rules, layer order and the attach-point set (GDD §6.7) | M1 | P0 | S | — | done |
+| EQV-002 | Guide-prop rig: a key-green rod painted into Elam's hand before animating. The importer finds the rod in every frame, records the grip and angle (`hand_r`), keeps any key-green swing smear as a recolorable mask, and erases both from the body art | M1 | P0 | M | PIPE-003 | done |
+| EQV-003 | Body attach points per frame (head, neck, chest, belt, ankles; `hand_l` from the chest), with a review sheet that draws every point on every frame | M1 | P0 | M | EQV-002 | done |
+| EQV-004 | `WornArt` data: sprite, pivot pixel, attach point, layer (behind or in front), follows the hand angle. Used by `EquipmentData` and `RelicData` | M1 | P0 | S | INV-001 | done |
+| EQV-005 | `EquipmentRig` on the player: one sprite per slot and relic, placed from the current frame's attach points every frame, mirrored with facing, ordered behind or in front of the body | M1 | P0 | M | EQV-003, EQV-004 | done |
+| EQV-006 | Material recolor: Elam's sheet palette-locked to an indexed palette with material ramps (plates, trim, lining…); body armor and mantles supply replacement ramps through a palette-swap shader. v1 classes pixels by colour (plates below the neck, crimson lining) instead of an indexed palette | M1 | P0 | M | EQV-005 | done |
+| EQV-007 | Clean rotated weapon art: pre-rendered angle steps (RotSprite-style) so weapons following the hand angle stay crisp | M1 | P1 | S | EQV-005 | todo |
+| EQV-008 | Worn art, batch 1: the nine current items plus the Gazelle Anklet (placeholder art drawn in code) | M1 | P0 | S | EQV-004 | done |
+| EQV-009 | Regenerate Elam's animation set with the guide prop. The core nine are done (11 gens on 2026-10-15). The rest of ART_BIBLE §6.1 follows after the 2026-10-17 refill (approved: ~75 gens in total) | M1 | P0 | L | EQV-002 | doing |
+| EQV-010 | `RelicData` with a worn spot for every relic; relics toggled off are hidden (with REL-001). `RelicData` and the Gazelle Anklet are in | M2 | P0 | S | EQV-004, REL-001 | doing |
+| EQV-011 | Visual test: equip each item in turn and check it is drawn at its attach point in every frame of every animation | M1 | P0 | S | EQV-005 | done |
+| EQV-012 | Worn art, PixelLab pass: replace the code-drawn batch 1 sprites with generated ones (same pivots) | M2 | P1 | S | EQV-008 | todo |
+| EQV-013 | Per-frame weapon layer: put the weapon behind the body on frames where the near hand passes behind it (detected from how much of the guide rod is hidden) | M2 | P2 | S | EQV-002 | todo |
+| EQV-014 | Afterimage ghosts also copy the worn items and the dye | M2 | P2 | S | EQV-005 | todo |
 
 ### SUB: Relic Arms (sub-weapons)
 
@@ -510,7 +532,7 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | VFX-013 | Optional CRT/scanline filter | M5 | P3 | S | — | todo |
 | VFX-014 | Flash-reduction mode | M5 | P1 | S | — | todo |
 | VFX-015 | Evaluate a smooth sub-pixel camera (SubViewport offset technique) | M2 | P2 | M | VFX-001 | todo |
-| VFX-016 | Enemy readability: a subtle rim or outline shader so dark sprites (Gate Spearman) stand out from dark back walls | M1 | P1 | S | VFX-005 | todo |
+| VFX-016 | Enemy readability: a subtle rim or outline shader so dark sprites (Gate Spearman) stand out from dark back walls. **Root cause found and fixed 2026-10-15:** the hit-flash shader multiplied the texture in twice, which squared every colour. Enemies now show their true colours. Add an outline only if a playtest still asks for one. | M1 | P1 | S | VFX-005 | done |
 
 ### AUD: Audio
 
@@ -834,6 +856,18 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
 - **AI-003**
   - LOS raycasts are blocked by the world layer.
   - Aggro and leash ranges come from `EnemyData`.
+- **EQV-002**
+  - The importer reads the guide-prop frames and writes `hand_r` (grip x, y relative to the feet, and angle) for every frame into the sheet JSON.
+  - No key-green pixels remain in the imported body sheet. Pixels the rod covered over the body are filled; pixels outside the body become transparent.
+  - Key-green swing smears are saved as a separate mask sheet.
+  - A review sheet marks the grip and angle on every frame, and it has been checked by eye.
+- **EQV-005**
+  - Equipping a weapon, shield, helm, seal or relic shows its sprite at the right attach point in every animation frame, mirrored correctly when facing left.
+  - Changing equipment in the pause menu updates Elam immediately.
+  - Items on the far side (left hand) draw behind the body, near-side items in front.
+- **EQV-006**
+  - Equipping a different body armor or mantle recolors only that material's pixels.
+  - Hit flash and other sprite effects still work on top of the recolor.
 - **AI-005**
   - Enemies respawn on room re-entry.
   - Off-screen enemies go dormant.
@@ -1090,3 +1124,33 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Design choice to confirm:** the user named three attacks (upward thrust, fireball, jumping-down attack); the fourth, the floor sweep, is Claude's pick and is easy to swap.
   - Gens spent: 5. **About 55.6 left** until the 2026-10-17 reset.
   - **Next:** the user's playtest of the Spearman and the crouch, then **Now** item 1 (jump attack and death art).
+- **2026-10-15 (visible equipment: EQV-001..008, EQV-011)**
+  - **The user's rule:** every relic, equipment item, weapon and accessory slot must appear on the character.
+  - **The user's choices** (all recommended options):
+    - Body armor and mantles recolor, with add-on pieces where needed.
+    - The cape is always worn.
+    - Weapons and shields are held in hand at all times.
+    - Attach points come from regenerating Elam's animations with a guide prop (~75 gens approved).
+    - Recorded in GDD §6.7 "Visible equipment" and ART_BIBLE §6.3.
+  - **Guide prop:**
+    - A key-green rod painted into Elam's fist, then the stored character animated with PixMiniMax from that start frame.
+    - Animating a loose image turned his back to the camera on both slash attempts, so attacks must use the stored character.
+    - The importer (`GuideProp`) finds grip and angle in every frame, erases the rod, cuts the key-green swing smear into `hero_smear.png`, and measures head, neck, chest, belt, far hand and ankles from the silhouette.
+    - The core nine animations were regenerated: idle, walk, jump/fall, crouch, back-dash, hurt, attack and crouching slash. Hero cell is now 208x136.
+  - **Data:**
+    - New `WornArt` (texture, pivot, points, layer, follows_angle).
+    - `EquipmentData` gains `worn`, `dye_material` and `dye_ramp`.
+    - New `RelicData` (ability + worn). `data/relics/gazelle_anklet.tres`.
+  - **Rig (`EquipmentRig` on the player):**
+    - One sprite per item, placed on the current frame's points every rendered frame, mirrored with facing.
+    - The shield sits behind the body on the far arm. Seal slot 1 hangs at the chest and slot 2 at the belt; the anklet goes on both ankles.
+    - The weapon hides on smear frames while the smear shows in the weapon's `slash_color`.
+    - `equipment_dye.gdshader` turns Mason's Mail plates bronze and colours the mantle lining.
+    - Rig sprites opt out of physics interpolation: like the fireball earlier, a new sprite was drawn at the feet for one frame.
+  - **Bug fixed:** `hit_flash.gdshader` sampled the texture and multiplied it into `COLOR`, which already holds it, so every enemy colour was squared. That is why the Spearman looked black and orange. Enemies now show their art's colours, which closes VFX-016.
+  - **Worn art batch 1:** eight sprites drawn in code (`tools/builders/build_worn_art.gd`). PixelLab versions are EQV-012.
+  - **Tests:**
+    - New `tests/visual/equipment_test.tscn`, 7/7: every item worn; hand points on the fist and head points on the head in all 50 frames; 347 placements exact; mirroring; weapon swap; smear tint; bronze dye measured in the rendered frame.
+    - Regression: gameplay 8/8, sandbox 4/4, systems 9/9, spearman 12/12, unit 46/46. No key-green pixels remain in `hero.png`.
+  - Gens spent: 12 (8 guide-prop animations, 3 loose-image experiments, 1 crouching slash). **About 43.6 left** until the 2026-10-17 reset.
+  - **Next:** the user looks at Elam in his gear. After the refill, finish EQV-009 (the rest of the animation set), then EQV-012 worn art and EQV-010 relics.

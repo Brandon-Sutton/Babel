@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_g31pn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/lapis_shield.png" id="2_eiqtd"]
+
+[resource]
+script = ExtResource("1_g31pn")
+texture = ExtResource("2_eiqtd")
+pivot = Vector2(11, 12)
+points = Array[StringName]([&"hand_l"])
+layer = 0

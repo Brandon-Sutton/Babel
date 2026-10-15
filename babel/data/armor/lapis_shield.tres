@@ -1,17 +1,15 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_equipment"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/lapis_shield.tres" id="2_kvcir"]
 
 [resource]
 script = ExtResource("1_equipment")
+kind = 1
+defense = 3
+worn = ExtResource("2_kvcir")
+dye_ramp = PackedColorArray()
 id = &"lapis_shield"
 display_name = "Lapis Shield"
 description = "A round shield glazed in lapis like the Ishtar Gate."
 price = 90
-kind = 1
-attack = 0
-defense = 3
-strength = 0
-constitution = 0
-intelligence = 0
-luck = 0

@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scenes/actors/player/states/dead.gd" id="13_dead"]
 [ext_resource type="Script" path="res://scenes/actors/player/game_camera.gd" id="14_camera"]
 [ext_resource type="Script" path="res://scenes/actors/player/afterimage_trail.gd" id="15_afterimages"]
+[ext_resource type="Script" path="res://scenes/actors/player/equipment_rig.gd" id="16_rig"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 resource_local_to_scene = true
@@ -49,6 +50,10 @@ unique_name_in_owner = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
+
+[node name="EquipmentRig" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("16_rig")
 
 [node name="SlashFX" type="Node2D" parent="."]
 unique_name_in_owner = true

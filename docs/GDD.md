@@ -274,6 +274,25 @@ Familiars level from 1 to 99 through use.
 
 **Equipment slots:** Right Hand, Left Hand, Head, Body, Mantle, and two Seals. Seals are accessories: cylinder seals, rings and amulets.
 
+**Visible equipment (core rule, decided 2026-10-15).** Everything Elam equips or carries is visible on his sprite in every animation. This goes beyond SotN, where only the cape color and the swung weapon show.
+
+| Slot | How it shows |
+|---|---|
+| Right Hand | The weapon is always held in the hand, including while idling, walking, jumping and crouching. It follows the hand's position and angle in every frame. A swing's smear takes the weapon's color. |
+| Left Hand | A shield or second weapon on the far arm. It is drawn behind the body, so its rim shows past his silhouette, and comes forward when guarding. |
+| Head | A helm, circlet or hood sprite placed on the head. |
+| Body | Recolors the coat, plates and trim. Heavier armor adds rigid pieces such as pauldrons, a gorget or greaves. |
+| Mantle | The cape is always worn, as in SotN. The mantle sets its outer color, lining and trim. |
+| Seals (×2) | Each seal says where it is worn: a ring on the hand, an amulet at the neck, or a cylinder seal on the belt. |
+| Relics | Each relic is a small worn trinket at a fixed spot. Examples: the Gazelle Anklet at the ankle, the Interpreter's Lens as a monocle, the Tongues as tablets on the belt, the Plumb Line coiled at the hip. Relics toggled off are hidden. |
+
+**How it works.**
+- Elam's body animations carry per-frame attach points: the right hand (with angle), head, neck, chest, belt and ankles. The left hand is derived from the right.
+- Rigid items are separate sprites placed on those points.
+- Soft items (body armor and mantles) recolor the body through a material palette.
+- This keeps every new item cheap: one small sprite, or a palette, instead of a redraw of Elam's whole animation set.
+- The attach points come from a key-green guide rod painted into his hand before animating (ART_BIBLE §6.3).
+
 **Weapon classes:**
 - Short swords, swords and great swords
 - Sickle-swords (khopesh and sappara)

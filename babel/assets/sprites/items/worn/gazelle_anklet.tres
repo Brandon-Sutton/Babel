@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_ud7yg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/gazelle_anklet.png" id="2_whohb"]
+
+[resource]
+script = ExtResource("1_ud7yg")
+texture = ExtResource("2_whohb")
+pivot = Vector2(4, 3)
+points = Array[StringName]([&"ankle_f", &"ankle_b"])

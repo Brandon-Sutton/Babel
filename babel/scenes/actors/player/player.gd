@@ -41,6 +41,8 @@ var _drop_through_frames: int = 0
 @onready var slash_fx: SlashFX = %SlashFX
 @onready var camera: GameCamera = %Camera
 @onready var afterimages: AfterimageTrail = %Afterimages
+## Draws the equipped items and relics on the body (EQV-005).
+@onready var equipment_rig: EquipmentRig = %EquipmentRig
 @onready var _body_shape: CollisionShape2D = %BodyShape
 @onready var _hurt_shape: CollisionShape2D = %HurtShape
 @onready var _weapon_shape: CollisionShape2D = %WeaponShape
@@ -243,3 +245,5 @@ func _setup_sprite() -> void:
 	var pivot: Array = layout["pivot"]
 	sprite.offset = -Vector2(float(pivot[0]), float(pivot[1]))
 	animation_player.add_animation_library(&"", load(sprite_dir.path_join(sprite_slug + "_anims.tres")))
+	var smear_path: String = sprite_dir.path_join(sprite_slug + "_smear.png")
+	equipment_rig.setup(sprite, layout, load(smear_path) as Texture2D if ResourceLoader.exists(smear_path) else null)

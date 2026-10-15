@@ -1,19 +1,19 @@
 [gd_resource type="Resource" script_class="WeaponData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data_types/weapon_data.gd" id="1_weapon"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/sappara.tres" id="2_83724"]
 
 [resource]
 script = ExtResource("1_weapon")
+startup_frames = 7
+recovery_frames = 13
+reach = 50.0
+knockback = 160.0
+hit_stop_frames = 5
+attack = 8
+worn = ExtResource("2_83724")
+dye_ramp = PackedColorArray()
 id = &"sappara"
 display_name = "Sappara"
 description = "Assyrian sickle-sword. Its hooked bronze edge bites deeper but swings slower."
 price = 120
-kind = 0
-attack = 8
-startup_frames = 7
-active_frames = 6
-recovery_frames = 13
-reach = 50.0
-hitbox_height = 30.0
-knockback = 160.0
-hit_stop_frames = 5

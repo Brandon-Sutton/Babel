@@ -153,6 +153,31 @@ That is about 24 animations at roughly 2.5 generations each.
 - **Frame data lives in the AnimationPlayer** (hitbox on and off, SFX, VFX), not in the art.
 - **Smears:** fast attacks get one or two smear frames, either generated or painted with `pixelart_workbench`.
 
+### 6.3 Guide-prop rig: attach points for visible equipment (EQV-002, 2026-10-15)
+
+Every item Elam equips is drawn on him (GDD §6.7), so each body frame needs to know where his hand, head, chest, belt and ankles are. PixelLab draws flat frames, so the attach points come from a **guide prop**.
+
+**Recipe:**
+1. Paint a key-green rod (`#00ff00`, 2 px, with a darker edge) into the right fist of a start frame. Use `art_src/pixellab/characters/hero/rig/paint_guide_rod.py`.
+   - Standing: `rig/start_standing.png`.
+   - Crouched: `rig/start_crouched.png`, which is the last frame of `rig_crouch`.
+2. Upload it with `get_upload_url`.
+3. Animate the **stored character** with `animate_character(mode:"pixminimax", directions:["east"], custom_start_frame_url:"upload:<id>")`. In `action_description`, say that the right hand keeps gripping the bright green rod. About 1 gen per animation.
+   - **Don't use `animate_image_pixminimax` on a loose image for attacks.** Twice it turned Elam's back to the camera mid-swing. The stored character keeps him in profile.
+4. Mark the animation `"guide_prop": true` in `import.json`.
+   - The importer (`GuideProp`) fits the rod's axis, finds the grip where the fist covers it, and stores `hand_r` (x, y, angle) per frame.
+   - It erases the rod. Pixels over the body are filled from neighbours; the rest become transparent.
+   - It moves a key-green **swing smear**, with its white core, to `<slug>_smear.png`. The rig tints the smear with the weapon's `slash_color`.
+   - Body points are measured from the silhouette for every animation: `head`, `neck`, `chest`, `belt`, `hand_l` (chest + (4, 10)), `ankle_f` and `ankle_b`.
+5. Review with `tools/import/anchor_review.gd`. `tests/visual/equipment_test.tscn` checks every frame automatically.
+
+**Worn art (EQV-008):**
+- Hand items are drawn pointing right with the grip at `WornArt.pivot`, and turn with the hand.
+- Everything else stays upright on its point.
+- Batch 1 is drawn in code by `tools/builders/build_worn_art.gd`, as placeholder quality. A PixelLab PNG can replace any of them without data changes.
+
+**Body armor and mantles** don't need art. `equipment_dye.gdshader` recolors the steel **plates** below the neck, and the crimson cape **lining**, onto the item's three-color ramp.
+
 ## 7. PixelLab recipes
 
 Before calling any PixelLab tool, load its schema with ToolSearch (`select:mcp__pixellab__<tool>`), because the tools are deferred. Costs come from the tool schemas as of 2026-10-14. The response's cost line is authoritative, so record it in the registry.
@@ -330,7 +355,9 @@ Status values: `concept`, `approved`, `imported`, `final`, `rejected`.
 | `humbaba_mask` | enemy sprite | `create_image_pixen` 40×40 | job `3b96cc79` | 40×40 | 1 | imported | `assets/sprites/enemies/humbaba_mask/` | Static sprite; bob and sine motion in code. |
 | `votive_lamp` | prop | `create_image_pixen` 32×48 | job `c357e6d1` | 32×48 | 1 | imported | `assets/sprites/props/votive_lamp.png` | Halo flicker drawn in code. |
 | `save_altar` | prop | `create_image_pixen` 64×64 | job `1ec16471` | 64×64 | 1 | imported | `assets/sprites/props/save_altar.png` | |
-| `hero` animations | idle, walk, jump (→ jump and fall), crouch, back-dash, hurt (v3); attack and crouch_attack (**PixMiniMax**, 1 gen each; the v3 attack had no swing and was rejected) | groups idle `9ab4d829`, walk `6204fe3a`, jump `cc9591a2`, crouch `c691c600`, backdash `2c85c53e`, hurt `23c740a6`, attack_sword `f6ea6ebc`, crouch_attack `780ffc93` (frames 0-5; 6-7 stand up and are dropped) | 132×132 | ~20 | imported | `assets/sprites/player/hero/` | **Lesson:** use `mode:"pixminimax"` for weapon actions; v3 doesn't render swings. Palette lock still to do. |
+| `hero` animations (superseded 2026-10-15) | idle, walk, jump (→ jump and fall), crouch, back-dash, hurt (v3); attack and crouch_attack (**PixMiniMax**, 1 gen each; the v3 attack had no swing and was rejected) | groups idle `9ab4d829`, walk `6204fe3a`, jump `cc9591a2`, crouch `c691c600`, backdash `2c85c53e`, hurt `23c740a6`, attack_sword `f6ea6ebc`, crouch_attack `780ffc93` (frames 0-5; 6-7 stand up and are dropped) | 132×132 | ~20 | imported | `assets/sprites/player/hero/` | **Lesson:** use `mode:"pixminimax"` for weapon actions; v3 doesn't render swings. Palette lock still to do. |
+| `hero` guide-prop animations | idle, walk, jump (→ jump [2-4] and fall [5-7]), crouch, back-dash, hurt, attack and crouch_attack, with the key-green rod (**PixMiniMax** on the stored character, custom start frame) | groups rig_idle `1f4bb90d`, rig_walk `e6784974`, rig_jump `450d9eca`, rig_crouch `1e8a47ef`, rig_backdash `9b1b959c`, rig_hurt `bae328b9`, rig_attack `88fe0fd5`, rig_crouch_attack `71dcf536` | 132–204 px canvases → 208×136 cells, pivot (104,124) | 8 (+3 for the loose-image experiments) | imported | `assets/sprites/player/hero/` (+ `hero_smear.png`) | Frame 0 of each group is the start frame and is skipped. The attack's smear is frames 4–5 and the crouching slash's is frame 2. Every frame carries attach points. |
+| worn art batch 1 | short_sword, sappara, bronze_mace, lapis_shield, scribes_circlet, seal_of_shamash, seal_of_nergal, gazelle_anklet | drawn in code (`build_worn_art.gd`) | — | 8×6 to 38×9 px | 0 | imported (placeholder) | `assets/sprites/items/worn/` | Hand items point right, grip at the pivot. |
 | `elam/idle` | animation (east) | `animate_character` v3, 8 frames, `keep_first_frame:false`, then palette-locked (`reduce_colors` job `c1adef4a`) | group `55a12780-566f-4524-8195-f712a25c80ac` | 132×132 | 3.1 | imported | `assets/sprites/player/elam/` (row 0) | 30 of Elam's colors; feet on the ground line in all frames. In-game check: `docs/art_reviews/2026-10-14_elam_ingame_idle.png` |
 | `gte_solid` | sidescroller tileset | `create_sidescroller_tileset` (lower: lapis glazed brick with gold mortar; transition: gold-glazed cap with rosettes; transition_size 0.25; highly detailed, detailed shading, selective outline) | `187ea0fe-4e3f-4d6f-b9e4-6cf18fb1b195` | 16 px ×16 tiles | 2.6 | imported (style pending review) | `assets/tilesets/gte/gte_solid.{png,tres}` | Demo room PASS (0 holes in 256 cells). The cap's gems read bright, like lamps. |
 | `elam_cand_standard` | character | `create_character` standard | `031e2437-edd4-4a81-99d1-615bc68591d4` | 92×92 | 1 | rejected | — | Too simple, pale. Sheet: `docs/art_reviews/2026-10-14_elam_anchor.png` |

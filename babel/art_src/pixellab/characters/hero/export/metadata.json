@@ -24,6 +24,28 @@
           "north": "Idle/rotations/north.png"
         },
         "animations": {
+          "rig_crouch": {
+            "east": [
+              "Idle/animations/rig_crouch/east/frame_000.png",
+              "Idle/animations/rig_crouch/east/frame_001.png",
+              "Idle/animations/rig_crouch/east/frame_002.png",
+              "Idle/animations/rig_crouch/east/frame_003.png",
+              "Idle/animations/rig_crouch/east/frame_004.png"
+            ]
+          },
+          "rig_idle": {
+            "east": [
+              "Idle/animations/rig_idle/east/frame_000.png",
+              "Idle/animations/rig_idle/east/frame_001.png",
+              "Idle/animations/rig_idle/east/frame_002.png",
+              "Idle/animations/rig_idle/east/frame_003.png",
+              "Idle/animations/rig_idle/east/frame_004.png",
+              "Idle/animations/rig_idle/east/frame_005.png",
+              "Idle/animations/rig_idle/east/frame_006.png",
+              "Idle/animations/rig_idle/east/frame_007.png",
+              "Idle/animations/rig_idle/east/frame_008.png"
+            ]
+          },
           "hurt": {
             "east": [
               "Idle/animations/hurt/east/frame_000.png",
@@ -40,6 +62,19 @@
               "Idle/animations/backdash/east/frame_003.png"
             ]
           },
+          "rig_jump": {
+            "east": [
+              "Idle/animations/rig_jump/east/frame_000.png",
+              "Idle/animations/rig_jump/east/frame_001.png",
+              "Idle/animations/rig_jump/east/frame_002.png",
+              "Idle/animations/rig_jump/east/frame_003.png",
+              "Idle/animations/rig_jump/east/frame_004.png",
+              "Idle/animations/rig_jump/east/frame_005.png",
+              "Idle/animations/rig_jump/east/frame_006.png",
+              "Idle/animations/rig_jump/east/frame_007.png",
+              "Idle/animations/rig_jump/east/frame_008.png"
+            ]
+          },
           "walk": {
             "east": [
               "Idle/animations/walk/east/frame_000.png",
@@ -50,6 +85,19 @@
               "Idle/animations/walk/east/frame_005.png",
               "Idle/animations/walk/east/frame_006.png",
               "Idle/animations/walk/east/frame_007.png"
+            ]
+          },
+          "rig_crouch_attack": {
+            "east": [
+              "Idle/animations/rig_crouch_attack/east/frame_000.png",
+              "Idle/animations/rig_crouch_attack/east/frame_001.png",
+              "Idle/animations/rig_crouch_attack/east/frame_002.png",
+              "Idle/animations/rig_crouch_attack/east/frame_003.png",
+              "Idle/animations/rig_crouch_attack/east/frame_004.png",
+              "Idle/animations/rig_crouch_attack/east/frame_005.png",
+              "Idle/animations/rig_crouch_attack/east/frame_006.png",
+              "Idle/animations/rig_crouch_attack/east/frame_007.png",
+              "Idle/animations/rig_crouch_attack/east/frame_008.png"
             ]
           },
           "crouch_attack": {
@@ -76,6 +124,19 @@
               "Idle/animations/attack/east/frame_007.png"
             ]
           },
+          "rig_attack": {
+            "east": [
+              "Idle/animations/rig_attack/east/frame_000.png",
+              "Idle/animations/rig_attack/east/frame_001.png",
+              "Idle/animations/rig_attack/east/frame_002.png",
+              "Idle/animations/rig_attack/east/frame_003.png",
+              "Idle/animations/rig_attack/east/frame_004.png",
+              "Idle/animations/rig_attack/east/frame_005.png",
+              "Idle/animations/rig_attack/east/frame_006.png",
+              "Idle/animations/rig_attack/east/frame_007.png",
+              "Idle/animations/rig_attack/east/frame_008.png"
+            ]
+          },
           "idle": {
             "east": [
               "Idle/animations/idle/east/frame_000.png",
@@ -86,6 +147,24 @@
               "Idle/animations/idle/east/frame_005.png",
               "Idle/animations/idle/east/frame_006.png",
               "Idle/animations/idle/east/frame_007.png"
+            ]
+          },
+          "rig_backdash": {
+            "east": [
+              "Idle/animations/rig_backdash/east/frame_000.png",
+              "Idle/animations/rig_backdash/east/frame_001.png",
+              "Idle/animations/rig_backdash/east/frame_002.png",
+              "Idle/animations/rig_backdash/east/frame_003.png",
+              "Idle/animations/rig_backdash/east/frame_004.png"
+            ]
+          },
+          "rig_hurt": {
+            "east": [
+              "Idle/animations/rig_hurt/east/frame_000.png",
+              "Idle/animations/rig_hurt/east/frame_001.png",
+              "Idle/animations/rig_hurt/east/frame_002.png",
+              "Idle/animations/rig_hurt/east/frame_003.png",
+              "Idle/animations/rig_hurt/east/frame_004.png"
             ]
           },
           "crouch": {
@@ -108,6 +187,19 @@
               "Idle/animations/jump/east/frame_007.png"
             ]
           },
+          "rig_walk": {
+            "east": [
+              "Idle/animations/rig_walk/east/frame_000.png",
+              "Idle/animations/rig_walk/east/frame_001.png",
+              "Idle/animations/rig_walk/east/frame_002.png",
+              "Idle/animations/rig_walk/east/frame_003.png",
+              "Idle/animations/rig_walk/east/frame_004.png",
+              "Idle/animations/rig_walk/east/frame_005.png",
+              "Idle/animations/rig_walk/east/frame_006.png",
+              "Idle/animations/rig_walk/east/frame_007.png",
+              "Idle/animations/rig_walk/east/frame_008.png"
+            ]
+          },
           "attack_sword": {
             "east": [
               "Idle/animations/attack_sword/east/frame_000.png",
@@ -125,5 +217,5 @@
     }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-15T07:17:23.964158"
+  "export_date": "2026-10-15T08:05:24.742875"
 }
