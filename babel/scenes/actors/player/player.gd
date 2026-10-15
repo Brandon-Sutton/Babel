@@ -11,6 +11,8 @@ signal respawn_requested
 const STAND_HEIGHT: float = 80.0
 const CROUCH_HEIGHT: float = 50.0
 const BODY_RADIUS: float = 10.0
+## Colour of the sparks a swing strikes off stone.
+const WALL_SPARK: Color = Color("d8d0c0")
 const WORLD_BIT: int = 1 << 0
 const PLATFORM_BIT: int = 1 << 1
 
@@ -158,6 +160,18 @@ func start_attack(weapon: WeaponData, low: bool, show_arc: bool) -> void:
 	weapon_hitbox.active = true
 	if show_arc:
 		slash_fx.play(weapon, facing, low)
+	_spark_on_wall(weapon, weapon_hitbox.position.y)
+
+
+## A swing that meets a wall within its reach strikes sparks there (CBT-013): the wall
+## also stops the hit, so this shows why an enemy behind it was not touched.
+func _spark_on_wall(weapon: WeaponData, height: float) -> void:
+	var origin: Vector2 = global_position + Vector2(0.0, height)
+	var tip: Vector2 = origin + Vector2(facing * (BODY_RADIUS + weapon.reach), 0.0)
+	var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(origin, tip, Hitbox.WORLD_MASK)
+	var hit: Dictionary = get_world_2d().direct_space_state.intersect_ray(query)
+	if not hit.is_empty():
+		HitSpark.spawn(get_tree(), hit["position"], WALL_SPARK)
 
 
 func stop_attack() -> void:
@@ -182,14 +196,15 @@ func take_hit(info: DamageInfo) -> bool:
 	return true
 
 
-## The animation that plays for [param animation_name]: the equipped weapon's own version
-## when it has one in the sheet (WeaponData.animations, EQV-015), else the shared one.
+## The animation that plays for [param animation_name]: the equipped weapon's version
+## (its own move, then its stance set, e.g. two_handed_jump; EQV-015/016) when the sheet
+## has one, else the shared one-handed animation.
 func resolve_animation(animation_name: StringName) -> StringName:
 	var weapon: WeaponData = Game.stats.weapon
-	if weapon != null and weapon.animations.has(animation_name):
-		var own: StringName = weapon.animations[animation_name]
-		if animation_player.has_animation(own):
-			return own
+	if weapon != null:
+		for candidate: StringName in weapon.animation_candidates(animation_name):
+			if animation_player.has_animation(candidate):
+				return candidate
 	return animation_name
 
 

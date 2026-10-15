@@ -11,6 +11,12 @@ class_name GuideProp
 
 ## Frames with more key pixels than SMEAR_FACTOR x the animation's median are smears.
 const SMEAR_FACTOR: float = 2.2
+## Detached clusters of at most SPECK_MAX pixels within SPECK_REACH of the erased rod
+## are leftovers of it, not body.
+const SPECK_MAX: int = 7
+const SPECK_REACH: int = 3
+## A frame with at least this many magenta pixels shows a (magenta) swing smear.
+const MAGENTA_SMEAR_MIN: int = 40
 ## How far (px) to look across a key pixel for body pixels on both sides.
 const FILL_REACH: int = 24
 ## Max distance (px) from the rod axis for a skin pixel to count as the gripping fist.
@@ -67,20 +73,43 @@ static func extract_animation(frames: Array[Image]) -> Array[Extraction]:
 static func _extract(frame: Image, smear: bool) -> Extraction:
 	var result: Extraction = Extraction.new()
 	var key: Array[Vector2i] = _key_pixels(frame)
+	# PixMiniMax sometimes paints the swing smear in magenta instead of key green.
+	var magenta: Array[Vector2i] = _magenta_pixels(frame)
 	result.key_count = key.size()
-	result.is_smear = smear
+	result.is_smear = smear or magenta.size() >= MAGENTA_SMEAR_MIN
 	if not smear and key.size() >= 6:
 		_fit_rod(frame, key, result)
-	result.body = _erase(frame, key)
-	result.smear = Image.create_empty(frame.get_width(), frame.get_height(), false, Image.FORMAT_RGBA8)
+	var smear_pixels: Array[Vector2i] = []
 	if smear:
-		for p: Vector2i in key:
-			var c: Color = frame.get_pixelv(p)
-			# Key green and the white core read as full brightness, the dark edge dimmer,
-			# so the weapon's slash colour comes through at full strength.
-			var lightness: float = clampf(0.6 + c.g * 0.4 + minf(c.r, c.b) * 0.5, 0.0, 1.0)
-			result.smear.set_pixelv(p, Color(lightness, lightness, lightness, c.a))
+		smear_pixels.append_array(key)
+	if result.is_smear:
+		smear_pixels.append_array(magenta)
+	var erased: Array[Vector2i] = key.duplicate()
+	erased.append_array(magenta)
+	result.body = _erase(frame, erased)
+	result.smear = Image.create_empty(frame.get_width(), frame.get_height(), false, Image.FORMAT_RGBA8)
+	for p: Vector2i in smear_pixels:
+		var c: Color = frame.get_pixelv(p)
+		# The bright core reads as full brightness, the dark edge dimmer, so the weapon's
+		# slash colour comes through at full strength.
+		var lightness: float = clampf(0.6 + maxf(c.g, (c.r + c.b) * 0.5) * 0.4 + minf(c.r, c.b) * 0.5, 0.0, 1.0)
+		result.smear.set_pixelv(p, Color(lightness, lightness, lightness, c.a))
 	return result
+
+
+## Saturated magenta or pink: a smear the model painted in the wrong key colour. Elam's
+## palette has none (his crimson lining is low in blue, the violet trim is dark).
+static func is_magenta(c: Color) -> bool:
+	return c.a8 > 0 and c.r8 > 150 and c.b8 > 150 and c.g8 < c.r8 - 60 and c.g8 < c.b8 - 60
+
+
+static func _magenta_pixels(frame: Image) -> Array[Vector2i]:
+	var pixels: Array[Vector2i] = []
+	for y: int in frame.get_height():
+		for x: int in frame.get_width():
+			if is_magenta(frame.get_pixel(x, y)):
+				pixels.append(Vector2i(x, y))
+	return pixels
 
 
 ## Key-green pixels, plus near-white pixels that key green bounds on both sides along a
@@ -194,7 +223,38 @@ static func _erase(frame: Image, key: Array[Vector2i]) -> Image:
 		var enclosed: bool = (hits.has(Vector2i.RIGHT) and hits.has(Vector2i.LEFT)) \
 				or (hits.has(Vector2i.DOWN) and hits.has(Vector2i.UP))
 		body.set_pixelv(p, fill if enclosed else Color(0, 0, 0, 0))
+	_remove_specks(body, is_key_px)
 	return body
+
+
+## Clears tiny detached clusters left next to where the rod was: anti-aliased pixels the
+## model drew at the rod's tip in a colour that isn't key green.
+static func _remove_specks(body: Image, erased: Dictionary[Vector2i, bool]) -> void:
+	var size: Vector2i = body.get_size()
+	var seen: Dictionary[Vector2i, bool] = {}
+	for p: Vector2i in erased:
+		for dy: int in range(-SPECK_REACH, SPECK_REACH + 1):
+			for dx: int in range(-SPECK_REACH, SPECK_REACH + 1):
+				var start: Vector2i = p + Vector2i(dx, dy)
+				if start.x < 0 or start.y < 0 or start.x >= size.x or start.y >= size.y \
+						or seen.has(start) or body.get_pixelv(start).a8 == 0:
+					continue
+				var cluster: Array[Vector2i] = []
+				var stack: Array[Vector2i] = [start]
+				seen[start] = true
+				while not stack.is_empty() and cluster.size() <= SPECK_MAX:
+					var q: Vector2i = stack.pop_back()
+					cluster.append(q)
+					for oy: int in range(-1, 2):
+						for ox: int in range(-1, 2):
+							var n: Vector2i = q + Vector2i(ox, oy)
+							if n.x >= 0 and n.y >= 0 and n.x < size.x and n.y < size.y \
+									and not seen.has(n) and body.get_pixelv(n).a8 > 0:
+								seen[n] = true
+								stack.append(n)
+				if cluster.size() <= SPECK_MAX and stack.is_empty():
+					for q: Vector2i in cluster:
+						body.set_pixelv(q, Color(0, 0, 0, 0))
 
 
 ## Smear frames and frames without a visible rod borrow the grip from neighbours.

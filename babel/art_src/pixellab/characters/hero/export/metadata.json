@@ -24,6 +24,15 @@
           "north": "Idle/rotations/north.png"
         },
         "animations": {
+          "rig_2h_backdash": {
+            "east": [
+              "Idle/animations/rig_2h_backdash/east/frame_000.png",
+              "Idle/animations/rig_2h_backdash/east/frame_001.png",
+              "Idle/animations/rig_2h_backdash/east/frame_002.png",
+              "Idle/animations/rig_2h_backdash/east/frame_003.png",
+              "Idle/animations/rig_2h_backdash/east/frame_004.png"
+            ]
+          },
           "rig_crouch": {
             "east": [
               "Idle/animations/rig_crouch/east/frame_000.png",
@@ -98,6 +107,19 @@
               "Idle/animations/walk/east/frame_005.png",
               "Idle/animations/walk/east/frame_006.png",
               "Idle/animations/walk/east/frame_007.png"
+            ]
+          },
+          "rig_2h_jump": {
+            "east": [
+              "Idle/animations/rig_2h_jump/east/frame_000.png",
+              "Idle/animations/rig_2h_jump/east/frame_001.png",
+              "Idle/animations/rig_2h_jump/east/frame_002.png",
+              "Idle/animations/rig_2h_jump/east/frame_003.png",
+              "Idle/animations/rig_2h_jump/east/frame_004.png",
+              "Idle/animations/rig_2h_jump/east/frame_005.png",
+              "Idle/animations/rig_2h_jump/east/frame_006.png",
+              "Idle/animations/rig_2h_jump/east/frame_007.png",
+              "Idle/animations/rig_2h_jump/east/frame_008.png"
             ]
           },
           "rig_crouch_attack": {
@@ -184,6 +206,24 @@
               "Idle/animations/rig_scythe_walk/east/frame_008.png"
             ]
           },
+          "rig_2h_hurt": {
+            "east": [
+              "Idle/animations/rig_2h_hurt/east/frame_000.png",
+              "Idle/animations/rig_2h_hurt/east/frame_001.png",
+              "Idle/animations/rig_2h_hurt/east/frame_002.png",
+              "Idle/animations/rig_2h_hurt/east/frame_003.png",
+              "Idle/animations/rig_2h_hurt/east/frame_004.png"
+            ]
+          },
+          "rig_2h_crouch": {
+            "east": [
+              "Idle/animations/rig_2h_crouch/east/frame_000.png",
+              "Idle/animations/rig_2h_crouch/east/frame_001.png",
+              "Idle/animations/rig_2h_crouch/east/frame_002.png",
+              "Idle/animations/rig_2h_crouch/east/frame_003.png",
+              "Idle/animations/rig_2h_crouch/east/frame_004.png"
+            ]
+          },
           "rig_scythe_attack": {
             "east": [
               "Idle/animations/rig_scythe_attack/east/frame_000.png",
@@ -204,6 +244,19 @@
               "Idle/animations/rig_hurt/east/frame_002.png",
               "Idle/animations/rig_hurt/east/frame_003.png",
               "Idle/animations/rig_hurt/east/frame_004.png"
+            ]
+          },
+          "rig_2h_crouch_attack": {
+            "east": [
+              "Idle/animations/rig_2h_crouch_attack/east/frame_000.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_001.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_002.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_003.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_004.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_005.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_006.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_007.png",
+              "Idle/animations/rig_2h_crouch_attack/east/frame_008.png"
             ]
           },
           "crouch": {
@@ -256,5 +309,5 @@
     }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-15T08:30:34.013384"
+  "export_date": "2026-10-15T12:45:57.568939"
 }

@@ -41,7 +41,7 @@ The user's priority is the game: keep building gameplay ahead of the art pipelin
 Next, in suggested order:
 1. **Visible equipment (EQV):** after the 2026-10-17 refill, regenerate the rest of Elam's set with the guide prop (EQV-009): jump attack, death, guard, cast, throw, double jump, landing and more. Then PixelLab worn art (EQV-012).
 2. **Relics:** `RelicData` for every relic with a worn spot, plus menu toggling (EQV-010, REL-001).
-3. **Per-weapon animations:** the scythe proves it (EQV-015). Next are class sets for great swords, spears and maces (EQV-017), and the scythe's remaining moves (EQV-016).
+3. **Per-weapon animations:** two-handed weapons have a full stance set (EQV-016). Next are class sets for great swords, spears and maces (EQV-017).
 4. **Systems:**
    - game-over screen (UI-014, completes PLR-010)
    - title screen with continue (UI-012, SAV-005)
@@ -181,6 +181,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | CBT-009 | Shield interactions: block, and reflect projectiles with certain shields | M2 | P1 | S | PLR-015 | todo |
 | CBT-010 | VFX and SFX variants per element | M3 | P2 | S | VFX-012 | todo |
 | CBT-011 | Enemy name and HP readout on hit (Codex Scroll) | M2 | P1 | S | REL-001 | todo |
+| CBT-013 | Attacks are blocked by level geometry: a hit only lands with a clear line through world tiles from the attacker to the target, for the player and enemies alike; a blocked swing sparks where it meets the wall | M1 | P0 | S | CBT-001 | done |
 | CBT-012 | Contact damage from enemy bodies, and the player's i-frame rules | M1 | P0 | S | CBT-001 | done |
 
 ### RPG: Stats and progression
@@ -236,7 +237,7 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | EQV-013 | Per-frame weapon layer: put the weapon behind the body on frames where the near hand passes behind it (detected from how much of the guide rod is hidden) | M2 | P2 | S | EQV-002 | todo |
 | EQV-014 | Afterimage ghosts also copy the worn items and the dye | M2 | P2 | S | EQV-005 | todo |
 | EQV-015 | Per-weapon animations: `WeaponData.animations` maps any of Elam's animations (attack, idle, walk…) to that weapon's own version, falling back to the shared one. First user: the scythe (idle, walk, attack) | M1 | P0 | S | EQV-002 | done |
-| EQV-016 | Scythe moves still using the shared art: crouching slash, jump and fall, back-dash and hurt (guide prop with the upright-pole start frame) | M2 | P2 | S | EQV-015 | todo |
+| EQV-016 | Two-handed stance set: every move (idle, walk, jump, fall, crouch, crouching slash, back-dash, hurt, attack) has a `two_handed_*` version, and every two-handed weapon uses it unless it names its own stance | M1 | P0 | M | EQV-015 | done |
 | EQV-017 | Weapon-class animation sets: great swords, spears and maces each get their own stance and swing, shared by every weapon of that class through `WeaponData.animations` | M2 | P1 | M | EQV-015 | todo |
 
 ### SUB: Relic Arms (sub-weapons)
@@ -875,6 +876,15 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - With the scythe equipped, Elam plays the scythe's idle, walk and attack. Moves the scythe has no version of fall back to the shared ones.
   - Swapping weapons changes the animation set immediately, even mid-idle.
   - The scythe is drawn in his hands in every frame of its own animations, and the attack's smear shows in its slash colour.
+- **EQV-016**
+  - With a two-handed weapon, every move Elam makes plays its two-handed version; with a one-handed weapon, none of them do.
+  - A two-handed weapon without its own stance uses the two-handed set; one can still override single moves.
+  - The weapon sits in his hands in every frame of the two-handed set (equipment_test's per-frame check).
+- **CBT-013**
+  - A sword or scythe swing does not hurt an enemy on the far side of a wall, even when the hitbox reaches it; the same swing hits once the wall is gone.
+  - An enemy's spear does not hit the player through a wall.
+  - One-way platforms do not block attacks.
+  - A swing stopped by a wall shows a spark at the wall.
 - **EQV-005**
   - Equipping a weapon, shield, helm, seal or relic shows its sprite at the right attach point in every animation frame, mirrored correctly when facing left.
   - Changing equipment in the pause menu updates Elam immediately.
@@ -1191,3 +1201,26 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
     - Regression 33/33.
   - Gens spent: 4 (idle, walk, attack twice). **About 40.6 left** until the 2026-10-17 reset.
   - **Next:** the user tries the scythe. Then EQV-017 class sets and EQV-016 for the scythe's other moves after the refill.
+- **2026-10-15 (two-handed stance set and walls block attacks: EQV-016, CBT-013)**
+  - **The user's request:** a different idle, attack and movement pose with a two-handed weapon than with a one-handed one, and attacks blocked by the environment instead of passing through.
+  - **Stance set:**
+    - `WeaponData.stance` names the animation set a weapon uses: Elam plays `<stance>_<move>` where the sheet has one. Two-handed weapons default to `two_handed`, so any future two-handed weapon gets the poses for free.
+    - Single moves can still be overridden with `WeaponData.animations`.
+    - The scythe's idle, walk and attack were renamed to `two_handed_*`.
+    - New guide-prop animations: two_handed jump/fall, crouch, back-dash, hurt and crouching slash.
+  - **Art lessons:**
+    - The first crouching slash reaped backward. The redo was pinned with an **end frame**: the crouched start with its rod erased and repainted forward-down by `rig/repaint_rod.py`; the end frame is kept at `rig/end_crouched_pole_chop.png`.
+    - That redo painted its smear in **magenta**. The importer now treats saturated magenta as smear: always cut out, never part of the rod.
+    - The crouched poses sat 2 px below the ground line, fixed with `lift: -2`.
+    - A grey anti-aliased pixel at the rod's tip survived the erase. The importer now removes tiny detached clusters next to the rod.
+  - **Walls (CBT-013):**
+    - `Hitbox.has_clear_line()` rays from the attacker's centre line, at the hitbox height, to the target's hurtbox (centre or nearest point) through world tiles (layer 1). Blocked targets aren't marked as hit, so they can still be struck if they step clear.
+    - Applies to every hitbox (player weapons, spears, plunge, contact). One-way platforms don't block.
+    - The player's swing sparks where it meets a wall within reach.
+  - **Fixed along the way:** HitSpark, DamageNumber and the afterimage ghosts were placed after entering the tree, so their first frame was interpolated from the origin. All three now call `reset_physics_interpolation()`.
+  - **Tests:**
+    - New `tests/visual/wall_block_test.tscn`, 6/6: sword and scythe blocked by a wall and hitting without one; a one-way platform doesn't block; sparks on the wall; spear blocked.
+    - `equipment_test` 11/11: all seven moves checked play the two-handed set; 696 placements exact over 100 frames.
+    - Regression 33/33, unit 51/51.
+  - Gens spent: 7 (6 two-handed animations + 1 crouching-slash redo). **About 33.6 left** until the 2026-10-17 reset.
+  - **Next:** the user tries the scythe's full stance and the wall blocking. Then EQV-017 class sets after the refill.

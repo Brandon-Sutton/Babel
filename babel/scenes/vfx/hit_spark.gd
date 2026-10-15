@@ -19,6 +19,8 @@ static func spawn(tree: SceneTree, at: Vector2, tint: Color = Color("fbe69b"), b
 	spark.z_index = 55
 	tree.current_scene.add_child(spark)
 	spark.global_position = at.round()
+	# Without this the first frame is interpolated from the origin.
+	spark.reset_physics_interpolation()
 
 
 func _ready() -> void:

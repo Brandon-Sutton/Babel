@@ -5,8 +5,9 @@ extends Node2D
 ## the hand point sits on the fist in the art, facing left mirrors everything, swapping
 ## the weapon swaps the sprite, swings show the smear in the weapon's colour, and Mason's
 ## Mail turns the steel plates bronze in the rendered frame. Then the two-handed Scythe
-## of Ninurta (INV-015, EQV-015): it takes the shield off, plays its own idle, walk and
-## reap (with the procedural arc, as its art has no smear) and stays in hand throughout.
+## of Ninurta (INV-015, EQV-015/016): it takes the shield off, every move switches to the
+## two-handed set (the reap gets the procedural arc, as its art has no smear), and the
+## scythe stays in hand throughout.
 ## Logs "VISUAL PASS/FAIL". Needs a real window: run it via tools/capture.sh (about 900 frames).
 
 const Greybox := preload("res://tools/builders/build_greybox_tileset.gd")
@@ -97,7 +98,9 @@ func _check_anchors_in_art() -> void:
 			var points: Dictionary = anchors[col]
 			var origin: Vector2i = Vector2i(col * cell.x, int(entry["row"]) * cell.y) + pivot
 			frames += 1
-			if not points.get("smear", false) and not _near(origin, points["hand_r"], 3, _is_skin):
+			# A two-handed grip is the midpoint between both fists, so allow a little more.
+			var reach: int = 6 if anim_name.begins_with("two_handed") else 3
+			if not points.get("smear", false) and not _near(origin, points["hand_r"], reach, _is_skin):
 				hand_misses.append("%s %d" % [anim_name, col])
 			if not _near(origin, points["head"], 2, _is_opaque):
 				head_misses.append("%s %d" % [anim_name, col])
@@ -216,23 +219,48 @@ func _check_scythe() -> void:
 			and _piece("lapis_shield") == null and _piece("scythe_of_ninurta") != null)
 	_report("the scythe takes both hands", shield_off, "left hand empty=%s, shield back in the bag=%s, scythe drawn=%s" % [
 			not Game.stats.equipped.has(&"left_hand"), shield_returned, _piece("scythe_of_ninurta") != null])
-	var idle: StringName = _player.animation_player.assigned_animation
+	var seen: Dictionary[StringName, StringName] = {&"idle": _player.animation_player.assigned_animation}
 	Input.action_press(&"move_right")
 	await _frames(20)
-	var walk: StringName = _player.animation_player.assigned_animation
+	seen[&"walk"] = _player.animation_player.assigned_animation
 	Input.action_release(&"move_right")
 	await _frames(5)
+	Input.action_press(&"move_down")
+	await _frames(15)
+	seen[&"crouch"] = _player.animation_player.assigned_animation
+	Input.action_release(&"move_down")
+	await _frames(5)
+	# Hold jump for a full jump, then sample the first frame of the fall.
+	Input.action_press(&"jump")
+	await _frames(6)
+	seen[&"jump"] = _player.animation_player.assigned_animation
+	for i: int in 60:
+		await _frames(1)
+		if not _player.is_on_floor() and _player.velocity.y > 60.0:
+			break
+	await _frames(2)
+	seen[&"fall"] = _player.animation_player.assigned_animation
+	Input.action_release(&"jump")
+	await _frames(40)
+	await _press(&"backdash")
+	await _frames(3)
+	seen[&"backdash"] = _player.animation_player.assigned_animation
+	await _frames(30)
 	await _press(&"attack_right")
 	await _frames(2)
-	var reap: StringName = _player.animation_player.assigned_animation
+	seen[&"attack"] = _player.animation_player.assigned_animation
 	var arc_seen: bool = false
 	var always_in_hand: bool = true
 	for i: int in 40:
 		await _frames(1)
 		arc_seen = arc_seen or _player.slash_fx._frames_left > 0
 		always_in_hand = always_in_hand and _piece("scythe_of_ninurta").visible
-	_report("the scythe's own animations", idle == &"scythe_idle" and walk == &"scythe_walk" and reap == &"scythe_attack",
-			"idle %s, walk %s, attack %s" % [idle, walk, reap])
+	var wrong: PackedStringArray = []
+	for move: StringName in seen:
+		if seen[move] != StringName("two_handed_" + move):
+			wrong.append("%s played %s" % [move, seen[move]])
+	_report("every move uses the two-handed set", wrong.is_empty(), "%d moves checked: %s" % [
+			seen.size(), "all two-handed" if wrong.is_empty() else ", ".join(wrong)])
 	_report("the reap shows its arc and keeps the scythe in hand", arc_seen and always_in_hand,
 			"arc drawn=%s, scythe visible every frame=%s" % [arc_seen, always_in_hand])
 	await _frames(20)

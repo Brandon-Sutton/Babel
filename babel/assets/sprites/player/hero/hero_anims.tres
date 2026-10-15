@@ -136,6 +136,81 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_vpeqs"]
+length = 0.252
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.063, 0.126, 0.189),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 16), Vector2i(1, 16), Vector2i(2, 16), Vector2i(3, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_ea7t8"]
+length = 0.168
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.042, 0.084, 0.126),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 14), Vector2i(1, 14), Vector2i(2, 14), Vector2i(3, 14)]
+}
+
+[sub_resource type="Animation" id="Animation_f4bmq"]
+length = 0.633
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.33, 0.38, 0.43, 0.48, 0.53, 0.58),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 15), Vector2i(1, 15), Vector2i(2, 15), Vector2i(3, 15), Vector2i(4, 15), Vector2i(5, 15), Vector2i(6, 15), Vector2i(7, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_7b30e"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 13), Vector2i(1, 13), Vector2i(2, 13)]
+}
+
+[sub_resource type="Animation" id="Animation_spq47"]
+length = 0.284
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.071, 0.142, 0.213),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 17), Vector2i(1, 17), Vector2i(2, 17), Vector2i(3, 17)]
+}
+
+[sub_resource type="Animation" id="Animation_gnbo0"]
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -150,7 +225,22 @@ tracks/0/keys = {
 "values": [Vector2i(0, 9), Vector2i(1, 9), Vector2i(2, 9), Vector2i(3, 9), Vector2i(4, 9), Vector2i(5, 9), Vector2i(6, 9), Vector2i(7, 9)]
 }
 
-[sub_resource type="Animation" id="Animation_ea7t8"]
+[sub_resource type="Animation" id="Animation_oanvt"]
+length = 0.249
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083, 0.166),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 12), Vector2i(1, 12), Vector2i(2, 12)]
+}
+
+[sub_resource type="Animation" id="Animation_sq8w1"]
 length = 0.664
 loop_mode = 1
 tracks/0/type = "value"
@@ -166,7 +256,7 @@ tracks/0/keys = {
 "values": [Vector2i(0, 10), Vector2i(1, 10), Vector2i(2, 10), Vector2i(3, 10), Vector2i(4, 10), Vector2i(5, 10), Vector2i(6, 10), Vector2i(7, 10)]
 }
 
-[sub_resource type="Animation" id="Animation_f4bmq"]
+[sub_resource type="Animation" id="Animation_r3i3n"]
 length = 0.664
 loop_mode = 1
 tracks/0/type = "value"
@@ -192,8 +282,14 @@ _data = {
 &"hurt": SubResource("Animation_0ldpg"),
 &"idle": SubResource("Animation_vawp6"),
 &"jump": SubResource("Animation_yxs7b"),
-&"scythe_attack": SubResource("Animation_a3ug8"),
-&"scythe_idle": SubResource("Animation_vpeqs"),
-&"scythe_walk": SubResource("Animation_ea7t8"),
-&"walk": SubResource("Animation_f4bmq")
+&"two_handed_attack": SubResource("Animation_a3ug8"),
+&"two_handed_backdash": SubResource("Animation_vpeqs"),
+&"two_handed_crouch": SubResource("Animation_ea7t8"),
+&"two_handed_crouch_attack": SubResource("Animation_f4bmq"),
+&"two_handed_fall": SubResource("Animation_7b30e"),
+&"two_handed_hurt": SubResource("Animation_spq47"),
+&"two_handed_idle": SubResource("Animation_gnbo0"),
+&"two_handed_jump": SubResource("Animation_oanvt"),
+&"two_handed_walk": SubResource("Animation_sq8w1"),
+&"walk": SubResource("Animation_r3i3n")
 }

@@ -31,6 +31,7 @@ static func spawn_text(tree: SceneTree, at: Vector2, message: String, tint: Colo
 	number.z_index = 60
 	tree.current_scene.add_child(number)
 	number.global_position = at.round()
+	number.reset_physics_interpolation()
 	# Set after positioning: _ready() runs inside add_child, before the position is known.
 	number._start = number.position
 

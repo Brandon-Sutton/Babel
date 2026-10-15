@@ -305,7 +305,12 @@ Familiars level from 1 to 99 through use.
 
 **Two-handed weapons** (great swords, scythes) take both hands. Equipping one returns the left-hand item to the bag, and equipping anything in the left hand takes the two-handed weapon off, as in SotN.
 
-**Each weapon can have its own animations.** A weapon may replace any of Elam's animations (stance, walk, attack…) with its own; anything it doesn't replace uses the shared set. The scythe has a reaper's stance and walk and a slow two-handed reap. Weapon classes (great swords, spears, maces) are next.
+**Elam's whole body language follows his grip.**
+- With a two-handed weapon, every move uses the two-handed set: idle, walk, jump, fall, crouch, crouching attack, back-dash, hurt and attack. He holds the weapon upright in a reaper's stance and reaps with both hands.
+- With a one-handed weapon, he uses the one-handed set.
+- A weapon can also name its own stance (a future great-sword set) or replace single moves. Anything it doesn't cover falls back to the set for its grip.
+
+**Walls block attacks.** A hit only lands if nothing solid stands between the attacker and the target. This applies to Elam's weapons and to enemy spears alike. A swing that meets a wall strikes sparks off it. One-way platforms don't block.
 
 **Content targets:** about 60 weapons, 30 head and body pieces, 12 mantles, 30 seals and 40 consumables. The mantle lining can be dyed.
 

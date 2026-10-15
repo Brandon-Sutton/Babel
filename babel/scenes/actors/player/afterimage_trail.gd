@@ -45,6 +45,7 @@ func _spawn_ghost() -> void:
 	ghost.material = additive
 	get_tree().current_scene.add_child(ghost)
 	ghost.global_position = source.global_position
+	ghost.reset_physics_interpolation()
 
 
 ## One fading copy.

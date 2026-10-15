@@ -4,12 +4,19 @@ extends Area2D
 ## hitboxes (weapon swings) hit each hurtbox once per activation; [member continuous]
 ## ones (contact damage) keep hitting and rely on the target's invulnerability frames.
 ## Layers come from the scene: player attacks mask enemy_hurtbox, enemy attacks mask
-## player_hurtbox (CLAUDE.md collision table).
+## player_hurtbox (CLAUDE.md collision table). Level geometry blocks hits (CBT-013): a
+## hurtbox only counts when a line from the attacker's body, at the hitbox's height,
+## reaches it without crossing a world tile. One-way platforms don't block.
 
 ## Emitted when a hit was accepted by a hurtbox.
 signal hit_landed(hurtbox: Hurtbox, info: DamageInfo)
 
+## Physics layer of solid level geometry (CLAUDE.md: layer 1, world).
+const WORLD_MASK: int = 1
+
 @export var continuous: bool = false
+## Hits need a clear line through the level from the attacker (CBT-013).
+@export var blocked_by_walls: bool = true
 @export var active: bool = false:
 	set = set_active
 
@@ -44,6 +51,10 @@ func _physics_process(_delta: float) -> void:
 			continue
 		if not continuous and _already_hit.has(hurtbox):
 			continue
+		# Not marked as hit: the target can still be struck if it steps into the open
+		# while the hitbox is active.
+		if blocked_by_walls and not has_clear_line(hurtbox):
+			continue
 		_already_hit[hurtbox] = true
 		var info: DamageInfo = DamageInfo.new()
 		info.attack = attack
@@ -57,3 +68,43 @@ func _physics_process(_delta: float) -> void:
 		info.source = owner_node
 		if hurtbox.receive_hit(info):
 			hit_landed.emit(hurtbox, info)
+
+
+## True if nothing solid stands between the attacker and [param hurtbox]: a ray from the
+## attacker's centre line, at this hitbox's height, reaches the hurtbox's centre or its
+## nearest point.
+func has_clear_line(hurtbox: Hurtbox) -> bool:
+	var centre: Vector2 = _shape_centre(self)
+	var origin: Vector2 = centre
+	var attacker: Node2D = owner_node as Node2D
+	if attacker != null:
+		origin = Vector2(attacker.global_position.x, centre.y)
+	var target: Vector2 = _shape_centre(hurtbox)
+	var targets: Array[Vector2] = [target]
+	var rect: Rect2 = _shape_rect(hurtbox)
+	if rect.has_area():
+		targets.append(origin.clamp(rect.position, rect.end))
+	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	for point: Vector2 in targets:
+		var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(origin, point, WORLD_MASK)
+		if space.intersect_ray(query).is_empty():
+			return true
+	return false
+
+
+## Global centre of [param area]'s first collision shape (the area's own position if none).
+static func _shape_centre(area: Area2D) -> Vector2:
+	for child: Node in area.get_children():
+		if child is CollisionShape2D:
+			return (child as CollisionShape2D).global_position
+	return area.global_position
+
+
+## Global bounds of [param area]'s first rectangle shape (empty if it has none).
+static func _shape_rect(area: Area2D) -> Rect2:
+	for child: Node in area.get_children():
+		var shape_node: CollisionShape2D = child as CollisionShape2D
+		if shape_node != null and shape_node.shape is RectangleShape2D:
+			var size: Vector2 = (shape_node.shape as RectangleShape2D).size
+			return Rect2(shape_node.global_position - size / 2.0, size)
+	return Rect2()

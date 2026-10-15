@@ -17,8 +17,14 @@
 		"hurt": {"source": "rig_hurt", "frames": [1, 2, 3, 4], "fps": 14, "guide_prop": true},
 		"attack": {"source": "rig_attack", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "frame_ms": [30, 35, 35, 50, 50, 55, 55, 57], "guide_prop": true},
 		"crouch_attack": {"source": "rig_crouch_attack", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "frame_ms": [60, 90, 50, 40, 40, 30, 30, 27], "grounded": true, "guide_prop": true},
-		"scythe_idle": {"source": "rig_scythe_idle", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "fps": 8, "loop": true, "grounded": true, "guide_prop": true},
-		"scythe_walk": {"source": "rig_scythe_walk", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "fps": 12, "loop": true, "guide_prop": true},
-		"scythe_attack": {"source": "rig_scythe_attack", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "frame_ms": [45, 45, 50, 60, 120, 110, 100, 100], "guide_prop": true}
+		"two_handed_idle": {"source": "rig_scythe_idle", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "fps": 8, "loop": true, "grounded": true, "guide_prop": true},
+		"two_handed_walk": {"source": "rig_scythe_walk", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "fps": 12, "loop": true, "guide_prop": true},
+		"two_handed_attack": {"source": "rig_scythe_attack", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "frame_ms": [45, 45, 50, 60, 120, 110, 100, 100], "guide_prop": true},
+		"two_handed_jump": {"source": "rig_2h_jump", "frames": [2, 3, 4], "fps": 12, "guide_prop": true},
+		"two_handed_fall": {"source": "rig_2h_jump", "frames": [5, 6, 7], "fps": 10, "guide_prop": true},
+		"two_handed_crouch": {"source": "rig_2h_crouch", "frames": [1, 2, 3, 4], "fps": 24, "lift": -2, "guide_prop": true},
+		"two_handed_crouch_attack": {"source": "rig_2h_crouch_attack", "frames": [1, 2, 3, 4, 5, 6, 7, 8], "frame_ms": [200, 130, 50, 50, 50, 50, 50, 53], "lift": -2, "grounded": true, "guide_prop": true},
+		"two_handed_backdash": {"source": "rig_2h_backdash", "frames": [1, 2, 3, 4], "fps": 16, "guide_prop": true},
+		"two_handed_hurt": {"source": "rig_2h_hurt", "frames": [1, 2, 3, 4], "fps": 14, "guide_prop": true}
 	}
 }
