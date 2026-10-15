@@ -10,10 +10,12 @@ var _frame: int = 0
 func enter(_previous: StringName) -> void:
 	_frame = 0
 	player.play_animation(&"backdash")
+	player.afterimages.active = true
 
 
 func exit() -> void:
 	player.backdash_cooldown = player.tuning.backdash_cooldown_frames
+	player.afterimages.active = false
 
 
 func physics_update(delta: float) -> void:

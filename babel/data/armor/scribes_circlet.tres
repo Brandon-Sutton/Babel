@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_equipment"]
+
+[resource]
+script = ExtResource("1_equipment")
+id = &"scribes_circlet"
+display_name = "Scribe's Circlet"
+description = "A thin gold band worn by the tablet-keepers of the court. INT +2."
+price = 80
+kind = 2
+attack = 0
+defense = 1
+strength = 0
+constitution = 0
+intelligence = 2
+luck = 0

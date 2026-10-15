@@ -1,13 +1,27 @@
 class_name PlayerStats
 extends Resource
-## Level, experience and attributes for the run (RPG-001/002, GDD §6.7). Owned by
-## Game.stats. STR raises attack, CON raises defense and HP growth, INT raises MP growth,
-## LCK raises critical hits.
+## Level, experience, attributes, equipment and currencies for the run (RPG-001/002,
+## INV-004, GDD §6.7). Owned by Game.stats. STR raises attack, CON raises defense and HP
+## growth, INT raises MP growth, LCK raises critical hits and item drops. Equipment adds
+## its attack, defense and attribute bonuses on top of the base values.
 
 signal leveled_up(new_level: int)
 signal died
 
 const MAX_LEVEL: int = 99
+
+## Equipment slots in menu order, and which item kinds each accepts.
+const SLOTS: Array[StringName] = [&"right_hand", &"left_hand", &"head", &"body", &"mantle", &"seal_1", &"seal_2"]
+const SLOT_LABELS: Dictionary[StringName, String] = {
+	&"right_hand": "R.HAND", &"left_hand": "L.HAND", &"head": "HEAD", &"body": "BODY",
+	&"mantle": "MANTLE", &"seal_1": "SEAL", &"seal_2": "SEAL",
+}
+const SLOT_KINDS: Dictionary[StringName, EquipmentData.Kind] = {
+	&"right_hand": EquipmentData.Kind.WEAPON, &"left_hand": EquipmentData.Kind.SHIELD,
+	&"head": EquipmentData.Kind.HEAD, &"body": EquipmentData.Kind.BODY,
+	&"mantle": EquipmentData.Kind.MANTLE, &"seal_1": EquipmentData.Kind.SEAL,
+	&"seal_2": EquipmentData.Kind.SEAL,
+}
 
 @export var level: int = 1
 ## Total experience earned this run.
@@ -20,8 +34,24 @@ const MAX_LEVEL: int = 99
 @export var max_mp: int = 20
 @export var hp: int = 80
 @export var mp: int = 20
-## Weapon in the attacking hand; adds its attack to STR.
-@export var weapon: WeaponData
+## Relic Arm ammunition (Symphony of the Night's hearts), dropped by votive lamps.
+@export var embers: int = 10
+@export var max_embers: int = 50
+## Money.
+@export var shekels: int = 0
+
+## What is worn in each slot (missing key = empty).
+var equipped: Dictionary[StringName, EquipmentData] = {}
+
+## The right-hand weapon (shorthand for equipped[&"right_hand"]).
+var weapon: WeaponData:
+	get:
+		return equipped.get(&"right_hand") as WeaponData
+	set(value):
+		if value == null:
+			equipped.erase(&"right_hand")
+		else:
+			equipped[&"right_hand"] = value
 
 
 ## Experience needed to go from [param from_level] to the next level.
@@ -37,13 +67,71 @@ static func xp_total_for(target_level: int) -> int:
 	return total
 
 
-## Attack power of the equipped hand: STR plus the weapon's attack.
+## True if [param item] may go in [param slot].
+static func fits(item: EquipmentData, slot: StringName) -> bool:
+	return item != null and SLOT_KINDS.has(slot) and item.kind == SLOT_KINDS[slot]
+
+
+## Attribute including equipment bonuses: &"strength", &"constitution", &"intelligence"
+## or &"luck".
+func total(attribute: StringName) -> int:
+	var value: int = int(get(attribute))
+	for item: EquipmentData in equipped.values():
+		value += int(item.get(attribute))
+	return value
+
+
+## Attack power of the right hand: total STR plus the weapon's attack.
 func attack_power() -> int:
-	return strength + (weapon.attack if weapon != null else 0)
+	var weapon_attack: int = weapon.attack if weapon != null else 0
+	return total(&"strength") + weapon_attack
 
 
+## Defense: half the total CON plus every equipped item's defense.
 func defense() -> int:
-	return floori(constitution / 2.0)
+	var armor: int = 0
+	for item: EquipmentData in equipped.values():
+		armor += item.defense
+	return floori(total(&"constitution") / 2.0) + armor
+
+
+## Puts [param item] in [param slot] (null empties it) and returns what was there.
+## Items that don't fit the slot are refused (returns the current item unchanged).
+func equip(slot: StringName, item: EquipmentData) -> EquipmentData:
+	var previous: EquipmentData = equipped.get(slot)
+	if item != null and not fits(item, slot):
+		return previous
+	if item == null:
+		equipped.erase(slot)
+	else:
+		equipped[slot] = item
+	emit_changed()
+	return previous
+
+
+## Attack, defense and the four attributes as they would be with [param item] in
+## [param slot], without changing anything (for the equip menu's comparison).
+func preview(slot: StringName, item: EquipmentData) -> Dictionary[StringName, int]:
+	var saved: EquipmentData = equipped.get(slot)
+	if item == null:
+		equipped.erase(slot)
+	else:
+		equipped[slot] = item
+	var result: Dictionary[StringName, int] = summary()
+	if saved == null:
+		equipped.erase(slot)
+	else:
+		equipped[slot] = saved
+	return result
+
+
+## Current attack, defense and attributes (totals including equipment).
+func summary() -> Dictionary[StringName, int]:
+	return {
+		&"attack": attack_power(), &"defense": defense(), &"strength": total(&"strength"),
+		&"constitution": total(&"constitution"), &"intelligence": total(&"intelligence"),
+		&"luck": total(&"luck"),
+	}
 
 
 ## Experience still needed for the next level (0 at the level cap).
@@ -85,6 +173,16 @@ func spend_mp(amount: int) -> bool:
 	mp -= amount
 	emit_changed()
 	return true
+
+
+func add_embers(amount: int) -> void:
+	embers = clampi(embers + amount, 0, max_embers)
+	emit_changed()
+
+
+func add_shekels(amount: int) -> void:
+	shekels = maxi(0, shekels + amount)
+	emit_changed()
 
 
 ## Refills HP and MP (save rooms, respawn).

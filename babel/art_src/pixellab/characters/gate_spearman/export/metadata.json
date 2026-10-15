@@ -1,0 +1,61 @@
+{
+  "group_id": "92293e37-5e5b-4f34-83dc-fb9de9b69717",
+  "states": [
+    {
+      "character": {
+        "id": "34128d92-d7bb-4210-b36f-d66d7112add1",
+        "name": "Idle",
+        "prompt": "Gate Spearman: the spectral shade of an ancient Babylonian gate guard, a tall soldier in dark lapis-blue scale armor with gold trim, tall crested bronze helmet, pale ghostly glowing eyes, tattered dark cloak, holding a long spear upright in one hand. Gothic dark fantasy enemy, standing, full body.",
+        "size": {
+          "width": 96,
+          "height": 96
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "side",
+        "created_at": "2026-10-15T06:49:29.608796+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "walk": {
+            "east": [
+              "Idle/animations/walk/east/frame_000.png",
+              "Idle/animations/walk/east/frame_001.png",
+              "Idle/animations/walk/east/frame_002.png",
+              "Idle/animations/walk/east/frame_003.png",
+              "Idle/animations/walk/east/frame_004.png",
+              "Idle/animations/walk/east/frame_005.png",
+              "Idle/animations/walk/east/frame_006.png",
+              "Idle/animations/walk/east/frame_007.png"
+            ]
+          },
+          "thrust": {
+            "east": [
+              "Idle/animations/thrust/east/frame_000.png",
+              "Idle/animations/thrust/east/frame_001.png",
+              "Idle/animations/thrust/east/frame_002.png",
+              "Idle/animations/thrust/east/frame_003.png",
+              "Idle/animations/thrust/east/frame_004.png",
+              "Idle/animations/thrust/east/frame_005.png",
+              "Idle/animations/thrust/east/frame_006.png",
+              "Idle/animations/thrust/east/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-15T06:58:51.234464"
+}

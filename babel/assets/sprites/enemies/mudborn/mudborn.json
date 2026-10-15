@@ -1,0 +1,37 @@
+{
+	"animations": {
+		"idle": {
+			"frame_ms": [
+				1000
+			],
+			"frames": 1,
+			"loop": true,
+			"row": 1
+		},
+		"walk": {
+			"frame_ms": [
+				143,
+				143,
+				143,
+				143,
+				143,
+				143,
+				143,
+				143
+			],
+			"frames": 8,
+			"loop": true,
+			"row": 0
+		}
+	},
+	"cell": [
+		128,
+		128
+	],
+	"columns": 8,
+	"pivot": [
+		64,
+		124
+	],
+	"rows": 2
+}

@@ -1,7 +1,7 @@
 extends Enemy
 ## Humbaba Mask (ENM-006): a floating guardian mask that crosses the screen in a sine
 ## wave, Medusa-head style. Ignores walls; frees itself once far from the player.
-## Spawned by MaskSpawner. Placeholder drawing until ART-003.
+## Spawned by MaskSpawner. Sprite: PixelLab Pixen image 3b96cc79 (ART-003).
 
 const AMPLITUDE: float = 30.0
 const FREQUENCY: float = 2.6
@@ -17,6 +17,11 @@ func _ready() -> void:
 	super._ready()
 	uses_gravity = false
 	collision_mask = 0
+	sprite = Sprite2D.new()
+	sprite.texture = preload("res://assets/sprites/enemies/humbaba_mask/humbaba_mask.png")
+	sprite.position = Vector2(0, -16)
+	sprite.use_parent_material = true
+	add_child(sprite)
 
 
 func _behave(delta: float) -> void:
@@ -29,6 +34,8 @@ func _behave(delta: float) -> void:
 
 
 func _draw() -> void:
+	if sprite != null:
+		return
 	draw_rect(Rect2(-10, -22, 20, 22), FACE)
 	draw_rect(Rect2(-12, -18, 2, 14), FACE_DARK)
 	draw_rect(Rect2(10, -18, 2, 14), FACE_DARK)

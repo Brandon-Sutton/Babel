@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/world/pickups/pickup.gd" id="1_pickup"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_collect"]
+size = Vector2(14, 14)
+
+[node name="Pickup" type="CharacterBody2D"]
+z_index = 15
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_pickup")
+
+[node name="BodyShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Collector" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 256
+collision_mask = 4
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="Collector"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_collect")

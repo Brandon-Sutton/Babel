@@ -8,13 +8,13 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 12.0
-height = 60.0
+height = 84.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
-size = Vector2(26, 60)
+size = Vector2(28, 86)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
-size = Vector2(22, 52)
+size = Vector2(22, 78)
 
 [node name="Mudborn" type="CharacterBody2D"]
 z_index = 10
@@ -24,10 +24,12 @@ floor_max_angle = 0.802851
 floor_snap_length = 8.0
 script = ExtResource("1_script")
 data = ExtResource("2_data")
-visual_height = 66.0
+visual_height = 96.0
+sprite_dir = "res://assets/sprites/enemies/mudborn"
+sprite_slug = "mudborn"
 
 [node name="BodyShape" type="CollisionShape2D" parent="."]
-position = Vector2(0, -30)
+position = Vector2(0, -42)
 shape = SubResource("CapsuleShape2D_body")
 
 [node name="Health" type="Node" parent="."]
@@ -42,7 +44,7 @@ monitoring = false
 script = ExtResource("4_hurtbox")
 
 [node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(0, -32)
+position = Vector2(0, -44)
 shape = SubResource("RectangleShape2D_hurt")
 
 [node name="ContactHitbox" type="Area2D" parent="."]
@@ -53,7 +55,7 @@ monitorable = false
 script = ExtResource("5_hitbox")
 
 [node name="Shape" type="CollisionShape2D" parent="ContactHitbox"]
-position = Vector2(0, -30)
+position = Vector2(0, -42)
 shape = SubResource("RectangleShape2D_contact")
 
 [node name="LedgeRay" type="RayCast2D" parent="."]

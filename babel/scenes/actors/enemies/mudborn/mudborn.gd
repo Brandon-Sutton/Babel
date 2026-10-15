@@ -1,7 +1,7 @@
 extends Enemy
 ## Mudborn (ENM-002): a dead builder sealed in clay. Patrols, turning at walls and
 ## ledges; shambles toward the player when near and never walks off a ledge while
-## chasing. Hurts on contact. Placeholder drawing until ART-003.
+## chasing. Hurts on contact. Sprite: PixelLab character 459332da (ART-003).
 
 const CLAY: Color = Color("7c3524")
 const CLAY_DARK: Color = Color("4a1f17")
@@ -27,9 +27,12 @@ func _behave(_delta: float) -> void:
 	if _turn_cooldown > 0:
 		_turn_cooldown -= 1
 	velocity.x = 0.0 if chasing and ledge_ahead else facing * data.move_speed
+	play_animation(&"walk" if velocity.x != 0.0 else &"idle")
 
 
 func _draw() -> void:
+	if sprite != null:
+		return
 	var bob: float = 1.0 if floori(Time.get_ticks_msec() / 250.0) % 2 == 0 else 0.0
 	draw_rect(Rect2(-13, -54 + bob, 26, 54 - bob), CLAY)
 	draw_rect(Rect2(-13, -54 + bob, 26, 3), CLAY_LIGHT)

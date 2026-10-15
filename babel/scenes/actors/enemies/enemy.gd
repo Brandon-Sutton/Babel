@@ -15,9 +15,16 @@ const HIT_INVULNERABLE_FRAMES: int = 6
 @export var uses_gravity: bool = true
 ## Height of the visual above the origin (feet), for damage numbers.
 @export var visual_height: float = 56.0
+## Folder with the imported sheet (<slug>.png, .json, _anims.tres). Empty = no sprite
+## yet; the subclass's _draw() placeholder shows instead.
+@export_dir var sprite_dir: String = ""
+@export var sprite_slug: String = ""
 
 var facing: int = -1
 var gravity: float = 1633.0
+## The sprite built from [member sprite_dir], or null while the placeholder is used.
+var sprite: Sprite2D
+var animation_player: AnimationPlayer
 
 var _stagger_frames: int = 0
 var _knockback: float = 0.0
@@ -42,6 +49,39 @@ func _ready() -> void:
 	contact_hitbox.attack = data.attack
 	contact_hitbox.knockback = 140.0
 	contact_hitbox.active = data.contact_damage
+	_setup_sprite()
+
+
+func _setup_sprite() -> void:
+	if sprite_dir.is_empty() or sprite_slug.is_empty():
+		return
+	var json_path: String = sprite_dir.path_join(sprite_slug + ".json")
+	if not FileAccess.file_exists(json_path):
+		push_warning("Enemy: no sprite sheet at %s" % json_path)
+		return
+	var layout: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(json_path))
+	sprite = Sprite2D.new()
+	sprite.name = "Sprite2D"
+	sprite.texture = load(sprite_dir.path_join(sprite_slug + ".png"))
+	sprite.centered = false
+	sprite.hframes = int(layout["columns"])
+	sprite.vframes = int(layout["rows"])
+	var pivot: Array = layout["pivot"]
+	sprite.offset = -Vector2(float(pivot[0]), float(pivot[1]))
+	sprite.use_parent_material = true
+	add_child(sprite)
+	animation_player = AnimationPlayer.new()
+	add_child(animation_player)
+	animation_player.add_animation_library(&"", load(sprite_dir.path_join(sprite_slug + "_anims.tres")))
+	play_animation(&"idle")
+
+
+## Plays [param animation_name] if the sprite has it (no-op on the placeholder).
+func play_animation(animation_name: StringName) -> void:
+	if animation_player == null or not animation_player.has_animation(animation_name):
+		return
+	if animation_player.current_animation != animation_name:
+		animation_player.play(animation_name)
 
 
 func _physics_process(delta: float) -> void:
@@ -60,7 +100,10 @@ func _physics_process(delta: float) -> void:
 	if uses_gravity:
 		velocity.y = minf(velocity.y + gravity * delta, 800.0)
 	move_and_slide()
-	queue_redraw()
+	if sprite != null:
+		sprite.flip_h = facing < 0
+	else:
+		queue_redraw()
 
 
 ## Per-frame behaviour while alive and not staggered: set velocity and facing.
@@ -109,6 +152,9 @@ func _on_hit(info: DamageInfo) -> bool:
 		return false
 	var tint: Color = Color("fbe69b") if info.critical else Color.WHITE
 	DamageNumber.spawn(get_tree(), global_position + Vector2(0, -visual_height), amount, tint, info.critical)
+	HitSpark.spawn(get_tree(), info.position, Color("fbe69b"), info.critical)
+	if info.critical:
+		GameCamera.shake(get_tree(), 2.0, 6)
 	_flash_frames = FLASH_FRAMES
 	set_flash(1.0)
 	var staggered: bool = amount >= data.poise
@@ -128,6 +174,7 @@ func _on_died() -> void:
 	velocity = Vector2.ZERO
 	Game.stats.add_xp(data.xp)
 	Events.enemy_killed.emit(data.id, global_position)
+	GameCamera.shake(get_tree(), 2.0, 8)
 
 
 func _update_dying() -> void:

@@ -39,7 +39,8 @@ var _drop_through_frames: int = 0
 @onready var hurtbox: Hurtbox = %Hurtbox
 @onready var weapon_hitbox: Hitbox = %WeaponHitbox
 @onready var slash_fx: SlashFX = %SlashFX
-@onready var camera: Camera2D = %Camera
+@onready var camera: GameCamera = %Camera
+@onready var afterimages: AfterimageTrail = %Afterimages
 @onready var _body_shape: CollisionShape2D = %BodyShape
 @onready var _hurt_shape: CollisionShape2D = %HurtShape
 @onready var _weapon_shape: CollisionShape2D = %WeaponShape
@@ -170,6 +171,8 @@ func take_hit(info: DamageInfo) -> bool:
 	invulnerable_frames = tuning.invulnerable_frames
 	knockback_direction = info.direction
 	HitStop.trigger(get_tree(), 3)
+	HitSpark.spawn(get_tree(), global_position + Vector2(0, -STAND_HEIGHT / 2.0), Color("ef6a6a"))
+	GameCamera.shake(get_tree(), 3.0, 12)
 	if Game.stats.take_damage(amount) <= 0:
 		machine.transition_to(&"Dead")
 	else:

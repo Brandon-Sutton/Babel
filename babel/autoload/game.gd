@@ -1,12 +1,17 @@
 extends Node
-## Run state for the current playthrough: player stats, persistent world flags,
-## abilities, play time. WLD-013 (flag persistence), REL-002 (ability gating) and
-## SAV-001 (saving) build on this.
+## Run state for the current playthrough: player stats and equipment, inventory,
+## persistent world flags, abilities, play time. SaveSystem serializes all of it.
 
-const STARTING_WEAPON: WeaponData = preload("res://data/weapons/short_sword.tres")
+## Starting kit (INV-012 will strip it at the Grand Gate later).
+const STARTING_EQUIPMENT: Dictionary[StringName, StringName] = {
+	&"right_hand": &"short_sword", &"body": &"masons_mail", &"mantle": &"crimson_mantle",
+}
+const STARTING_INVENTORY: Array[StringName] = [&"sappara", &"lapis_shield", &"scribes_circlet", &"seal_of_shamash"]
 
-## Level, experience, attributes, HP/MP and equipment.
+## Level, experience, attributes, HP/MP, currencies and equipped items.
 var stats: PlayerStats
+## Items carried but not equipped.
+var inventory: Inventory
 ## One-time world state, keyed "<room_id>/<node_name>" or by story beat.
 var flags: Dictionary[StringName, bool] = {}
 ## Abilities granted by relics, e.g. &"double_jump".
@@ -44,10 +49,36 @@ func grant_ability(ability: StringName) -> void:
 	abilities[ability] = true
 
 
-## Starts a fresh run: new stats with the starting weapon, no flags or abilities.
+## The item with [param id], or null if no such item exists.
+func item(id: StringName) -> ItemData:
+	return Db.get_entry(id) as ItemData
+
+
+## Puts the carried item [param item_id] in [param slot], returning whatever was there
+## to the inventory. An empty [param item_id] just unequips the slot. Returns false if
+## the item isn't carried or doesn't fit the slot.
+func equip(slot: StringName, item_id: StringName) -> bool:
+	var equipment: EquipmentData = null
+	if not item_id.is_empty():
+		equipment = item(item_id) as EquipmentData
+		if equipment == null or inventory.count(item_id) == 0 or not PlayerStats.fits(equipment, slot):
+			return false
+	var previous: EquipmentData = stats.equip(slot, equipment)
+	if equipment != null:
+		inventory.remove(item_id)
+	if previous != null:
+		inventory.add(previous.id)
+	return true
+
+
+## Starts a fresh run: new stats with the starting kit, no flags or abilities.
 func reset() -> void:
 	stats = PlayerStats.new()
-	stats.weapon = STARTING_WEAPON
+	inventory = Inventory.new()
+	for slot: StringName in STARTING_EQUIPMENT:
+		stats.equip(slot, item(STARTING_EQUIPMENT[slot]) as EquipmentData)
+	for item_id: StringName in STARTING_INVENTORY:
+		inventory.add(item_id)
 	flags.clear()
 	abilities.clear()
 	play_time = 0.0

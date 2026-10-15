@@ -11,6 +11,13 @@ const TILE_SET: TileSet = preload("res://assets/tilesets/greybox/greybox_tileset
 const MUDBORN: PackedScene = preload("res://scenes/actors/enemies/mudborn/mudborn.tscn")
 const SPEARMAN: PackedScene = preload("res://scenes/actors/enemies/gate_spearman/gate_spearman.tscn")
 const RELIC: PackedScene = preload("res://scenes/world/pickups/relic_pickup.tscn")
+const LAMP: PackedScene = preload("res://scenes/world/props/votive_lamp.tscn")
+const ALTAR: PackedScene = preload("res://scenes/world/props/save_altar.tscn")
+## Votive lamp positions (tile x, tile y of the floor they stand on).
+const LAMPS: Array[Vector2i] = [
+	Vector2i(9, 20), Vector2i(17, 16), Vector2i(31, 15), Vector2i(38, 11),
+	Vector2i(52, 20), Vector2i(66, 20), Vector2i(86, 20), Vector2i(108, 20),
+]
 const TILE: int = 16
 const WIDTH: int = 120
 const HEIGHT: int = 23
@@ -28,6 +35,7 @@ var _entities: Node2D
 
 
 func _ready() -> void:
+	add_to_group(&"room")
 	_back = _add_layer("BackWall", -5)
 	_solid = _add_layer("Solid", 0)
 	_platforms = _add_layer("Platforms", 0)
@@ -73,6 +81,13 @@ func _spawn_entities() -> void:
 	var relic: Node2D = RELIC.instantiate() as Node2D
 	relic.position = Vector2(76 * TILE, 14 * TILE)
 	_entities.add_child(relic)
+	for cell: Vector2i in LAMPS:
+		var lamp: Node2D = LAMP.instantiate() as Node2D
+		lamp.position = Vector2(cell.x * TILE + TILE / 2.0, cell.y * TILE)
+		_entities.add_child(lamp)
+	var altar: Node2D = ALTAR.instantiate() as Node2D
+	altar.position = Vector2(6 * TILE, FLOOR_ROW * TILE)
+	_entities.add_child(altar)
 	var spawner: MaskSpawner = MaskSpawner.new()
 	spawner.zone = Vector2(60 * TILE, 90 * TILE)
 	spawner.height_band = Vector2(10 * TILE, 14 * TILE)

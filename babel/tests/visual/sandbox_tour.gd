@@ -19,6 +19,7 @@ var _hp_before: int = 0
 func _ready() -> void:
 	Game.reset()
 	_main = MAIN_SCENE.instantiate()
+	_main.set(&"continue_from_save", false)
 	add_child(_main)
 	Events.notice.connect(func(title: String, _detail: String) -> void: _notice_seen = title)
 

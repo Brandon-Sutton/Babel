@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_equipment"]
+
+[resource]
+script = ExtResource("1_equipment")
+id = &"masons_mail"
+display_name = "Mason's Mail"
+description = "Layered leather and bronze scales, cut for hauling bricks up the tower."
+price = 100
+kind = 3
+attack = 0
+defense = 4
+strength = 0
+constitution = 0
+intelligence = 0
+luck = 0

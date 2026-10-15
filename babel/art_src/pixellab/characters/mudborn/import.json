@@ -1,0 +1,14 @@
+{
+	"slug": "mudborn",
+	"pixellab_character_id": "459332da-68b7-4dd5-a1fc-c021ed3a9e87",
+	"export_dir": "export",
+	"direction": "east",
+	"cell": [128, 128],
+	"cell_pivot": [64, 124],
+	"output_dir": "res://assets/sprites/enemies/mudborn",
+	"sprite_node": "Sprite2D",
+	"animations": {
+		"walk": {"source": "walk", "fps": 7, "loop": true},
+		"idle": {"source": "walk", "frames": [0], "fps": 1, "loop": true}
+	}
+}

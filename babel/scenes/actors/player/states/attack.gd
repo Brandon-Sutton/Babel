@@ -39,10 +39,15 @@ func enter(previous: StringName) -> void:
 		_needs_arc = false
 	player.play_animation(animation)
 	player.animation_player.seek(0.0, true)
+	# Stretch the swing art to this weapon's timing (the mace is slower than the sword).
+	var swing_seconds: float = _weapon.total_frames() / 60.0
+	var art_seconds: float = player.animation_player.current_animation_length
+	player.animation_player.speed_scale = art_seconds / swing_seconds if swing_seconds > 0.0 else 1.0
 
 
 func exit() -> void:
 	player.stop_attack()
+	player.animation_player.speed_scale = 1.0
 
 
 func physics_update(delta: float) -> void:

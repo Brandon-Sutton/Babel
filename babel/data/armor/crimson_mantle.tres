@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_equipment"]
+
+[resource]
+script = ExtResource("1_equipment")
+id = &"crimson_mantle"
+display_name = "Crimson Mantle"
+description = "A dark cloak lined in crimson. Light, and lucky. LCK +1."
+price = 70
+kind = 4
+attack = 0
+defense = 1
+strength = 0
+constitution = 0
+intelligence = 0
+luck = 1

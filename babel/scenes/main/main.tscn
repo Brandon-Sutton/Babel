@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scenes/ui/hud/hud.gd" id="2_hud"]
-[ext_resource type="Script" path="res://scenes/ui/menus/status_menu.gd" id="3_status"]
+[ext_resource type="Script" path="res://scenes/ui/menus/pause_menu.gd" id="3_pause"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_main")
@@ -26,7 +26,7 @@ script = ExtResource("2_hud")
 [node name="Menus" type="CanvasLayer" parent="."]
 layer = 20
 
-[node name="StatusMenu" type="Control" parent="Menus"]
+[node name="PauseMenu" type="Control" parent="Menus"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("3_status")
+script = ExtResource("3_pause")
 
 [node name="Transition" type="CanvasLayer" parent="."]
 layer = 30

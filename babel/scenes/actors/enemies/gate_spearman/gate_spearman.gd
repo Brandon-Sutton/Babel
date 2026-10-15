@@ -1,7 +1,8 @@
 extends Enemy
 ## Gate Spearman (ENM-007): shade of a Babylonian gate guard. Advances on the player,
 ## telegraphs with a gold flash, then lunges with a spear thrust. Hitting it during the
-## wind-up (with a staggering hit) cancels the thrust. Placeholder drawing until ART-003.
+## wind-up (with a staggering hit) cancels the thrust. Sprite: PixelLab character
+## 34128d92 (ART-003); the thrust animation is split into windup, thrust and recover.
 
 enum Mode { ADVANCE, WINDUP, THRUST, RECOVER }
 
@@ -36,6 +37,7 @@ func _behave(_delta: float) -> void:
 			var player: Player = target()
 			if not target_in_range():
 				velocity.x = 0.0
+				play_animation(&"idle")
 				return
 			var dx: float = player.global_position.x - global_position.x
 			facing = 1 if dx > 0.0 else -1
@@ -44,13 +46,14 @@ func _behave(_delta: float) -> void:
 				velocity.x = 0.0
 			else:
 				velocity.x = facing * data.move_speed
+				play_animation(&"walk")
 		Mode.WINDUP:
 			velocity.x = 0.0
 			set_flash(0.25 + 0.35 * float(_timer % 8 < 4), Color("fbe69b"))
 			_timer -= 1
 			if _timer <= 0:
 				set_flash(0.0)
-				_spear.position.x = facing * 40.0
+				_spear.position.x = facing * 44.0
 				_spear.active = true
 				velocity.x = facing * LUNGE_SPEED
 				_start(Mode.THRUST, THRUST_FRAMES)
@@ -81,9 +84,16 @@ func _on_died() -> void:
 func _start(next: Mode, frames: int) -> void:
 	mode = next
 	_timer = frames
+	var animations: Dictionary[Mode, StringName] = {
+		Mode.WINDUP: &"windup", Mode.THRUST: &"thrust", Mode.RECOVER: &"recover",
+	}
+	if animations.has(next):
+		play_animation(animations[next])
 
 
 func _draw() -> void:
+	if sprite != null:
+		return
 	draw_rect(Rect2(-9, -66, 18, 50), ARMOR)
 	draw_rect(Rect2(-9, -66, 18, 3), ARMOR_LIGHT)
 	draw_rect(Rect2(-7, -16, 6, 16), ARMOR)

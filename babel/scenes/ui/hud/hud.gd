@@ -35,6 +35,9 @@ func _on_notice(title: String, detail: String) -> void:
 
 
 func _draw() -> void:
+	# Hidden while a menu pauses the game, like Symphony of the Night.
+	if get_tree().paused:
+		return
 	var stats: PlayerStats = Game.stats
 	draw_rect(Rect2(6, 6, 136, 36), PANEL)
 	draw_rect(Rect2(6, 6, 136, 36), BORDER, false, 1.0)
@@ -48,6 +51,13 @@ func _draw() -> void:
 	PixelFont.draw_text(self, Vector2(10, 31), "MP", MP)
 	_bar(Rect2(22, 31, 70, 5), float(stats.mp) / maxi(1, stats.max_mp), MP)
 	PixelFont.draw_text(self, Vector2(96, 31), "%d/%d" % [stats.mp, stats.max_mp], TEXT)
+	# Embers (Relic Arm ammunition, SotN's hearts) beside the panel.
+	draw_rect(Rect2(146, 6, 34, 16), PANEL)
+	draw_rect(Rect2(146, 6, 34, 16), BORDER, false, 1.0)
+	draw_rect(Rect2(151, 11, 4, 7), Color("ef6a6a"))
+	draw_rect(Rect2(152, 9, 2, 2), Color("ef6a6a"))
+	draw_rect(Rect2(152, 13, 2, 4), Color("fbe69b"))
+	PixelFont.draw_text(self, Vector2(160, 12), "%d" % stats.embers, TEXT)
 	if _banner_frames > 0:
 		_draw_banner()
 

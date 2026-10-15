@@ -25,14 +25,25 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 
 **M0 is complete (2026-10-14).** The current milestone is **M1 Vertical Slice**.
 
-**Playable core is in (2026-10-14).** Movement, the sword attack, stats and leveling, three enemies, the HUD, the status screen and the relic double jump all run in the sandbox room. The user's priority is the game: keep building gameplay ahead of the art pipeline.
+**Playable core is in (2026-10-14), plus the SotN systems pass (2026-10-15).**
+- Movement, sword attacks, stats and leveling all work.
+- The three enemies now have real sprites.
+- Afterimages, hit sparks and screen shake are in.
+- Votive lamps drop embers, shekels and items; the save altar saves, and death returns you to the last save.
+- The pause menu has the status sheet and the SotN equipment screen.
+
+The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
 Next, in suggested order:
-1. **Enemy art** (ART-003): PixelLab sprites for the Mudborn, Gate Spearman and Humbaba Mask, replacing the drawn placeholders.
-2. **Hero animations still missing:** crouch attack, jump attack, death (ART-001).
-3. **SotN feel:** afterimages on back-dash (PLR-011), hit sparks (VFX-012), screen shake (CBT-005).
-4. **Systems:** game-over screen (UI-014, completes PLR-010), votive lamps and drops (WLD-007, INV-006), save room (SAV-001/002).
-5. **World:** room transitions (WLD-001/002), then dual-grid tile art (WLD-023) once the user has decided on the GTE tileset style.
+1. **Hero animations still missing:** crouch attack, jump attack, death (ART-001). Use PixMiniMax for weapon actions.
+2. **Readability:** enemy rim or outline shader (VFX-016).
+3. **Systems:**
+   - game-over screen (UI-014, completes PLR-010)
+   - title screen with continue (UI-012, SAV-005)
+   - enemy loot tables (INV-013)
+   - Relic Arms using embers (SUB-001/002)
+4. **World:** room transitions (WLD-001/002), then dual-grid tile art (WLD-023) once the user has decided on the GTE tileset style.
+5. **Art polish:** weapon-specific swings (ART-016), item icons (INV-014), palette locks for the hero and enemy animations.
 
 **M0 exit criteria:**
 - ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
@@ -104,7 +115,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 |---|---|---|---|---|---|---|
 | ART-001 | Elam: base sprite and the 24 animations in ART_BIBLE §6.1, palette-locked, with normal maps | M1 | P0 | L | PIPE-001..005 | doing |
 | ART-002 | Elam's weapon sprites for the sword and short-sword classes, with attach points | M1 | P0 | S | ART-001 | todo |
-| ART-003 | Slice enemies ENM-001, 002, 003, 006 and 007 (sprites and animations) | M1 | P0 | L | PIPE-003 | todo |
+| ART-003 | Slice enemies ENM-001, 002, 003, 006 and 007 (sprites and animations) | M1 | P0 | L | PIPE-003 | doing |
 | ART-004 | Lamassu boss parts and animation | M1 | P0 | M | PIPE-003 | todo |
 | ART-005 | Namtar (intro version): sprite and animations | M1 | P0 | M | PIPE-003 | todo |
 | ART-006 | HUD frame, item-get banner, boss bar | M1 | P0 | S | PIPE-011 | todo |
@@ -117,6 +128,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | ART-013 | Familiar sprites (5) | M3 | P1 | M | FAM-001 | todo |
 | ART-014 | Title key art and logo | M5 | P1 | M | — | todo |
 | ART-015 | Act II drowned variants: palette plans and new overlay art | M4 | P0 | L | VFX-010 | todo |
+| ART-016 | Weapon-specific swing art: the Sappara and Bronze Mace reuse the sword slash (stretched to their timing) | M2 | P2 | M | ART-001 | todo |
 
 ### PLR: Player controller
 
@@ -132,7 +144,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | PLR-008 | Jump-attack and crouch-attack variants; landing cancels | M1 | P0 | S | PLR-007 | done |
 | PLR-009 | Hurt: knockback arc, i-frames with flicker, hit-stop hook | M1 | P0 | S | CBT-002 | done |
 | PLR-010 | Death leads to the game-over flow | M1 | P0 | S | UI-014 | doing |
-| PLR-011 | Afterimage trail for back-dash, Lion form and high speed | M1 | P1 | S | PLR-005 | todo |
+| PLR-011 | Afterimage trail for back-dash, Lion form and high speed | M1 | P1 | S | PLR-005 | done |
 | PLR-012 | Interact (Up): doors, NPCs, save points, lifts, inscriptions, with a prompt | M1 | P0 | S | PLR-001 | todo |
 | PLR-013 | Double jump (Gazelle Anklet) | M1 | P0 | S | REL-002 | done |
 | PLR-014 | Dive kick (Gazelle Anklet; Down + Jump in the air) | M2 | P1 | S | PLR-013 | todo |
@@ -156,7 +168,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | CBT-002 | `HealthComponent` with `damaged`, `healed` and `died` signals and an invulnerability timer | M1 | P0 | S | — | done |
 | CBT-003 | Damage formula v1: attack vs. defense, resist/weak/absorb/immune, crits from LCK, with unit tests | M1 | P0 | M | CBT-001 | doing |
 | CBT-004 | Pooled damage numbers that pop like SotN's (heals green, crits large) | M1 | P1 | S | CBT-001 | done |
-| CBT-005 | Hit-stop and screen-shake service, scaled by the accessibility setting | M1 | P1 | S | — | doing |
+| CBT-005 | Hit-stop and screen-shake service, scaled by the accessibility setting | M1 | P1 | S | — | done |
 | CBT-006 | Enemy hit reactions: flash shader, knockback, stagger threshold (poise) | M1 | P0 | S | VFX-005 | done |
 | CBT-007 | Data-driven status effects: Poison, Burn, Curse, Confounded, Fired, Stun, Slow | M2 | P0 | M | CBT-001 | todo |
 | CBT-008 | Projectile base class and `ProjectilePool` | M1 | P0 | M | CBT-001 | todo |
@@ -169,7 +181,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| RPG-001 | `PlayerStats` model (base, derived, modifier stack), recomputed on equip, level-up and status changes | M2 | P0 | M | INV-004 | doing |
+| RPG-001 | `PlayerStats` model (base, derived, modifier stack), recomputed on equip, level-up and status changes | M2 | P0 | M | INV-004 | done |
 | RPG-002 | XP curve for levels 1–99, level-up FX and SFX, stat gains, reduced XP when out-leveled | M2 | P0 | S | RPG-001 | done |
 | RPG-003 | Max-up pickups: Clay Vessel, Reed Pipe, Votive Lamp | M2 | P0 | S | RPG-001 | todo |
 | RPG-004 | Breath regeneration scaled by INT | M2 | P0 | S | RPG-001 | todo |
@@ -181,18 +193,20 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| INV-001 | Item data hierarchy: `@abstract ItemData` → Weapon, Armor, Mantle, Seal, Consumable and KeyItem data | M1 | P0 | M | ENG-006 | todo |
+| INV-001 | Item data hierarchy: `@abstract ItemData` → Weapon, Armor, Mantle, Seal, Consumable and KeyItem data | M1 | P0 | M | ENG-006 | done |
 | INV-002 | `Db` autoload: load and index data, validate ids and icons, with tests | M1 | P0 | S | INV-001, ENG-007 | todo |
-| INV-003 | Inventory model: stacks, sort keys, signals | M2 | P0 | M | INV-002 | todo |
-| INV-004 | Equipment slots (right and left hand, head, body, mantle, two seals), two-handed rules, stat application | M2 | P0 | M | INV-003 | todo |
+| INV-003 | Inventory model: stacks, sort keys, signals | M2 | P0 | M | INV-002 | done |
+| INV-004 | Equipment slots (right and left hand, head, body, mantle, two seals), two-handed rules, stat application | M2 | P0 | M | INV-003 | done |
 | INV-005 | Consumables usable from the menu or a hand; effects defined as data | M2 | P0 | S | INV-003 | todo |
-| INV-006 | Pickups (shekels, items, max-ups, relic arms) with a magnet and toast | M1 | P0 | S | INV-001 | todo |
-| INV-007 | Loot tables: weighted common and rare drops, LCK modifier, pity | M2 | P0 | S | INV-002 | todo |
+| INV-006 | Pickups (shekels, items, max-ups, relic arms) with a magnet and toast | M1 | P0 | S | INV-001 | done |
+| INV-007 | Loot tables: weighted common and rare drops, LCK modifier, pity | M2 | P0 | S | INV-002 | done |
 | INV-008 | Chests and one-time pickups, saved as world flags | M2 | P0 | S | WLD-013 | todo |
 | INV-009 | Act I equipment content: about 60 weapons, 30 armor, 12 mantles, 30 seals, 40 consumables (split by region) | M3 | P0 | L | INV-004 | todo |
 | INV-010 | Mantle dye: lining color as a shader parameter; dyes sold in shops | M3 | P2 | S | VFX-005 | todo |
 | INV-011 | Special weapon behaviors: combos, Scepter of Shamash shield combos, elemental procs | M3 | P2 | M | INV-009 | todo |
-| INV-012 | Elam's starting gear and Namtar's gear strip (the Act II recovery is in NAR-013) | M1 | P0 | S | INV-001, NAR-005 | todo |
+| INV-012 | Elam's starting gear and Namtar's gear strip (the Act II recovery is in NAR-013) | M1 | P0 | S | INV-001, NAR-005 | doing |
+| INV-013 | Enemy loot tables (`EnemyData.loot`), rolled on death | M2 | P1 | S | INV-007 | todo |
+| INV-014 | Item icons in the equip menu and pickups (needs PIPE-009) | M2 | P2 | S | PIPE-009 | todo |
 
 ### SUB: Relic Arms (sub-weapons)
 
@@ -276,7 +290,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | WLD-004 | Camera: follow with a deadzone, room limits, look-ahead, vertical bias, shake; camera zones inside rooms | M1 | P0 | M | WLD-001 | todo |
 | WLD-005 | One-way platforms and 45° slopes | M1 | P0 | S | LVL-002 | todo |
 | WLD-006 | Hidden breakable walls and floors: N hits, saved as a flag | M1 | P0 | S | WLD-013 | todo |
-| WLD-007 | Votive lamps: breakable, drop from a loot table, placed as scene tiles | M1 | P0 | S | INV-006 | todo |
+| WLD-007 | Votive lamps: breakable, drop from a loot table, placed as scene tiles | M1 | P0 | S | INV-006 | done |
 | WLD-008 | Doors: normal, boss lock, one-way (Word-sealed doors are in REL-004) | M1 | P0 | S | WLD-002 | todo |
 | WLD-009 | Hazards: spikes, pitch pools, crushers, steam vents, live wires | M3 | P0 | M | CBT-001 | todo |
 | WLD-010 | Water volumes: swim physics, buoyancy, drowning, hook for the surface shader | M3 | P0 | M | WLD-001 | todo |
@@ -311,12 +325,12 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| SAV-001 | Save schema v1: versioned JSON, migration hook, round-trip tests | M1 | P0 | M | ENG-007 | todo |
-| SAV-002 | Quiet Room: full heal, save, mute the Murmur | M1 | P0 | S | SAV-001, WLD-022 | todo |
+| SAV-001 | Save schema v1: versioned JSON, migration hook, round-trip tests | M1 | P0 | M | ENG-007 | done |
+| SAV-002 | Quiet Room: full heal, save, mute the Murmur | M1 | P0 | S | SAV-001, WLD-022 | done |
 | SAV-003 | Save slots: three slots, with logic and UI | M2 | P0 | S | SAV-001, UI-001 | todo |
 | SAV-004 | Builders' Lifts teleport network | M2 | P0 | M | WLD-002, MAP-003 | todo |
-| SAV-005 | Continue and load flow, including returning from game over | M1 | P0 | S | SAV-001 | todo |
-| SAV-006 | Safe writes: temp file then rename, keep a `.bak` | M2 | P1 | S | SAV-001 | todo |
+| SAV-005 | Continue and load flow, including returning from game over | M1 | P0 | S | SAV-001 | doing |
+| SAV-006 | Safe writes: temp file then rename, keep a `.bak` | M2 | P1 | S | SAV-001 | done |
 | SAV-007 | Steam Cloud compatibility (`user://` path rules) | M5 | P2 | S | SHIP-003 | todo |
 
 ### AI: Enemy framework
@@ -339,12 +353,12 @@ Each row covers design, art (PixelLab), `EnemyData`, behavior and the Codex entr
 | ID | Enemy | Region | Archetype | Size | MS | Pri | Status |
 |---|---|---|---|---|---|---|---|
 | ENM-001 | Mud Bat | SHN | Sine-wave flyer that comes in swarms | S | M1 | P0 | todo |
-| ENM-002 | Mudborn (a dead builder sealed in clay) | SHN | Slow melee walker | M | M1 | P0 | doing |
+| ENM-002 | Mudborn (a dead builder sealed in clay) | SHN | Slow melee walker | M | M1 | P0 | done |
 | ENM-003 | Pitch Ooze | SHN | Crawler that leaves burning pitch | S | M1 | P0 | todo |
 | ENM-004 | Carrion Vulture | SHN | Swoop diver | M | M3 | P1 | todo |
 | ENM-005 | Girtablullu (scorpion-man) | SHN | Ranged sting, guards | M | M3 | P1 | todo |
-| ENM-006 | Humbaba Mask | GTE | Sine-wave floater (the Medusa-head role) | S | M1 | P0 | doing |
-| ENM-007 | Gate Spearman (shade of a Babylonian guard) | GTE | Spear poke, guards | M | M1 | P0 | doing |
+| ENM-006 | Humbaba Mask | GTE | Sine-wave floater (the Medusa-head role) | S | M1 | P0 | done |
+| ENM-007 | Gate Spearman (shade of a Babylonian guard) | GTE | Spear poke, guards | M | M1 | P0 | done |
 | ENM-008 | Glazed Lion (living Ishtar Gate relief) | GTE | Pounces out of the wall | M | M3 | P1 | todo |
 | ENM-009 | Sirrush Hatchling | GTE | Hopper that spits fire | S | M3 | P1 | todo |
 | ENM-010 | Clay Golemling | FND | Tank that splits into two | M | M3 | P0 | todo |
@@ -453,9 +467,9 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | UI-002 | HUD: HP and Breath bars, Embers count, Relic Arm icon | M1 | P0 | S | UI-001 | done |
 | UI-003 | Boss HP bar and name card | M1 | P0 | S | UI-001 | todo |
 | UI-004 | Item and relic banner, toast stack | M1 | P0 | S | UI-001 | todo |
-| UI-005 | Pause menu shell: tabs, gamepad navigation, correct tree pausing | M2 | P0 | M | UI-001 | todo |
+| UI-005 | Pause menu shell: tabs, gamepad navigation, correct tree pausing | M2 | P0 | M | UI-001 | done |
 | UI-006 | Status screen | M2 | P0 | S | UI-005, RPG-001 | done |
-| UI-007 | Equip screen with stat comparison | M2 | P0 | M | UI-005, INV-004 | todo |
+| UI-007 | Equip screen with stat comparison | M2 | P0 | M | UI-005, INV-004 | done |
 | UI-008 | Items screen (use, sort) | M2 | P0 | S | UI-005 | todo |
 | UI-009 | Utterances screen with glyph-syllable inputs | M2 | P1 | S | SPL-002 | todo |
 | UI-010 | Relics screen with toggles | M2 | P0 | S | REL-001 | todo |
@@ -487,10 +501,11 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | VFX-009 | Heat haze (Foundry) | M3 | P2 | S | — | todo |
 | VFX-010 | Abzu post-process shader: ripple and palette shift for Act II | M4 | P0 | M | — | todo |
 | VFX-011 | Spell VFX for every Utterance, made in `vfx_workbench` | M3 | P0 | L | PIPE-008 | todo |
-| VFX-012 | Hit sparks and impact VFX for each damage type | M1 | P0 | S | PIPE-008 | todo |
+| VFX-012 | Hit sparks and impact VFX for each damage type | M1 | P0 | S | PIPE-008 | done |
 | VFX-013 | Optional CRT/scanline filter | M5 | P3 | S | — | todo |
 | VFX-014 | Flash-reduction mode | M5 | P1 | S | — | todo |
 | VFX-015 | Evaluate a smooth sub-pixel camera (SubViewport offset technique) | M2 | P2 | M | VFX-001 | todo |
+| VFX-016 | Enemy readability: a subtle rim or outline shader so dark sprites (Gate Spearman) stand out from dark back walls | M1 | P1 | S | VFX-005 | todo |
 
 ### AUD: Audio
 
@@ -1010,4 +1025,37 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
     - The mask spawner's typed lambda broke on freed masks.
     - Jump apex overshoot and back-dash short by one frame.
   - Gens spent: about 31 (hero candidates 10, rotation 2, 7 animations 18, attack 1, unzoom 0.1). **84.6 left** until the 2026-10-17 reset.
+  - **Next:** see **Now**.
+- **2026-10-15 (enemy sprites, SotN polish, lamps, drops, save room, equipment menu)**
+  - **Enemy art** (24 gens in total):
+    - Mudborn and Gate Spearman: Pro Flash characters (7 each), using the hero's front rotation as a style-only reference.
+    - Mudborn walk and Spearman walk: v3 (3 each).
+    - Spearman thrust: PixMiniMax (1), split into windup, thrust and recover in the importer.
+    - Humbaba Mask, votive lamp and save altar: Pixen (1 each).
+    - The `Enemy` base builds a Sprite2D and AnimationPlayer from the imported sheet. The placeholder `_draw()` remains as a fallback.
+  - **Polish:**
+    - `AfterimageTrail` adds violet fading ghosts while back-dashing.
+    - `HitSpark` adds a pixel starburst on every hit.
+    - `GameCamera.shake` shakes by whole pixels, scaled by the accessibility setting `screen_shake`. It fires when the player is hit, on kills and on critical hits.
+  - **Items:**
+    - `ItemData` (abstract) → `EquipmentData` (Kind WEAPON, SHIELD, HEAD, BODY, MANTLE, SEAL) → `WeaponData`.
+    - Nine items in `data/`.
+    - `Inventory` (counts) on `Game.inventory`.
+    - `PlayerStats` gained seven SotN slots, `total()`, `preview()`, `summary()`, embers and shekels.
+    - `Game.equip()` swaps items between the inventory and the slots.
+    - Starting kit: Short Sword, Mason's Mail and Crimson Mantle equipped; Sappara, Lapis Shield, Scribe's Circlet and Seal of Shamash carried.
+  - **World:**
+    - `VotiveLamp` breaks on one hit and rolls a `LootTable` (luck raises item weight).
+    - `Pickup` drops pop out, fall, are pulled to the player and blink out.
+    - `SaveAltar`: press Up to restore HP/MP and save.
+    - Saves (SAV-001/006) are versioned JSON, written to a temp file then renamed, with a `.bak` kept.
+    - Main resumes from the save at boot and returns to the last save on death.
+  - **UI:** a pause menu with the status sheet and the EQUIP page. It shows the seven slots, stats with a green/red before→after preview, and wrapped descriptions. The HUD shows embers and hides while paused. The pixel font gained punctuation glyphs.
+  - **Tests:**
+    - Unit tests: 46/46 (loot, inventory, equipment math, Game.equip, save round trip, corrupt save).
+    - Visual checks: 21/21 (`gameplay_test` 8, `sandbox_tour` 4, new `systems_test` 9).
+  - **Bugs fixed:**
+    - The afterimage trail read the player's sprite before the player had initialized.
+    - `JSON.parse_string` printed an extra engine error on corrupt saves.
+  - Gens spent: 24. **60.6 left** until the 2026-10-17 reset.
   - **Next:** see **Now**.

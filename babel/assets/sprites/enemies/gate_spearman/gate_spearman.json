@@ -1,0 +1,66 @@
+{
+	"animations": {
+		"idle": {
+			"frame_ms": [
+				1000
+			],
+			"frames": 1,
+			"loop": true,
+			"row": 1
+		},
+		"recover": {
+			"frame_ms": [
+				200,
+				400
+			],
+			"frames": 2,
+			"loop": false,
+			"row": 4
+		},
+		"thrust": {
+			"frame_ms": [
+				40,
+				45,
+				50
+			],
+			"frames": 3,
+			"loop": false,
+			"row": 3
+		},
+		"walk": {
+			"frame_ms": [
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125
+			],
+			"frames": 8,
+			"loop": true,
+			"row": 0
+		},
+		"windup": {
+			"frame_ms": [
+				120,
+				160,
+				190
+			],
+			"frames": 3,
+			"loop": false,
+			"row": 2
+		}
+	},
+	"cell": [
+		192,
+		128
+	],
+	"columns": 8,
+	"pivot": [
+		96,
+		124
+	],
+	"rows": 5
+}

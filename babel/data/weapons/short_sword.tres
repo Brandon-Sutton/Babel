@@ -6,6 +6,9 @@
 script = ExtResource("1_weapon")
 id = &"short_sword"
 display_name = "Short Sword"
+description = "A plain iron blade from the kilns of Shinar. Quick to swing."
+price = 30
+kind = 0
 attack = 5
 startup_frames = 6
 active_frames = 6
