@@ -18,3 +18,6 @@ signal flag_set(flag: StringName, value: bool)
 signal player_died
 ## Show a short on-screen notice, e.g. a relic's name and what it does.
 signal notice(title: String, detail: String)
+## Elam entered a secret area for the first time (WLD-006); [param key] is its world
+## flag. The map (MAP-009) and completion % (MAP-007) listen for it.
+signal secret_found(key: StringName)

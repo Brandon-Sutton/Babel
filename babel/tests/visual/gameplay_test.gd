@@ -4,9 +4,10 @@ extends Node2D
 ##   walk speed, jump apex, back-dash distance, crouch, sword kill + XP, contact damage
 ##   with invulnerability frames, and level-up.
 ## Logs one "VISUAL PASS/FAIL <check>: <measurement>" line per check. Needs a real
-## window: run it via tools/capture.sh (about 900 frames).
+## window: run it via tools/capture.sh (about 800 frames).
 
 const Greybox := preload("res://tools/builders/build_greybox_tileset.gd")
+const WindowSettle := preload("res://tests/visual/window_settle.gd")
 const TILE_SET: TileSet = preload("res://assets/tilesets/greybox/greybox_tileset.tres")
 const PLAYER_SCENE: PackedScene = preload("res://scenes/actors/player/player.tscn")
 const MUDBORN: PackedScene = preload("res://scenes/actors/enemies/mudborn/mudborn.tscn")
@@ -16,6 +17,8 @@ const FLOOR_Y: float = 320.0
 var _player: Player
 var _tuning: PlayerTuning
 var _frame: int = 0
+## The script starts once the window has settled (see WindowSettle).
+var _started: bool = false
 var _mark: Vector2
 var _apex_y: float = INF
 var _enemy: Enemy
@@ -35,9 +38,18 @@ func _ready() -> void:
 	add_child(_player)
 	_player.respawn_at(Vector2(160, FLOOR_Y))
 	_tuning = _player.tuning
+	_settle.call_deferred()
+
+
+func _settle() -> void:
+	# A focus change while the window opens releases every held action.
+	await WindowSettle.settle(self)
+	_started = true
 
 
 func _physics_process(_delta: float) -> void:
+	if not _started:
+		return
 	_frame += 1
 	match _frame:
 		20:

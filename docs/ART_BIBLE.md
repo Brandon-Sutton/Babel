@@ -349,6 +349,8 @@ About 25 generations in all. Ask the user before starting, since it is at the 25
 
 **Updating an animation:** re-download the export ZIP after every PixelLab change. That includes `save_to_asset` fixes and palette locks.
 
+**Breakable tiles (WLD-006).** A hidden breakable wall reuses the plain tile's art as an alternative tile, so it costs no art; each region also wants one cracked-brick tile that shows it can be broken (WLD-024).
+
 **Tilesets (PIPE-006, done).** Download PixelLab's `image` (use `curl -L`; it redirects) and `metadata` into `babel/art_src/pixellab/tilesets/<slug>/` next to an `import.json`. The importer (`tools/import/import_tileset.gd`):
 - **Terrain:** PixelLab's 16 corner-based "Wang" tiles become a MATCH_CORNERS terrain set. Each tile's "lower" corners are terrain 0, so the terrain brush and `set_cells_terrain_connect` autotile.
 - **Collision:** built from the solid corner quadrants, merged with `BitMap.opaque_to_polygons`, so floors are flat and grid-aligned.

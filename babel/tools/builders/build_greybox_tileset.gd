@@ -23,6 +23,11 @@ const BREAKABLE: Vector2i = Vector2i(5, 0)
 const WATER: Vector2i = Vector2i(6, 0)
 const BACK_WALL: Vector2i = Vector2i(7, 0)
 const TILE_COUNT: int = 8
+## Alternative of SOLID that looks the same but breaks (WLD-006): a hidden wall or floor.
+const HIDDEN_BREAKABLE_ALT: int = 1
+## Hits to break (custom data "breakable"): the hidden variant and the cracked brick.
+const HIDDEN_HITS: int = 3
+const BRICK_HITS: int = 2
 
 ## TileSet physics layer indices and the project collision layers (CLAUDE.md) they use.
 const PHYS_WORLD: int = 0      # layer 1 "world"
@@ -87,6 +92,10 @@ func _build_tile_set(texture: Texture2D) -> TileSet:
 	tile_set.add_custom_data_layer()
 	tile_set.set_custom_data_layer_name(0, "kind")
 	tile_set.set_custom_data_layer_type(0, TYPE_STRING_NAME)
+	# Hits needed to break the tile (0 = unbreakable), read by BreakableTiles (WLD-006).
+	tile_set.add_custom_data_layer()
+	tile_set.set_custom_data_layer_name(1, "breakable")
+	tile_set.set_custom_data_layer_type(1, TYPE_INT)
 	tile_set.add_terrain_set()
 	tile_set.set_terrain_set_mode(0, TileSet.TERRAIN_MODE_MATCH_CORNERS_AND_SIDES)
 	tile_set.add_terrain(0)
@@ -109,6 +118,7 @@ func _build_tile_set(texture: Texture2D) -> TileSet:
 	_set_kind(source, HAZARD, &"hazard", PHYS_WORLD, POLY_FULL)
 	_add_polygon(source.get_tile_data(HAZARD, 0), PHYS_HAZARD, POLY_FULL)
 	_set_kind(source, BREAKABLE, &"breakable", PHYS_WORLD, POLY_FULL)
+	source.get_tile_data(BREAKABLE, 0).set_custom_data("breakable", BRICK_HITS)
 	_set_kind(source, WATER, &"water", -1, PackedVector2Array())
 	_set_kind(source, BACK_WALL, &"wall", -1, PackedVector2Array())
 
@@ -122,6 +132,13 @@ func _build_tile_set(texture: Texture2D) -> TileSet:
 			TileSet.CELL_NEIGHBOR_LEFT_SIDE, TileSet.CELL_NEIGHBOR_TOP_LEFT_CORNER,
 			TileSet.CELL_NEIGHBOR_TOP_SIDE, TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER]:
 		solid.set_terrain_peering_bit(bit, 0)
+	# The hidden breakable wall: the solid tile's art, its own data, never picked by the
+	# terrain brush (paint it from the alternatives).
+	source.create_alternative_tile(SOLID, HIDDEN_BREAKABLE_ALT)
+	var hidden: TileData = source.get_tile_data(SOLID, HIDDEN_BREAKABLE_ALT)
+	hidden.set_custom_data("kind", &"solid")
+	hidden.set_custom_data("breakable", HIDDEN_HITS)
+	_add_polygon(hidden, PHYS_WORLD, POLY_FULL)
 	return tile_set
 
 

@@ -33,10 +33,11 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - The pause menu has the status sheet and the SotN equipment screen.
 - Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
 - **Everything Elam equips is visible on him** (2026-10-15): weapon in hand, shield, circlet, seals, relic anklet, bronze plates and the mantle lining. The swing smear takes the weapon's colour.
+- **Secrets** (2026-10-15, WLD-006): hidden breakable walls and floors (look like the wall, 3 hits) and cracked bricks (2 hits), with secret rooms off camera behind them. In the sandbox: a cracked block in the middle stretch, a hidden floor just past the double-jump wall over a cellar, and a hidden stretch of the far right wall into a secret room. F1 outlines them.
 - **Enemies drop gear** (2026-10-15, INV-013): each enemy has a loot table with a common and a rare piece of gear found only as drops (Potsherd Seal, Riverclay Mail, Gate Guard's Helm, Watchman's Mantle, Seal of Humbaba). Dropped gear stays on the floor.
 - **SotN specials pass** (2026-10-15, logic only; art waits for the refill, ART-018): running (double-tap and hold), Relic Arms paid in Embers (Sling Stone, Clay Tablet; V or Up + Attack), Utterances by command input (Išātu: ↓↘→ + Attack), a Breath-paid weapon art per weapon type (←→ + Attack), and equipment that grants abilities and passives. Debug keys F1–F5.
 
-**Playtest wanted (game feel, log the verdict here):** how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
+**Playtest wanted (game feel, log the verdict here):** breakable walls (3 hits for hidden ones, 2 for cracked bricks; the crack, rubble and camera pan into a secret room); how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
@@ -331,7 +332,7 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | WLD-003 | Threaded preloading of adjacent rooms, with an unload policy | M2 | P1 | S | WLD-002 | todo |
 | WLD-004 | Camera: follow with a deadzone, room limits, look-ahead, vertical bias, shake; camera zones inside rooms | M1 | P0 | M | WLD-001 | todo |
 | WLD-005 | One-way platforms and 45° slopes | M1 | P0 | S | LVL-002 | todo |
-| WLD-006 | Hidden breakable walls and floors: N hits, saved as a flag | M1 | P0 | S | WLD-013 | todo |
+| WLD-006 | Hidden breakable walls and floors: N hits, saved as a flag, hiding secret rooms off the camera (and later the map), as in SotN | M1 | P0 | M | WLD-013 | done |
 | WLD-007 | Votive lamps: breakable, drop from a loot table, placed as scene tiles | M1 | P0 | S | INV-006 | done |
 | WLD-008 | Doors: normal, boss lock, one-way (Word-sealed doors are in REL-004) | M1 | P0 | S | WLD-002 | todo |
 | WLD-009 | Hazards: spikes, pitch pools, crushers, steam vents, live wires | M3 | P0 | M | CBT-001 | todo |
@@ -348,6 +349,7 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | WLD-020 | Collapsing-floor sequences (Foundation) | M3 | P1 | S | WLD-012 | todo |
 | WLD-021 | Room builder: create a new room scene from the template with arguments (region, id, size) | M1 | P0 | S | WLD-001 | todo |
 | WLD-022 | Templates for the Quiet Room (save) and the Builders' Lift room | M1 | P0 | S | WLD-021 | todo |
+| WLD-024 | Breakable variants for imported PixelLab tilesets: `import_tileset.gd` adds an alternative of each solid tile with `breakable` data (hidden walls) and a cracked-brick tile per region | M1 | P1 | S | WLD-006, PIPE-006 | todo |
 | WLD-023 | **Dual-grid art layer:** derive PixelLab corner tiles from the room's logic and collision cells (greybox) on a layer offset by half a tile, so art and collision line up with the 16 px grid and each room's tile art is automatic | M1 | P0 | M | PIPE-006, LVL-002 | todo |
 
 ### MAP: Map and completion
@@ -361,6 +363,7 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | MAP-005 | Surveyor's Maps sold by region (reveal unvisited outlines) | M3 | P2 | S | NPC-004 | todo |
 | MAP-006 | Player-placed map pins | M3 | P2 | S | MAP-003 | todo |
 | MAP-007 | Completion %: Act I 100%, Act II 200%, plus the secret bonus | M2 | P0 | S | MAP-002 | todo |
+| MAP-009 | Secret areas (WLD-006 `SecretArea`) are hidden on the map until entered; finding one counts toward the secret bonus (MAP-007) | M2 | P0 | S | MAP-002, WLD-006 | todo |
 | MAP-008 | Exit consistency validator: exits of adjacent cells must pair up (run in CI) | M1 | P0 | S | MAP-001 | todo |
 
 ### SAV: Saving, checkpoints and fast travel
@@ -921,6 +924,13 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - A plain attack press still attacks normally.
 - **ENG-012 (first pass)**
   - Debug builds only: F1 toggles an overlay (state, velocity, HP/Breath/Embers, abilities, recent inputs), F2 gives every item, Relic Arm and spell, F3 refills HP, Breath and Embers, F4 toggles god mode, F5 cycles the carried Relic Arm.
+- **WLD-006**
+  - Breakable tiles are painted like any other tile: a hidden variant of the solid tile that looks identical (3 hits) and the cracked brick (2 hits). The hit count is the tile's `breakable` custom data; touching breakable cells break together.
+  - Player weapons, weapon arts and Relic Arms break them; enemy attacks don't. Each hit cracks and flashes the tiles; the last one crumbles them into rubble with a shake.
+  - A broken group is saved as a world flag (`<room_id>/<layer>@x,y`) and stays broken when the room reloads.
+  - A `SecretArea` marks a hidden room outside the room's camera bounds: it can't be seen until Elam enters it, then the camera pans to show it, and back when he leaves. The first entry sets a flag and emits `Events.secret_found` for the map (MAP-009).
+  - The sandbox has a hidden wall into a secret room, a hidden floor over a cellar, and a cracked-brick block.
+  - Unit tests cover grouping, hit counts and persistence; a visual test breaks a wall and a floor with real attacks and a block with a Relic Arm, enters both secrets and checks the camera.
 - **INV-013**
   - `EnemyData.loot` is a `LootTable` rolled once when the enemy dies, with the player's luck; the drop pops out where it died.
   - Every enemy has a table with a common and a rare piece of gear that is found only as a drop (new items), and each new item is visible on Elam (worn sprite or dye).
@@ -1329,3 +1339,13 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Tests:** new `tests/visual/loot_test.tscn` 8/8 (kill drop, gear stays while Embers blink out, collect and wear, each enemy's gear dropped, worn and visible, mantle regen); unit 74/74 (6 new in `test_enemy_loot.gd`: tables well formed, every enemy drops gear, drop-only gear not given, rates, every equipment item visible, seeded rolls repeat); regression 66/66.
   - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
   - **Next:** the user plays the sandbox and judges the drop rates. Suggested: RPG-005 pity counter, CBT-014 training dummy, QA-008 feature gym.
+- **2026-10-15 (breakable walls and secret rooms: WLD-006)**
+  - **The user's request:** special tiles that can be destroyed, used as in SotN to hide secret rooms off the map.
+  - **Breakable tiles:** the greybox TileSet has a `breakable` custom data layer (hits to break) and a hidden variant of the solid tile as alternative 1 (identical art, 3 hits); the cracked brick takes 2. A `BreakableTiles` child of a TileMapLayer groups touching breakable cells, gives each group a hurtbox on the breakable layer (12 px margin, so a crouching strike reaches floors), cracks and flashes it per hit, crumbles it into rubble cut from the tile's own art, and saves `<room_id>/<layer>@x,y`. `Hurtbox.terrain_rects` lets the wall check (CBT-013) count a ray that stops on the wall itself.
+  - **Secret areas:** `SecretArea` (a `@tool` node with an `area` and a camera `view`) sits outside the room's camera bounds. When Elam's feet enter it, the camera limits pan to its view (0.35 s) and pan back when he leaves; the first entry sets `<room_id>/secret/<name>` and emits `Events.secret_found` for the map (MAP-009, new row).
+  - **Sandbox:** cracked block at tiles 64-65; hidden floor at 98-100 over a cellar dug into rock (ledge to climb out, 2 lamps); hidden stretch of the right wall at rows 14-19 into an east room (3 lamps). F1 outlines breakables and secret areas.
+  - **Helpers:** `WorldKeys` builds `<room_id>/<name>` flags; `Rubble` VFX.
+  - **Test reliability:** the capture window loses focus about 1.3 s after opening (the editor takes it back), which released held keys mid-test. New `tests/visual/window_settle.gd` waits for that before scripted input; specials, loot, secrets and gameplay tests use it (gameplay now needs 800 frames).
+  - **Tests:** new `tests/visual/secrets_test.tscn` 6/6 (hidden wall pixel-identical to the plain wall, sword breaks it in 3, secret room shown only once entered and the camera pans back, crouching strikes break a hidden floor into the cellar, Sling Stones break a cracked block, broken tiles stay broken on rebuild); unit 79/79 (5 new in `test_breakable_tiles.gd`); regression 74/74.
+  - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** the user tries the sandbox secrets. Later: WLD-024 breakable variants for the PixelLab tilesets, MAP-009 when the map exists.

@@ -7,6 +7,7 @@ extends Node2D
 ## 1300 frames).
 
 const Greybox := preload("res://tools/builders/build_greybox_tileset.gd")
+const WindowSettle := preload("res://tests/visual/window_settle.gd")
 const TILE_SET: TileSet = preload("res://assets/tilesets/greybox/greybox_tileset.tres")
 const PLAYER_SCENE: PackedScene = preload("res://scenes/actors/player/player.tscn")
 const MUDBORN: PackedScene = preload("res://scenes/actors/enemies/mudborn/mudborn.tscn")
@@ -32,8 +33,8 @@ func _ready() -> void:
 
 
 func _run() -> void:
-	# Let the window settle: a focus change while it opens releases every held action.
-	await _frames(30)
+	# A focus change while the window opens releases every held action.
+	await WindowSettle.settle(self)
 	_player.god_mode = true
 	var gear: Pickup = await _check_kill_drops()
 	await _check_gear_stays(gear)

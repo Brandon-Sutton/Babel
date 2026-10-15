@@ -6,13 +6,16 @@ extends Area2D
 ## Layers come from the scene: player attacks mask enemy_hurtbox, enemy attacks mask
 ## player_hurtbox (CLAUDE.md collision table). Level geometry blocks hits (CBT-013): a
 ## hurtbox only counts when a line from the attacker's body, at the hitbox's height,
-## reaches it without crossing a world tile. One-way platforms don't block.
+## reaches it without crossing a world tile. One-way platforms don't block. A hurtbox
+## that is itself level geometry (a breakable wall) is reached when the ray stops on it.
 
 ## Emitted when a hit was accepted by a hurtbox.
 signal hit_landed(hurtbox: Hurtbox, info: DamageInfo)
 
 ## Physics layer of solid level geometry (CLAUDE.md: layer 1, world).
 const WORLD_MASK: int = 1
+## Most tiles of a breakable wall aimed at by the wall check.
+const MAX_TERRAIN_TARGETS: int = 16
 
 @export var continuous: bool = false
 ## Hits need a clear line through the level from the attacker (CBT-013).
@@ -72,7 +75,7 @@ func _physics_process(_delta: float) -> void:
 
 ## True if nothing solid stands between the attacker and [param hurtbox]: a ray from the
 ## attacker's centre line, at this hitbox's height, reaches the hurtbox's centre or its
-## nearest point.
+## nearest point, or for level geometry, stops on the geometry itself.
 func has_clear_line(hurtbox: Hurtbox) -> bool:
 	var centre: Vector2 = _shape_centre(self)
 	var origin: Vector2 = centre
@@ -84,10 +87,13 @@ func has_clear_line(hurtbox: Hurtbox) -> bool:
 	var rect: Rect2 = _shape_rect(hurtbox)
 	if rect.has_area():
 		targets.append(origin.clamp(rect.position, rect.end))
+	for terrain: Rect2 in hurtbox.terrain_rects.slice(0, MAX_TERRAIN_TARGETS):
+		targets.append(terrain.get_center())
 	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 	for point: Vector2 in targets:
 		var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(origin, point, WORLD_MASK)
-		if space.intersect_ray(query).is_empty():
+		var hit: Dictionary = space.intersect_ray(query)
+		if hit.is_empty() or hurtbox.is_on_terrain(hit["position"]):
 			return true
 	return false
 

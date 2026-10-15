@@ -4,6 +4,7 @@
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4gq6y"]
 texture = ExtResource("1_e6yns")
+0:0/next_alternative_id = 2
 0:0/0 = 0
 0:0/0/terrain_set = 0
 0:0/0/terrain = 0
@@ -17,6 +18,10 @@ texture = ExtResource("1_e6yns")
 0:0/0/terrains_peering_bit/top_side = 0
 0:0/0/terrains_peering_bit/top_right_corner = 0
 0:0/0/custom_data_0 = &"solid"
+0:0/1 = 1
+0:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/1/custom_data_0 = &"solid"
+0:0/1/custom_data_1 = 3
 1:0/0 = 0
 1:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -2, -8, -2)
 1:0/0/physics_layer_1/polygon_0/one_way = true
@@ -34,6 +39,7 @@ texture = ExtResource("1_e6yns")
 5:0/0 = 0
 5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:0/0/custom_data_0 = &"breakable"
+5:0/0/custom_data_1 = 2
 6:0/0 = 0
 6:0/0/custom_data_0 = &"water"
 7:0/0 = 0
@@ -51,4 +57,6 @@ terrain_set_0/terrain_0/name = "solid"
 terrain_set_0/terrain_0/color = Color(0.29411766, 0.23921569, 0.43137255, 1)
 custom_data_layer_0/name = "kind"
 custom_data_layer_0/type = 21
+custom_data_layer_1/name = "breakable"
+custom_data_layer_1/type = 2
 sources/0 = SubResource("TileSetAtlasSource_4gq6y")

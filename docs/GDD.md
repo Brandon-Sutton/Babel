@@ -105,6 +105,11 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN). I
   - **Words** gate sealed doors.
   - **Tongues** gate optional NPC content and inscriptions.
 - **Fast travel and saving:** about one **Builders' Lift** (teleport) per region plus one at key junctions, and a **Quiet Room** (save) every 8–12 cells along the critical path.
+- **Secrets behind breakable walls (decided 2026-10-15, WLD-006).** As in SotN, walls, floors and ceilings can hide secret rooms.
+  - A **hidden** breakable tile looks exactly like the wall around it and takes 3 hits; a **cracked brick** shows it can be broken and takes 2. Touching breakable tiles crack together and crumble together.
+  - Elam's weapons, weapon arts and Relic Arms break them; a crouching strike breaks floors. Enemies can't.
+  - A broken wall stays broken (a world flag, kept by saving).
+  - The secret room behind lies **outside the room's camera bounds**, so it can't be seen until Elam steps in; then the camera pans to show it. It is also kept **off the map** until found (MAP-009), and finding it counts toward the secret percentage.
 
 ### 5.2 Act I regions
 

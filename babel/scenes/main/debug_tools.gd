@@ -2,7 +2,8 @@ extends Control
 ## Debug overlay and cheats (ENG-012, first pass), for playtesting features. Debug builds
 ## only:
 ##   F1  overlay: FPS, state, velocity, gait, HP/MP/Embers, Relic Arm, abilities, spells,
-##       recent directional inputs (for practising commands)
+##       recent directional inputs (for practising commands); outlines breakable tiles
+##       and secret areas (WLD-006)
 ##   F2  give every item, learn every Utterance, grant every relic's ability
 ##   F3  refill HP, Breath and Embers
 ##   F4  god mode (hits are ignored)
@@ -29,6 +30,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	match key.keycode:
 		KEY_F1:
 			_overlay = not _overlay
+			BreakableTiles.show_hints = _overlay
 		KEY_F2:
 			give_everything()
 			Events.notice.emit("DEBUG", "EVERY ITEM, SPELL AND RELIC")
