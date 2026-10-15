@@ -33,12 +33,14 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - The pause menu has the status sheet and the SotN equipment screen.
 - Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
 - **Everything Elam equips is visible on him** (2026-10-15): weapon in hand, shield, circlet, seals, relic anklet, bronze plates and the mantle lining. The swing smear takes the weapon's colour.
+- **SotN specials pass** (2026-10-15, logic only; art waits for the refill, ART-018): running (double-tap and hold), Relic Arms paid in Embers (Sling Stone, Clay Tablet; V or Up + Attack), Utterances by command input (Išātu: ↓↘→ + Attack), a Breath-paid weapon art per weapon type (←→ + Attack), and equipment that grants abilities and passives. Debug keys F1–F5.
 
-**Playtest wanted (game feel, log the verdict here):** the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
+**Playtest wanted (game feel, log the verdict here):** running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
 Next, in suggested order:
+0. **Playtest kit:** training dummy (CBT-014) and feature gym (QA-008), then shield guard (PLR-015) and potions in a hand (PLR-023, INV-005).
 1. **Visible equipment (EQV):** after the 2026-10-17 refill, regenerate the rest of Elam's set with the guide prop (EQV-009): jump attack, death, guard, cast, throw, double jump, landing and more. Then PixelLab worn art (EQV-012).
 2. **Relics:** `RelicData` for every relic with a worn spot, plus menu toggling (EQV-010, REL-001).
 3. **Per-weapon animations:** every weapon type has its own full set (EQV-017). Next: split the sheet per type (EQV-018), and new types such as the spear, each with its own set.
@@ -46,7 +48,6 @@ Next, in suggested order:
    - game-over screen (UI-014, completes PLR-010)
    - title screen with continue (UI-012, SAV-005)
    - enemy loot tables (INV-013)
-   - Relic Arms using embers (SUB-001/002)
 5. **World:** room transitions (WLD-001/002), then dual-grid tile art (WLD-023) once the user has decided on the GTE tileset style.
 6. **Art polish:** weapon-specific swings (ART-016), item icons (INV-014), palette locks for the hero and enemy animations.
 
@@ -85,12 +86,13 @@ Next, in suggested order:
 | ENG-009 | Install GUT, add a sample test, and confirm the CLI command works | M0 | P0 | S | ENG-006 | done |
 | ENG-010 | `tools/ci/check.gd`: load everything, report failures, exit non-zero on error | M0 | P0 | M | ENG-006 | done |
 | ENG-011 | Visual capture harness: `tests/visual/` scenes and a `tools/capture.sh` wrapper | M0 | P0 | S | ENG-008 | done |
-| ENG-012 | Debug overlay and cheats (F1): FPS, state, velocity, room, collision toggle, god mode, give item, warp | M1 | P1 | M | ENG-008 | todo |
+| ENG-012 | Debug overlay and cheats (F1): FPS, state, velocity, room, collision toggle, god mode, give item, warp. First pass done 2026-10-15: F1 overlay, F2 give everything, F3 refill, F4 god mode, F5 cycle Relic Arm; the rest is ENG-019 | M1 | P1 | M | ENG-008 | done |
 | ENG-013 | `Logger` subclass writing to `user://logs`, plus an in-game console | M2 | P2 | S | ENG-007 | todo |
 | ENG-015 | Windows export preset (shader baker on, icon) and an export smoke test | M1 | P1 | S | ENG-002 | todo |
 | ENG-016 | Version stamp from `application/config/version` shown in the title and debug overlay | M2 | P2 | S | ENG-015 | todo |
 | ENG-017 | Custom performance monitors: active enemies, projectiles, particles | M2 | P2 | S | ENG-012 | todo |
 | ENG-018 | `.claude/settings.json` allow-list for godot and curl commands, to reduce permission prompts | M0 | P2 | S | — | todo |
+| ENG-019 | Debug tools, second pass: room readout, collision toggle, give one chosen item, warp to a room, spawn an enemy at the cursor, slow motion and frame advance | M1 | P1 | S | ENG-012 | todo |
 
 *ENG-014 was merged into VFX-006.*
 
@@ -135,6 +137,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | ART-015 | Act II drowned variants: palette plans and new overlay art | M4 | P0 | L | VFX-010 | todo |
 | ART-016 | Weapon-specific swing art: the Sappara and Bronze Mace reuse the sword slash (stretched to their timing). The mechanism exists now (EQV-015); this is the art, see EQV-017 | M2 | P2 | M | ART-001 | todo |
 | ART-017 | A lower crouch pose for Elam, so high attacks can be ducked visibly. The current crouch is 59 px tall and the Spearman's stab (46–53 px) crosses the head, so a crouch does not dodge it. | M2 | P2 | S | ART-001 | todo |
+| ART-018 | Specials art pass after the refill (ART_BIBLE §8.1): run, throw and cast per weapon type, art-specific attacks, Relic Arm sprites, spell and art effects, worn art for the new mantles and seals. About 25 gens: ask first | M1 | P0 | M | PLR-025, SUB-001, SPL-020 | todo |
 
 ### PLR: Player controller
 
@@ -163,6 +166,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | PLR-022 | Walking up and down 45° slopes and stairs, including attacking on slopes | M1 | P0 | S | WLD-005 | doing |
 | PLR-023 | Use food and potions from a hand slot | M2 | P1 | S | INV-005 | todo |
 | PLR-024 | Corner correction: nudge around ceiling corners and ledge lips | M1 | P1 | S | PLR-004 | todo |
+| PLR-025 | Running: double-tap a direction and hold it to run; jumping out of a run keeps the speed. Run animation per weapon type comes with the art pass (until then the walk plays faster) | M1 | P0 | S | PLR-003 | done |
 
 *PLR-019 (item crash) was moved to SUB-010.*
 
@@ -182,6 +186,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | CBT-010 | VFX and SFX variants per element | M3 | P2 | S | VFX-012 | todo |
 | CBT-011 | Enemy name and HP readout on hit (Codex Scroll) | M2 | P1 | S | REL-001 | todo |
 | CBT-013 | Attacks are blocked by level geometry: a hit only lands with a clear line through world tiles from the attacker to the target, for the player and enemies alike; a blocked swing sparks where it meets the wall | M1 | P0 | S | CBT-001 | done |
+| CBT-014 | Training dummy: cannot die, shows damage per hit, hit count, DPS over the last 5 s and the move that dealt it; resets on a key. For comparing weapons, arts and Relic Arms in playtests | M1 | P0 | S | CBT-003 | todo |
 | CBT-012 | Contact damage from enemy bodies, and the player's i-frame rules | M1 | P0 | S | CBT-001 | done |
 
 ### RPG: Stats and progression
@@ -214,6 +219,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | INV-012 | Elam's starting gear and Namtar's gear strip (the Act II recovery is in NAR-013) | M1 | P0 | S | INV-001, NAR-005 | doing |
 | INV-013 | Enemy loot tables (`EnemyData.loot`), rolled on death | M2 | P1 | S | INV-007 | todo |
 | INV-014 | Item icons in the equip menu and pickups (needs PIPE-009) | M2 | P2 | S | PIPE-009 | todo |
+| INV-016 | Equipment that grants abilities and passive effects: `EquipmentData.abilities` (e.g. double jump while worn) and `passives` (Breath regen, HP regen, lifesteal, Ember saver, run speed), with first items to test them | M1 | P0 | M | INV-004 | done |
 | INV-015 | Two-handed weapons: a two-handed weapon empties the left hand, and equipping the left hand removes it. The menu and stat preview follow the rule. First weapon: the Scythe of Ninurta | M1 | P0 | S | INV-004 | done |
 
 ### EQV: Visible equipment (paper doll)
@@ -247,9 +253,9 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| SUB-001 | Framework: `SubweaponData`, Embers, Up + Attack and the `relic_arm` button, one equipped at a time | M1 | P1 | M | CBT-008 | todo |
-| SUB-002 | Sling Stone | M1 | P1 | S | SUB-001 | todo |
-| SUB-003 | Clay Tablet (high arc) | M2 | P0 | S | SUB-001 | todo |
+| SUB-001 | Framework: `RelicArmData`, Embers, Up + Attack and the `relic_arm` button, one carried at a time | M1 | P0 | M | CBT-008 | done |
+| SUB-002 | Sling Stone | M1 | P0 | S | SUB-001 | done |
+| SUB-003 | Clay Tablet (high arc) | M1 | P0 | S | SUB-001 | done |
 | SUB-004 | Bitumen Flask (fire pool) | M2 | P0 | S | SUB-001 | todo |
 | SUB-005 | Hunter's Arrow (piercing) | M3 | P1 | S | SUB-001 | todo |
 | SUB-006 | Cylinder Seal (rolls along floors) | M3 | P1 | S | SUB-001 | todo |
@@ -257,18 +263,19 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | SUB-008 | Abzu Water (water pillar) | M3 | P1 | S | SUB-001 | todo |
 | SUB-009 | Clepsydra: stop time for enemies and projectiles, not the player | M3 | P0 | M | SUB-001 | todo |
 | SUB-010 | Item crashes (super moves) for every Relic Arm | M3 | P2 | M | SUB-002..009 | todo |
-| SUB-011 | ⟨open⟩ Decide: owned arsenal or SotN pickup-swap | M2 | P0 | S | — | todo |
+| SUB-011 | Decided 2026-10-15: SotN pickup-swap. One Relic Arm is carried; picking up another drops the old one where you stand | M1 | P0 | S | — | done |
 
 ### SPL: Utterances (spells)
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| SPL-001 | Command-input recognizer: directional ring buffer counted in 60 Hz frames, notation parser (`"D,DF,F+ATK"`), leniency rules, tests | M2 | P0 | M | ENG-005 | todo |
-| SPL-002 | `SpellData`: syllables, Breath cost, cast animation, effect scene, unlock flag | M2 | P0 | S | SPL-001 | todo |
-| SPL-003 | Casting flow: cast animation, throat-glyph glow, Breath check, fizzle on failure | M2 | P0 | S | SPL-002, RPG-004 | todo |
+| SPL-001 | Command-input recognizer: directional ring buffer counted in 60 Hz frames, notation parser (`"D,DF,F+ATK"`), leniency rules, tests | M1 | P0 | M | ENG-005 | done |
+| SPL-002 | `SpellData`: syllables, Breath cost, cast animation, effect scene, unlock flag | M1 | P0 | S | SPL-001 | done |
+| SPL-003 | Casting flow: cast animation, throat-glyph glow, Breath check, fizzle on failure | M1 | P0 | S | SPL-002, RPG-004 | done |
 | SPL-005 | Quick-cast: bind a learned Utterance to a button (accessibility) | M2 | P1 | S | SPL-003 | todo |
 | SPL-006 | The Confounded status blocks casting and scrambles UI text | M2 | P1 | S | CBT-007, NPC-002 | todo |
-| SPL-010 | Išātu (fire bolts) | M2 | P0 | S | SPL-003 | todo |
+| SPL-010 | Išātu (fire bolts) | M1 | P0 | S | SPL-003 | done |
+| SPL-020 | Weapon arts: every weapon type has a special attack (Back, Forward + Attack) that costs Breath: Swift Thrust (sword), Hooking Lunge (sickle-sword), Earthshaker (mace), Lion's Cleave (great sword), Reaping Whirl (scythe) | M1 | P0 | M | SPL-003 | done |
 | SPL-011 | Ṣūmu (timed lifesteal) | M3 | P0 | S | SPL-003 | todo |
 | SPL-012 | Ḫalāqu (drain HP from everything on screen) | M3 | P1 | S | SPL-003 | todo |
 | SPL-013 | Utukku (homing spirit) | M3 | P0 | S | SPL-003 | todo |
@@ -622,6 +629,7 @@ Each step's ID is `LVL-<CODE>-<step>`, so the Grand Gate blockout is `LVL-GTE-2`
 | QA-005 | Performance pass: Steam Deck-class target, worst rooms, particle budget | M5 | P0 | M | ENG-017 | todo |
 | QA-006 | Playtest protocol and a feedback log section in this file | M1 | P1 | S | — | todo |
 | QA-007 | Save fuzzing: load every save version and handle corrupted files | M2 | P1 | S | SAV-006 | todo |
+| QA-008 | Feature gym: one test room with a station per feature (training dummies at set distances, a wall, a platform ladder for jumps, a row of lamps, Relic Arm pickups, an item chest, enemy pens), reachable from the debug tools, so every playtest is repeatable | M1 | P0 | M | CBT-014, ENG-019 | todo |
 
 ### SHIP: Release
 
@@ -892,6 +900,35 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - Each weapon type plays its own idle, walk, jump, fall, crouch, crouching attack, back-dash, hurt and attack. No two types share a hold.
   - The weapon sits in his hands in every frame of every set (equipment_test's per-frame check).
   - equipment_test equips each weapon in turn and checks every move plays that type's set.
+- **PLR-025**
+  - Double-tapping a direction within `run_tap_frames` and holding it moves at `run_speed`; a single press walks.
+  - Releasing or reversing the direction stops the run; jumping out of a run keeps run speed in the air until landing.
+  - Run speed and the tap window live in PlayerTuning; equipment can raise run speed (INV-016).
+- **INV-016**
+  - An ability on an equipped item (e.g. `double_jump`) works only while it is worn.
+  - Passives add up across equipped items and apply in play: Breath and HP regeneration, lifesteal on hits, Ember saver, run speed.
+  - The equip menu lists an item's abilities and passives.
+  - Unit tests cover granting, removal and stacking.
+- **SUB-001..003**
+  - `relic_arm` (or Up + Attack) throws the carried Relic Arm and spends its Ember cost; without enough Embers nothing is thrown.
+  - The Sling Stone flies straight; the Clay Tablet flies in a high arc. Both hit enemies, break lamps and stop at walls.
+  - Each Relic Arm has an on-screen limit.
+  - Picking up another Relic Arm swaps it, dropping the old one; the HUD shows the carried one.
+- **SPL-001..003, SPL-010, SPL-020**
+  - The recognizer matches commands in the notation (`D,DF,F+ATK`) within their frame windows, mirrored for facing; unit tests cover hits, misses and leniency.
+  - A matched spell or weapon art with enough Breath starts a short cast, spends the Breath and runs its effect; without enough Breath it fizzles and nothing is spent.
+  - Išātu throws three fire bolts. Each weapon type's art has its own effect and cost.
+  - A plain attack press still attacks normally.
+- **ENG-012 (first pass)**
+  - Debug builds only: F1 toggles an overlay (state, velocity, HP/Breath/Embers, abilities, recent inputs), F2 gives every item, Relic Arm and spell, F3 refills HP, Breath and Embers, F4 toggles god mode, F5 cycles the carried Relic Arm.
+- **CBT-014**
+  - A dummy takes hits without dying and shows each hit's damage, the hit count and DPS over the last 5 s.
+  - It names the move that dealt the last hit (weapon, art, Utterance or Relic Arm).
+  - A key resets the readout.
+- **QA-008**
+  - One room has a station for each feature: dummies at 40/80/150 px, a wall, a platform ladder, lamps, Relic Arm pickups, an item chest and enemy pens.
+  - It loads from the debug tools and returns the player to where they were.
+  - A visual test walks through it and every station logs PASS.
 - **EQV-005**
   - Equipping a weapon, shield, helm, seal or relic shows its sprite at the right attach point in every animation frame, mirrored correctly when facing left.
   - Changing equipment in the pause menu updates Elam immediately.
@@ -1258,3 +1295,15 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
     - Regression 39/39, unit 51/51.
   - Gens spent: 25. **About 8.6 left** until the 2026-10-17 reset.
   - **Next:** the user compares the five holds in game. After the refill: EQV-018 sheet split, EQV-019 and EQV-020.
+- **2026-10-15 (SotN specials pass, logic only: PLR-025, INV-016, SUB-001..003, SPL-001..003, SPL-010, SPL-020, ENG-012)**
+  - **The user's request:** focus on logic while PixelLab is low; add the missing SotN features (running, equipment that grants abilities, special attacks that spend resources); suggest features for the playtest. World and story come last.
+  - **Running (PLR-025):** double-tap and hold; walk 180, run 290 px/s (`PlayerTuning.run_speed`, `run_tap_frames` 14). Air control uses the run speed, so a jump out of a run keeps it. Until the run art exists, the walk plays at 1.6×.
+  - **Command input (SPL-001):** `CommandInput` records direction changes per physics frame and matches notation like `D,DF,F` relative to the facing at the press, with a per-move window and an 8-frame release grace. The longest matching command wins.
+  - **Specials (SPL-002/003/010/020):** `SpellData` drives Utterances and weapon arts through one `Cast` state (wind-up, effect, recovery). Effects: bolts, lunge, shockwave, cleave, whirl. Not enough Breath fizzles and the press attacks normally. Išātu is known at the start for the playtest.
+  - **Relic Arms (SUB-001..003):** `RelicArmData` (cost, flight, damage, on-screen limit). `PlayerShot` is the shared projectile (also used by spells). Pickups swap the carried arm and drop the old one. The HUD shows the carried arm.
+  - **Equipment (INV-016):** `EquipmentData.abilities` and `passives`; `Game.has_ability` also checks what is worn; `PlayerStats.passive()` sums across items. Five test items in the starting bag. The equip screen lists the effects.
+  - **Debug (ENG-012 first pass):** F1 overlay with recent inputs, F2 everything, F3 refill, F4 god mode, F5 cycle Relic Arm. Debug builds only.
+  - **Test lessons:** a scripted `Input.action_press` registers on the next physics frame, so test presses last 2 frames and modifiers (Up) stay held past the press. A focus change while the capture window opens releases held actions, so the test waits 30 frames first. Breath regen needed an epsilon (2/s × 2 s summed to 3.9999).
+  - **Tests:** new `tests/visual/specials_test.tscn` 16/16; unit 68/68 (17 new: command input and specials); regression 50/50 (gameplay, sandbox, systems, spearman, wall block, equipment).
+  - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** the user playtests the specials (see Now). After the refill: ART-018 (ask first). Suggested logic next: CBT-014 training dummy, QA-008 feature gym, PLR-015 guard, PLR-023 potions.

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/spell_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"art_hooking_lunge"
+display_name = "Hooking Lunge"
+description = "Sickle-sword art: a long lunge that hooks through everything in its path."
+command = "B,F"
+window_frames = 20
+cost_mp = 6
+cast_frames = 8
+recovery_frames = 16
+effect = &"lunge"
+power = 9
+count = 1
+speed = 0.0
+distance = 110.0
+active_frames = 14
+knockback = 120.0
+color = Color(0.941176, 0.752941, 0.533333, 1)

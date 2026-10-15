@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_script"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/ember_censer.tres" id="2_7hc4h"]
+
+[resource]
+script = ExtResource("1_script")
+kind = 5
+passives = Dictionary[StringName, float]({
+&"ember_saver": 0.5
+})
+worn = ExtResource("2_7hc4h")
+dye_ramp = PackedColorArray()
+id = &"ember_censer"
+display_name = "Ember Censer"
+description = "A temple censer. Half of all Relic Arm throws cost no Embers."
+price = 160

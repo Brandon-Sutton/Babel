@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="RelicArmData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/relic_arm_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"clay_tablet"
+display_name = "Clay Tablet"
+description = "A baked tablet thrown high; it falls through anything below it. 2 Embers."
+cost = 2
+damage = 18
+flight = &"arc"
+speed = 150.0
+lift = 420.0
+gravity = 900.0
+pierce = true
+max_on_screen = 2
+size = Vector2(10, 12)
+color = Color(0.690196, 0.478431, 0.298039, 1)
+short_name = "TABLET"

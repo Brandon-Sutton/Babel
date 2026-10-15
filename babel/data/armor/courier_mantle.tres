@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+kind = 4
+defense = 1
+passives = Dictionary[StringName, float]({
+&"run_speed": 0.25
+})
+dye_material = &"lining"
+dye_ramp = PackedColorArray(0.05490196, 0.22745098, 0.2509804, 1, 0.12156863, 0.47843137, 0.47058824, 1, 0.42352942, 0.8156863, 0.7529412, 1)
+id = &"courier_mantle"
+display_name = "Courier's Mantle"
+description = "Worn by the king's runners. Running speed +25%."
+price = 120

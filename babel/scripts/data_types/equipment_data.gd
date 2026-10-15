@@ -14,6 +14,15 @@ enum Kind { WEAPON, SHIELD, HEAD, BODY, MANTLE, SEAL }
 @export var intelligence: int = 0
 @export var luck: int = 0
 
+@export_group("Abilities and passives")
+## Abilities granted while the item is worn, e.g. &"double_jump" (INV-016).
+@export var abilities: Array[StringName] = []
+## Passive effects while worn, summed over all equipped items (PlayerStats.passive):
+## &"mp_regen" and &"hp_regen" (points per second), &"lifesteal" (share of melee damage
+## healed), &"ember_saver" (chance a Relic Arm costs nothing), &"run_speed" (fraction
+## added to run speed).
+@export var passives: Dictionary[StringName, float] = {}
+
 @export_group("Visible on Elam")
 ## Rigid sprite worn or held (weapons, shields, helms, seals, add-on armor pieces).
 @export var worn: WornArt

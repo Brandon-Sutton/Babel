@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_script"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/lamp_of_ea.tres" id="2_n1w2l"]
+
+[resource]
+script = ExtResource("1_script")
+kind = 5
+passives = Dictionary[StringName, float]({
+&"mp_regen": 2.0
+})
+worn = ExtResource("2_n1w2l")
+dye_ramp = PackedColorArray()
+id = &"lamp_of_ea"
+display_name = "Lamp of Ea"
+description = "A seal of the god of wisdom and sweet water. Breath returns, 2 per second."
+price = 200

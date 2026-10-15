@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/spell_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"art_reaping_whirl"
+display_name = "Reaping Whirl"
+description = "Scythe art: a spinning reap that cuts all around."
+command = "B,F"
+window_frames = 20
+cost_mp = 10
+cast_frames = 10
+recovery_frames = 18
+effect = &"whirl"
+power = 10
+count = 1
+speed = 0.0
+distance = 70.0
+active_frames = 24
+knockback = 200.0
+color = Color(0.847059, 0.784314, 1, 1)

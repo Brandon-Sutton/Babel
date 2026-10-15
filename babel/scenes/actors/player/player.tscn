@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://scenes/actors/player/game_camera.gd" id="14_camera"]
 [ext_resource type="Script" path="res://scenes/actors/player/afterimage_trail.gd" id="15_afterimages"]
 [ext_resource type="Script" path="res://scenes/actors/player/equipment_rig.gd" id="16_rig"]
+[ext_resource type="Script" path="res://scenes/actors/player/states/throw.gd" id="17_throw"]
+[ext_resource type="Script" path="res://scenes/actors/player/states/cast.gd" id="18_cast"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 resource_local_to_scene = true
@@ -111,6 +113,12 @@ script = ExtResource("12_hurt")
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("13_dead")
+
+[node name="Throw" type="Node" parent="StateMachine"]
+script = ExtResource("17_throw")
+
+[node name="Cast" type="Node" parent="StateMachine"]
+script = ExtResource("18_cast")
 
 [node name="Camera" type="Camera2D" parent="."]
 unique_name_in_owner = true

@@ -14,3 +14,5 @@ var hit_stop_frames: int = 0
 ## Where the hit happened (for sparks and damage numbers).
 var position: Vector2 = Vector2.ZERO
 var source: Node
+## Damage the receiver actually took, filled in by it (for lifesteal, INV-016).
+var dealt: int = 0

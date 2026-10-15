@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/spell_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"art_earthshaker"
+display_name = "Earthshaker"
+description = "Mace art: a blow to the ground that sends a shockwave both ways along the floor."
+command = "B,F"
+window_frames = 20
+cost_mp = 8
+cast_frames = 14
+recovery_frames = 20
+effect = &"shockwave"
+power = 10
+count = 2
+speed = 200.0
+distance = 0.0
+active_frames = 0
+knockback = 220.0
+color = Color(0.752941, 0.501961, 0.25098, 1)

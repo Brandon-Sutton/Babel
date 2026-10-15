@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/spell_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"art_swift_thrust"
+display_name = "Swift Thrust"
+description = "Sword art: a lunging thrust that carries Elam forward."
+command = "B,F"
+window_frames = 20
+cost_mp = 4
+cast_frames = 6
+recovery_frames = 14
+effect = &"lunge"
+power = 6
+count = 1
+speed = 0.0
+distance = 72.0
+active_frames = 10
+knockback = 180.0
+color = Color(0.909804, 0.87451, 0.768627, 1)

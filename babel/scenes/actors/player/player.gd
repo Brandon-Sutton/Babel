@@ -32,8 +32,20 @@ var backdash_cooldown: int = 0
 var crouching: bool = false
 ## Direction of the last hit taken (the player is pushed this way).
 var knockback_direction: float = 1.0
+## Running (PLR-025): set by a double-tap, kept while that direction is held.
+var running: bool = false
+## Directional inputs for Utterances and weapon arts (SPL-001).
+var command_input: CommandInput = CommandInput.new()
+## The special move the Cast state performs next.
+var pending_move: SpellData
+## Debug god mode (ENG-012): hits are ignored.
+var god_mode: bool = false
 
 var _drop_through_frames: int = 0
+var _tap_direction: int = 0
+var _tap_frame: int = -1000
+var _mp_regen: float = 0.0
+var _hp_regen: float = 0.0
 
 @onready var sprite: Sprite2D = %Sprite2D
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
@@ -55,6 +67,7 @@ func _ready() -> void:
 	hurtbox.owner_node = self
 	hurtbox.handler = take_hit
 	weapon_hitbox.owner_node = self
+	weapon_hitbox.hit_landed.connect(_on_weapon_hit)
 	Game.stats.leveled_up.connect(_on_leveled_up)
 	_setup_sprite()
 	set_crouching(false)
@@ -64,6 +77,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_read_run_taps()
+	var frame: int = Engine.get_physics_frames()
+	command_input.record(Vector2i(roundi(input_x()), roundi(signf(Input.get_axis(&"move_up", &"move_down")))), frame)
 	if Input.is_action_just_pressed(&"jump"):
 		jump_buffer = tuning.jump_buffer_frames
 	elif jump_buffer > 0:
@@ -81,6 +97,101 @@ func _physics_process(delta: float) -> void:
 ## Horizontal input as -1, 0 or 1.
 func input_x() -> float:
 	return signf(Input.get_axis(&"move_left", &"move_right"))
+
+
+## Horizontal speed for the current gait: running (with equipment bonuses) or walking.
+func move_speed() -> float:
+	if running:
+		return tuning.run_speed * (1.0 + Game.stats.passive(&"run_speed"))
+	return tuning.walk_speed
+
+
+## A second press of the same direction within run_tap_frames starts a run; letting go
+## of (or reversing) the direction ends it.
+func _read_run_taps() -> void:
+	var frame: int = Engine.get_physics_frames()
+	for direction: int in [-1, 1]:
+		var action: StringName = &"move_right" if direction > 0 else &"move_left"
+		if Input.is_action_just_pressed(action):
+			if _tap_direction == direction and frame - _tap_frame <= tuning.run_tap_frames:
+				running = true
+			_tap_direction = direction
+			_tap_frame = frame
+	if running and roundi(input_x()) != _tap_direction:
+		running = false
+
+
+## On an attack press: performs the Utterance or weapon art whose command was just
+## entered (SPL-003). Returns false when there is none, so a plain attack follows. A
+## matched move without enough Breath fizzles and the attack goes ahead.
+func try_special() -> bool:
+	var move: SpellData = _matched_move()
+	if move == null:
+		return false
+	if not Game.stats.spend_mp(move.cost_mp):
+		DamageNumber.spawn_text(get_tree(), global_position + Vector2(0, -STAND_HEIGHT - 8.0), tr("NO BREATH"),
+				Color("6c8ee0"), 1, 40)
+		return false
+	pending_move = move
+	machine.transition_to(&"Cast")
+	return true
+
+
+## The longest learned Utterance or held weapon's art whose command ends now.
+func _matched_move() -> SpellData:
+	var candidates: Array[SpellData] = Game.known_spells()
+	var weapon: WeaponData = Game.stats.weapon
+	if weapon != null and weapon.art != null:
+		candidates.append(weapon.art)
+	var best: SpellData = null
+	var frame: int = Engine.get_physics_frames()
+	for move: SpellData in candidates:
+		if command_input.matches(move.command, frame, facing, move.window_frames):
+			if best == null or move.command.length() > best.command.length():
+				best = move
+	return best
+
+
+## Throws the carried Relic Arm on the relic_arm button or Up + Attack (SUB-001).
+## Returns true if the press was used (thrown, or refused for lack of Embers).
+func try_relic_arm() -> bool:
+	var pressed: bool = Input.is_action_just_pressed(&"relic_arm") or (
+			Input.is_action_just_pressed(&"attack_right") and Input.is_action_pressed(&"move_up"))
+	var arm: RelicArmData = Game.stats.relic_arm
+	if not pressed or arm == null:
+		return false
+	if get_tree().get_nodes_in_group(PlayerShot.group_for(arm)).size() >= arm.max_on_screen:
+		return true
+	var free: bool = randf() < Game.stats.passive(&"ember_saver")
+	if not free and not Game.stats.spend_embers(arm.cost):
+		DamageNumber.spawn_text(get_tree(), global_position + Vector2(0, -STAND_HEIGHT - 8.0), tr("NO EMBERS"),
+				Color("ef6a6a"), 1, 40)
+		return true
+	machine.transition_to(&"Throw")
+	return true
+
+
+## Turns on the weapon hitbox with an explicit [param size] and [param centre] (relative
+## to the feet, facing right), for weapon arts.
+func start_hitbox(size: Vector2, centre: Vector2, attack: int, knockback: float, hit_stop: int) -> void:
+	var rect: RectangleShape2D = _weapon_shape.shape as RectangleShape2D
+	rect.size = size
+	weapon_hitbox.position = Vector2(centre.x * facing, centre.y)
+	weapon_hitbox.attack = attack
+	weapon_hitbox.knockback = knockback
+	weapon_hitbox.hit_stop_frames = hit_stop
+	weapon_hitbox.crit_chance = Combat.crit_chance(Game.stats.luck)
+	weapon_hitbox.active = true
+
+
+## Lifesteal (INV-016): heals a share of the damage the blade dealt.
+func _on_weapon_hit(_hurtbox: Hurtbox, info: DamageInfo) -> void:
+	var share: float = Game.stats.passive(&"lifesteal")
+	if share > 0.0 and info.dealt > 0:
+		var healed: int = maxi(1, roundi(info.dealt * share))
+		Game.stats.heal(healed)
+		DamageNumber.spawn_text(get_tree(), global_position + Vector2(0, -STAND_HEIGHT - 8.0), "+%d" % healed,
+				Color("7ad17a"), 1, 30)
 
 
 ## Turns toward [param direction] (ignored when 0).
@@ -180,7 +291,7 @@ func stop_attack() -> void:
 
 ## Hurtbox handler: applies a hit unless invulnerable or dead. Returns whether it counted.
 func take_hit(info: DamageInfo) -> bool:
-	if invulnerable_frames > 0 or machine.current_name() == &"Dead":
+	if god_mode or invulnerable_frames > 0 or machine.current_name() == &"Dead":
 		return false
 	var amount: int = Combat.damage(info.attack, Game.stats.defense(), info.critical)
 	DamageNumber.spawn(get_tree(), global_position + Vector2(0, -STAND_HEIGHT), amount, Color("ef6a6a"))
@@ -247,6 +358,7 @@ func _on_leveled_up(_new_level: int) -> void:
 
 
 func _tick_timers() -> void:
+	_regenerate(1.0 / Engine.physics_ticks_per_second)
 	if backdash_cooldown > 0:
 		backdash_cooldown -= 1
 	if _drop_through_frames > 0:
@@ -259,6 +371,23 @@ func _tick_timers() -> void:
 		var dim: bool = invulnerable_frames > 0 and floori(invulnerable_frames / 3.0) % 2 == 0
 		if machine.current_name() != &"Dead":
 			sprite.modulate.a = 0.35 if dim else 1.0
+
+
+## Breath and HP regeneration from equipment (INV-016), in whole points.
+func _regenerate(delta: float) -> void:
+	if Game.stats.is_dead():
+		return
+	_mp_regen += Game.stats.passive(&"mp_regen") * delta
+	_hp_regen += Game.stats.passive(&"hp_regen") * delta
+	# The epsilon keeps 2/s x 120 frames from landing on 3.9999.
+	var whole_mp: int = floori(_mp_regen + 0.0001)
+	if whole_mp >= 1:
+		Game.stats.restore_mp(whole_mp)
+		_mp_regen -= whole_mp
+	var whole_hp: int = floori(_hp_regen + 0.0001)
+	if whole_hp >= 1:
+		Game.stats.heal(whole_hp)
+		_hp_regen -= whole_hp
 
 
 func _setup_sprite() -> void:

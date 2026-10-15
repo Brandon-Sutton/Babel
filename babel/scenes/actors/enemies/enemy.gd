@@ -152,6 +152,7 @@ func _on_hit(info: DamageInfo) -> bool:
 	var amount: int = Combat.damage(info.attack, data.defense, info.critical)
 	if not health.apply_damage(amount, info, HIT_INVULNERABLE_FRAMES):
 		return false
+	info.dealt = amount
 	var tint: Color = Color("fbe69b") if info.critical else Color.WHITE
 	DamageNumber.spawn(get_tree(), global_position + Vector2(0, -visual_height), amount, tint, info.critical)
 	HitSpark.spawn(get_tree(), info.position, Color("fbe69b"), info.critical)

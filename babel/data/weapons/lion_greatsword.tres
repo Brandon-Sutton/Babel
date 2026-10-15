@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/data_types/weapon_data.gd" id="1_weapon"]
 [ext_resource type="Resource" path="res://assets/sprites/items/worn/lion_greatsword.tres" id="2_28hrs"]
+[ext_resource type="Resource" path="res://data/spells/art_lions_cleave.tres" id="9_art"]
 
 [resource]
 script = ExtResource("1_weapon")
@@ -15,6 +16,7 @@ hit_stop_frames = 8
 slash_color = Color(0.9843137, 0.9019608, 0.6901961, 1)
 two_handed = true
 stance = &"greatsword"
+art = ExtResource("9_art")
 attack = 16
 worn = ExtResource("2_28hrs")
 dye_ramp = PackedColorArray()

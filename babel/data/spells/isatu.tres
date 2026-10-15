@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/spell_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"isatu"
+display_name = "Išātu"
+description = "Fire. Three bolts of flame fly from the speaker's mouth."
+command = "D,DF,F"
+window_frames = 24
+cost_mp = 6
+cast_frames = 12
+recovery_frames = 16
+effect = &"bolts"
+power = 6
+count = 3
+speed = 260.0
+distance = 0.0
+active_frames = 0
+knockback = 140.0
+color = Color(0.87451, 0.568627, 0.380392, 1)

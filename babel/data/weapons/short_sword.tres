@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/data_types/weapon_data.gd" id="1_weapon"]
 [ext_resource type="Resource" path="res://assets/sprites/items/worn/short_sword.tres" id="2_alogo"]
+[ext_resource type="Resource" path="res://data/spells/art_swift_thrust.tres" id="9_art"]
 
 [resource]
 script = ExtResource("1_weapon")
 startup_frames = 6
+art = ExtResource("9_art")
 attack = 5
 worn = ExtResource("2_alogo")
 dye_ramp = PackedColorArray()

@@ -122,6 +122,7 @@ The z-index and CanvasLayer numbers are defined in [CLAUDE.md](../CLAUDE.md#rend
 |---|---|---|---|
 | `idle` | 8 | 8 | Breathing and mantle sway |
 | `walk` | 8–10 | 12 | |
+| `run` | 8 | 14 | Per weapon type (`<stance>_run`). Until it exists the walk plays at 1.6× (`run_anim_scale`) |
 | `turn` | 3 | 15 | |
 | `jump_up` / `jump_apex` / `fall` | 2 / 2 / 2 | 10 | Loop the last frame |
 | `land` | 3 | 15 | |
@@ -317,6 +318,22 @@ The Tier 1 subscription gives **2,000 generations per month**, refilling on abou
 | Act II content | — | ~900 |
 | Rework reserve (about 15%) | — | ~500 |
 | **Total** | | **~3,900** (about 2 months of allowance, spread over the schedule) |
+
+### 8.1 Queued for the 2026-10-17 refill: the specials pass (ART-018)
+
+The logic for running, Relic Arms, Utterances and weapon arts is in and tested with placeholder visuals (2026-10-15). Art to make, all with the guide prop (§6.3) so the weapon stays in hand:
+
+| Art | Count | Est. gens | Placeholder today |
+|---|---|---|---|
+| `<stance>_run` for sword, sickle_sword, mace, greatsword, scythe | 5 | ~5 | Walk at 1.6× |
+| `<stance>_throw` (Relic Arm throw) | 5 | ~5 | The stance's attack, sped up |
+| `<stance>_cast` (Utterance and weapon-art wind-up, throat glyphs) | 5 | ~5 | Attack pose tinted with the spell colour |
+| Art-specific attacks: thrust lunge, hooking lunge, ground smash, overhead cleave, spin | 5 | ~5 | The stance's attack plus a code-drawn arc or ring |
+| Relic Arm sprites: Sling Stone, Clay Tablet (in flight and as pickups) | 2 | 0 (`pixelart_workbench`) | Code-drawn |
+| Effects: Išātu bolt, Earthshaker wave, cleave and whirl smears, Relic Arm impact | 5 | 0 (`vfx_workbench`) | Code-drawn |
+| Worn art for the new mantles and seals (EQV-012) | 5 | ~5 | Code-drawn |
+
+About 25 generations in all. Ask the user before starting, since it is at the 25-generation limit.
 
 ## 9. Import pipeline (implemented in PIPE-003 to PIPE-008)
 

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="RelicArmData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/relic_arm_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"sling_stone"
+display_name = "Sling Stone"
+description = "A shepherd's sling. Hurls a stone straight ahead. 1 Ember."
+cost = 1
+damage = 10
+flight = &"straight"
+speed = 340.0
+max_on_screen = 3
+size = Vector2(6, 6)
+color = Color(0.784314, 0.721569, 0.627451, 1)
+short_name = "SLING"

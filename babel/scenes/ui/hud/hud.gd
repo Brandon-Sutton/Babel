@@ -58,6 +58,14 @@ func _draw() -> void:
 	draw_rect(Rect2(152, 9, 2, 2), Color("ef6a6a"))
 	draw_rect(Rect2(152, 13, 2, 4), Color("fbe69b"))
 	PixelFont.draw_text(self, Vector2(160, 12), "%d" % stats.embers, TEXT)
+	# The carried Relic Arm (SUB-001) under the Embers.
+	if stats.relic_arm != null:
+		var label: String = stats.relic_arm.short_name
+		var width: float = maxf(34.0, PixelFont.text_width(label, 1) + 10.0)
+		draw_rect(Rect2(146, 24, width, 12), PANEL)
+		draw_rect(Rect2(146, 24, width, 12), BORDER, false, 1.0)
+		draw_rect(Rect2(149, 27, 5, 6), stats.relic_arm.color)
+		PixelFont.draw_text(self, Vector2(157, 27), label, TEXT, 1)
 	if _banner_frames > 0:
 		_draw_banner()
 

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/spell_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"art_lions_cleave"
+display_name = "Lion's Cleave"
+description = "Great-sword art: a vast cleave that reaches far ahead and hurls foes back."
+command = "B,F"
+window_frames = 20
+cost_mp = 10
+cast_frames = 16
+recovery_frames = 22
+effect = &"cleave"
+power = 14
+count = 1
+speed = 0.0
+distance = 110.0
+active_frames = 10
+knockback = 320.0
+color = Color(0.984314, 0.901961, 0.690196, 1)

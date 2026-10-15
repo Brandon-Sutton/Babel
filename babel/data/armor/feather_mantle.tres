@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+kind = 4
+defense = 1
+abilities = Array[StringName]([&"double_jump"])
+dye_material = &"lining"
+dye_ramp = PackedColorArray(0.3529412, 0.34509805, 0.40784314, 1, 0.72156864, 0.7058824, 0.78431374, 1, 0.9411765, 0.93333334, 0.972549, 1)
+id = &"feather_mantle"
+display_name = "Feather Mantle"
+description = "A mantle of white eagle feathers. Leap again in mid-air while it is worn."
+price = 180

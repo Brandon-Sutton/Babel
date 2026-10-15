@@ -63,6 +63,9 @@ func _initialize() -> void:
 		&"gazelle_anklet": Piece.new(_anklet(), Vector2(4, 3), [&"ankle_f", &"ankle_b"], WornArt.Layer.FRONT, false),
 		&"scythe_of_ninurta": Piece.new(_scythe(), Vector2(15, 12), [&"hand_r"], WornArt.Layer.FRONT, true),
 		&"lion_greatsword": Piece.new(_greatsword(), Vector2(4, 5), [&"hand_r"], WornArt.Layer.FRONT, true),
+		&"lamp_of_ea": Piece.new(_cylinder_seal(LAPIS_LIGHT, LAPIS), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
+		&"fang_of_lamashtu": Piece.new(_cylinder_seal(Color("f0e8d0"), Color("b8a888")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
+		&"ember_censer": Piece.new(_cylinder_seal(Color("fbe69b"), Color("df9161")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 	}
 	var needs_import: bool = false
 	for id: StringName in pieces:
@@ -83,6 +86,8 @@ func _initialize() -> void:
 		ok = _link(id, pieces[id]) and ok
 	ok = _set_dye(&"masons_mail", &"plates", [Color("4a2a14"), Color("9a5a28"), Color("e0a060")]) and ok
 	ok = _set_dye(&"crimson_mantle", &"lining", [Color("380611"), Color("8a1428"), Color("ef6a6a")]) and ok
+	ok = _set_dye(&"feather_mantle", &"lining", [Color("5a5868"), Color("b8b4c8"), Color("f0eef8")]) and ok
+	ok = _set_dye(&"courier_mantle", &"lining", [Color("0e3a40"), Color("1f7a78"), Color("6cd0c0")]) and ok
 	print("build_worn_art: %s" % ("done" if ok else "FAILED"))
 	quit(0 if ok else 1)
 

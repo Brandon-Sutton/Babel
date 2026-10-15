@@ -6,6 +6,11 @@ extends Resource
 
 @export_group("Ground")
 @export var walk_speed: float = 180.0
+## Running (PLR-025): double-tap a direction within run_tap_frames and hold it.
+@export var run_speed: float = 290.0
+@export var run_tap_frames: int = 14
+## Walk animation speed-up used while there is no run art yet.
+@export var run_anim_scale: float = 1.6
 
 @export_group("Jump")
 ## Apex height of a full jump in pixels (about 9 tiles).

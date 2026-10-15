@@ -1,7 +1,9 @@
 class_name Pickup
 extends CharacterBody2D
-## A drop from a lamp or enemy (INV-006): embers, shekels or an item. Pops out, falls
-## to the floor, is pulled to the player when close, and blinks out after a while.
+## A drop from a lamp or enemy (INV-006): embers, shekels, an item or a Relic Arm. Pops
+## out, falls to the floor, is pulled to the player when close, and blinks out after a
+## while. Touching a Relic Arm swaps it for the one carried (SUB-011), which drops in
+## its place and can't be picked up again straight away.
 
 const SCENE_PATH: String = "res://scenes/world/pickups/pickup.tscn"
 const MAGNET_RANGE: float = 40.0
@@ -19,6 +21,10 @@ const GOLD_DARK: Color = Color("82633f")
 var kind: StringName = &"embers"
 var amount: int = 1
 var item_id: StringName = &""
+## Frames before it can be collected; longer for a Relic Arm just swapped out.
+var arm_frames: int = ARM_FRAMES
+## Pulled toward the player when close (not for a Relic Arm, which must be touched).
+var magnetic: bool = true
 var _frame: int = 0
 
 @onready var _collector: Area2D = %Collector
@@ -38,6 +44,20 @@ static func spawn(parent: Node, at: Vector2, drop: LootTable.Drop) -> void:
 	parent.add_child.call_deferred(pickup)
 
 
+## Drops the Relic Arm [param arm_id] at [param at], collectable after [param delay] frames.
+static func spawn_relic_arm(parent: Node, at: Vector2, arm_id: StringName, delay: int) -> Pickup:
+	var pickup: Pickup = (load(SCENE_PATH) as PackedScene).instantiate() as Pickup
+	pickup.kind = &"relic_arm"
+	pickup.item_id = arm_id
+	pickup.arm_frames = delay
+	pickup.magnetic = false
+	pickup.velocity = Vector2(0.0, -160.0)
+	var origin: Vector2 = (parent as Node2D).global_position if parent is Node2D else Vector2.ZERO
+	pickup.position = at - origin
+	parent.add_child.call_deferred(pickup)
+	return pickup
+
+
 func _ready() -> void:
 	_collector.body_entered.connect(_on_body_entered)
 
@@ -46,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	_frame += 1
 	var player: Player = get_tree().get_first_node_in_group(&"player") as Player
 	var target: Vector2 = player.global_position + Vector2(0, -30) if player != null else Vector2.ZERO
-	if player != null and _frame > ARM_FRAMES and global_position.distance_to(target) < MAGNET_RANGE:
+	if player != null and magnetic and _frame > arm_frames and global_position.distance_to(target) < MAGNET_RANGE:
 		velocity = (target - global_position).normalized() * MAGNET_SPEED
 		global_position += velocity * delta
 	else:
@@ -54,7 +74,7 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor():
 			velocity.x = move_toward(velocity.x, 0.0, 12.0)
 		move_and_slide()
-	if _frame >= ARM_FRAMES and player != null and _collector.overlaps_body(player):
+	if _frame >= arm_frames and player != null and _collector.overlaps_body(player):
 		_collect()
 		return
 	if _frame >= LIFETIME_FRAMES:
@@ -64,7 +84,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is Player and _frame >= ARM_FRAMES:
+	if body is Player and _frame >= arm_frames:
 		_collect()
 
 
@@ -83,6 +103,14 @@ func _collect() -> void:
 			var found: ItemData = Game.item(item_id)
 			Events.item_acquired.emit(item_id, 1)
 			Events.notice.emit(found.display_name if found != null else String(item_id), "OBTAINED")
+		&"relic_arm":
+			var arm: RelicArmData = Game.item(item_id) as RelicArmData
+			var previous: RelicArmData = Game.stats.relic_arm
+			Game.stats.relic_arm = arm
+			Game.stats.emit_changed()
+			if previous != null and previous != arm:
+				spawn_relic_arm(get_parent(), global_position, previous.id, 90)
+			Events.notice.emit(arm.display_name if arm != null else String(item_id), tr("RELIC ARM"))
 	queue_free()
 
 
@@ -103,3 +131,9 @@ func _draw() -> void:
 			draw_rect(Rect2(-5, -11, 10, 10), Color(EMBER_CORE, 0.2 + 0.25 * glow))
 			draw_rect(Rect2(-3, -9, 6, 6), GOLD)
 			draw_rect(Rect2(-1, -7, 2, 2), Color.WHITE)
+		&"relic_arm":
+			var arm: RelicArmData = Game.item(item_id) as RelicArmData
+			var glow: float = 0.5 + 0.5 * sin(_frame * 0.2)
+			draw_rect(Rect2(-7, -15, 14, 14), Color(Color("6c8ee0"), 0.2 + 0.3 * glow))
+			draw_rect(Rect2(-5, -13, 10, 10), GOLD_DARK)
+			draw_rect(Rect2(-4, -12, 8, 8), arm.color if arm != null else GOLD)

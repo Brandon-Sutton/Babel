@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_pvurn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/lamp_of_ea.png" id="2_ccqtl"]
+
+[resource]
+script = ExtResource("1_pvurn")
+texture = ExtResource("2_ccqtl")
+pivot = Vector2(3, 1)
+points = Array[StringName]([&"seal"])

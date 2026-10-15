@@ -75,6 +75,9 @@ func build_save(room_path: String, position: Vector2) -> Dictionary:
 	var flags: Dictionary = {}
 	for flag: StringName in Game.flags:
 		flags[String(flag)] = Game.flags[flag]
+	var spells: Array[String] = []
+	for spell_id: StringName in Game.spells:
+		spells.append(String(spell_id))
 	return {
 		"version": SAVE_VERSION,
 		"saved_unix": Time.get_unix_time_from_system(),
@@ -86,6 +89,8 @@ func build_save(room_path: String, position: Vector2) -> Dictionary:
 		"inventory": Game.inventory.to_dict(),
 		"abilities": abilities,
 		"flags": flags,
+		"relic_arm": String(Game.stats.relic_arm.id) if Game.stats.relic_arm != null else "",
+		"spells": spells,
 	}
 
 
@@ -109,6 +114,12 @@ func apply_save(data: Dictionary) -> void:
 	var flags: Dictionary = data.get("flags", {})
 	for flag: Variant in flags:
 		Game.flags[StringName(str(flag))] = bool(flags[flag])
+	var relic_arm_id: String = str(data.get("relic_arm", ""))
+	Game.stats.relic_arm = Game.item(StringName(relic_arm_id)) as RelicArmData if not relic_arm_id.is_empty() else null
+	if data.has("spells"):
+		Game.spells.clear()
+		for spell_id: Variant in data["spells"]:
+			Game.learn_spell(StringName(str(spell_id)))
 	Game.play_time = float(data.get("play_time", 0.0))
 
 

@@ -271,6 +271,34 @@ func _draw_description(box: Rect2) -> void:
 	for line: String in _wrap(item.description, 70):
 		_text(Vector2(box.position.x + 10, y), line, TEXT)
 		y += 15.0
+	# What it grants while worn (INV-016) and the weapon's art (SPL-020).
+	var extras: PackedStringArray = _effect_labels(item)
+	if not extras.is_empty():
+		_text(Vector2(box.position.x + 10, y), "  ".join(extras), GOLD, 1)
+
+
+## Short labels for an item's abilities, passives and weapon art.
+static func _effect_labels(item: EquipmentData) -> PackedStringArray:
+	var labels: PackedStringArray = []
+	for ability: StringName in item.abilities:
+		labels.append(String(ability).to_upper().replace("_", " "))
+	for key: StringName in item.passives:
+		var amount: float = item.passives[key]
+		match key:
+			&"mp_regen":
+				labels.append("MP +%s/S" % str(amount))
+			&"hp_regen":
+				labels.append("HP +%s/S" % str(amount))
+			&"lifesteal":
+				labels.append("LIFESTEAL %d%%" % roundi(amount * 100.0))
+			&"ember_saver":
+				labels.append("EMBER SAVER %d%%" % roundi(amount * 100.0))
+			&"run_speed":
+				labels.append("RUN +%d%%" % roundi(amount * 100.0))
+	if item is WeaponData and (item as WeaponData).art != null:
+		var art: SpellData = (item as WeaponData).art
+		labels.append("ART: %s (B,F+ATK %d MP)" % [art.display_name.to_upper(), art.cost_mp])
+	return labels
 
 
 ## Splits [param text] into lines of at most [param width] characters at spaces.

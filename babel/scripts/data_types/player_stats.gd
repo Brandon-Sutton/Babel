@@ -42,6 +42,8 @@ const SLOT_KINDS: Dictionary[StringName, EquipmentData.Kind] = {
 
 ## What is worn in each slot (missing key = empty).
 var equipped: Dictionary[StringName, EquipmentData] = {}
+## The Relic Arm carried (SUB-001), or null.
+var relic_arm: RelicArmData
 
 ## The right-hand weapon (shorthand for equipped[&"right_hand"]).
 var weapon: WeaponData:
@@ -106,6 +108,31 @@ func equip(slot: StringName, item: EquipmentData) -> Array[EquipmentData]:
 	var removed: Array[EquipmentData] = _apply(slot, item)
 	emit_changed()
 	return removed
+
+
+## Total of passive [param key] over everything equipped (INV-016), e.g. &"mp_regen".
+func passive(key: StringName) -> float:
+	var total_value: float = 0.0
+	for item: EquipmentData in equipped.values():
+		total_value += item.passives.get(key, 0.0)
+	return total_value
+
+
+## True if an equipped item grants [param ability] (INV-016).
+func equipment_grants(ability: StringName) -> bool:
+	for item: EquipmentData in equipped.values():
+		if ability in item.abilities:
+			return true
+	return false
+
+
+## Spends [param amount] Embers if there are enough; returns whether it did.
+func spend_embers(amount: int) -> bool:
+	if embers < amount:
+		return false
+	embers -= amount
+	emit_changed()
+	return true
 
 
 ## True if [param item] is a weapon held in both hands.
@@ -196,6 +223,12 @@ func spend_mp(amount: int) -> bool:
 	mp -= amount
 	emit_changed()
 	return true
+
+
+## Restores Breath (MP), up to the maximum.
+func restore_mp(amount: int) -> void:
+	mp = mini(max_mp, mp + maxi(0, amount))
+	emit_changed()
 
 
 func add_embers(amount: int) -> void:

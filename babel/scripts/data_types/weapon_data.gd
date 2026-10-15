@@ -20,6 +20,8 @@ extends EquipmentData
 ## plays "<stance>_<move>" (e.g. mace_walk, scythe_jump) wherever the sheet has it.
 ## Empty uses the shared set, which is the one-handed sword's.
 @export var stance: StringName
+## The weapon type's special attack (SPL-020): Back, Forward + Attack, paid in Breath.
+@export var art: SpellData
 ## Single moves this weapon replaces on top of its stance (EQV-015), e.g.
 ## {&"attack": &"greatsword_attack"}.
 @export var animations: Dictionary[StringName, StringName] = {}

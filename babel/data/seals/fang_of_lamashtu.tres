@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_script"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/fang_of_lamashtu.tres" id="2_7sxr2"]
+
+[resource]
+script = ExtResource("1_script")
+kind = 5
+passives = Dictionary[StringName, float]({
+&"lifesteal": 0.15
+})
+worn = ExtResource("2_7sxr2")
+dye_ramp = PackedColorArray()
+id = &"fang_of_lamashtu"
+display_name = "Fang of Lamashtu"
+description = "A demon's tooth on a cord. Heals 15% of the damage your blade deals."
+price = 240

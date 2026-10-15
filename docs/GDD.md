@@ -166,7 +166,7 @@ Regions are listed in ascending order. Progression order is set in backlog task 
 
 ### 6.1 Base moveset
 
-- Walk (there is no run; Lion form is the fast mover)
+- Walk, and **run** (decided 2026-10-15): double-tap a direction and hold it. Jumping out of a run keeps the run speed until landing. The Lion form is still the fastest mover.
 - Back-dash
 - Variable-height jump
 - Crouch, and dropping through one-way platforms
@@ -182,6 +182,7 @@ Starting tuning values are listed below. They live in `PlayerTuning.tres` and wi
 |---|---|---|
 | Elam standing height | ~90 px (the approved sprite is 91 px) | About 25% of screen height (SotN is about 21%); chosen for pixel detail |
 | Walk speed | 180 px/s | Crosses a screen in about 3.5 s (SotN: about 2.8 s) |
+| Run speed | 290 px/s | Double-tap within 14 frames (`run_tap_frames`), then hold |
 | Back-dash | ~100 px over 0.25 s | Cancellable after 0.15 s |
 | Jump height | ~144 px (9 tiles, about 1.6 body heights) | Time to apex 0.42 s |
 | Jump velocity | 686 px/s | Derived from height and time to apex (2h/t) |
@@ -219,6 +220,10 @@ All forms drain **Breath** (MP) over time.
 
 Spells are words of the First Tongue. Each one is entered as a sequence of syllables (directional inputs) followed by Attack, and costs Breath. A **Quick-cast** setting can bind any learned Utterance to a button.
 
+**How commands are read (SPL-001).** Directions are read relative to where Elam faces when Attack is pressed, so ↓↘→ facing right is ↓↙← facing left. Each command has a window in 60 Hz frames for the whole sequence, and the last direction may have been let go up to 8 frames before Attack. Inputs between the steps are ignored. When two commands match, the longer one wins. Without enough Breath the Utterance fizzles, nothing is spent, and the press makes a normal attack.
+
+For the playtest, Išātu is known from the start; in the game it is learned.
+
 The names below are Akkadian-flavored placeholders and will be checked in a lore pass (NAR-001).
 
 | Utterance | Meaning | Input (placeholder) | Effect | SotN analog |
@@ -237,6 +242,11 @@ The names below are Akkadian-flavored placeholders and will be checked in a lore
 ### 6.5 Relic Arms (sub-weapons)
 
 Relic Arms cost **Embers**, which drop from votive lamps (the game's breakable candles). Each one also has a super move, called an **item crash** in SotN, triggered by Up + Attack while guarding.
+
+- Thrown with the Relic Arm button, or Up + Attack.
+- One is carried at a time, as in SotN: picking up another drops the old one where Elam stands.
+- Each has an Ember cost and an on-screen limit (the Sling Stone: 1 Ember, 3 at once; the Clay Tablet: 2 Embers, 2 at once).
+- Arcing Relic Arms pass over walls; straight ones stop at them.
 
 | Relic Arm | Behavior | SotN analog |
 |---|---|---|
@@ -317,6 +327,18 @@ Familiars level from 1 to 99 through use.
 | Scythe (two-handed) | Upright reaper hold; slow two-handed reap |
 
 New weapon types (spears, knuckles, bows…) each get their own set. A single weapon can also replace individual moves of its type.
+
+**Weapon arts (decided 2026-10-15).** Every weapon type has a special attack entered as ←→ + Attack (Back, Forward) that costs Breath, so special attacks use resources like SotN's sword techniques:
+
+| Type | Art | Effect | Breath |
+|---|---|---|---|
+| Sword | Swift Thrust | Short lunge | 4 |
+| Sickle-sword | Hooking Lunge | Long lunge | 6 |
+| Mace | Earthshaker | Two shockwaves along the floor, one each way | 8 |
+| Great sword | Lion's Cleave | Wide, heavy forward cleave | 10 |
+| Scythe | Reaping Whirl | A full spin that hits on both sides, twice | 10 |
+
+**Equipment can grant abilities and passive effects (decided 2026-10-15).** An item can grant a movement ability for as long as it is worn (the Feather Mantle grants the double jump). It can also carry passives that add up across everything worn: Breath regeneration, HP regeneration, lifesteal, a chance for Relic Arms to cost no Embers, and run speed. The equip screen lists them. First test items: Feather Mantle (double jump), Courier's Mantle (+25% run speed), Lamp of Ea (+2 Breath/s), Fang of Lamashtu (15% lifesteal) and Ember Censer (half of throws are free).
 
 **Walls block attacks.** A hit only lands if nothing solid stands between the attacker and the target. This applies to Elam's weapons and to enemy spears alike. A swing that meets a wall strikes sparks off it. One-way platforms don't block.
 

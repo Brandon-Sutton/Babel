@@ -25,7 +25,8 @@ func physics_update(delta: float) -> void:
 	player.velocity.x = 0.0
 	player.apply_gravity(delta)
 	if Input.is_action_just_pressed(&"attack_right"):
-		machine.transition_to(&"Attack")
+		if not player.try_special():
+			machine.transition_to(&"Attack")
 		return
 	if Input.is_action_just_pressed(&"backdash") and player.backdash_cooldown == 0:
 		machine.transition_to(&"Backdash")
