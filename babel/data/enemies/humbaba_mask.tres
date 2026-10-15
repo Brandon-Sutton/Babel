@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="EnemyData" format=3]
 
 [ext_resource type="Script" path="res://scripts/data_types/enemy_data.gd" id="1_enemy"]
+[ext_resource type="Resource" path="res://data/loot/humbaba_mask.tres" id="2_loot"]
 
 [resource]
 script = ExtResource("1_enemy")
@@ -14,3 +15,4 @@ move_speed = 70.0
 aggro_range = 0.0
 poise = 0
 contact_damage = true
+loot = ExtResource("2_loot")

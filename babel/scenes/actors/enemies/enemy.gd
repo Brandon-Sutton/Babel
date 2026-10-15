@@ -3,7 +3,8 @@ class_name Enemy
 extends CharacterBody2D
 ## Base for every enemy (AI-001). Stats come from [member data]. Handles taking hits
 ## (damage numbers, white flash, stagger knockback, hit-stop), contact damage, death
-## (fade, XP to the player, Events.enemy_killed). Subclasses implement [method _behave]
+## (fade, XP to the player, a roll of its loot table, Events.enemy_killed). Subclasses
+## implement [method _behave]
 ## and, until sprites exist, draw a placeholder in _draw().
 
 const FLASH_FRAMES: int = 6
@@ -25,6 +26,9 @@ var gravity: float = 1633.0
 ## The sprite built from [member sprite_dir], or null while the placeholder is used.
 var sprite: Sprite2D
 var animation_player: AnimationPlayer
+
+## Shared by every enemy's loot roll; [method seed_loot] makes drops repeatable.
+static var _loot_rng: RandomNumberGenerator
 
 var _stagger_frames: int = 0
 var _knockback: float = 0.0
@@ -176,8 +180,30 @@ func _on_died() -> void:
 	collision_layer = 0
 	velocity = Vector2.ZERO
 	Game.stats.add_xp(data.xp)
+	_drop_loot()
 	Events.enemy_killed.emit(data.id, global_position)
 	GameCamera.shake(get_tree(), 2.0, 8)
+
+
+## Makes the following loot rolls repeatable (tests).
+static func seed_loot(value: int) -> void:
+	_loot_rng = RandomNumberGenerator.new()
+	_loot_rng.seed = value
+
+
+## The random generator loot rolls use.
+static func loot_rng() -> RandomNumberGenerator:
+	if _loot_rng == null:
+		_loot_rng = RandomNumberGenerator.new()
+		_loot_rng.randomize()
+	return _loot_rng
+
+
+func _drop_loot() -> void:
+	if data.loot == null:
+		return
+	var drop: LootTable.Drop = data.loot.roll(loot_rng(), Game.stats.total(&"luck"))
+	Pickup.spawn(get_parent(), global_position + Vector2(0, -visual_height * 0.5), drop)
 
 
 func _update_dying() -> void:

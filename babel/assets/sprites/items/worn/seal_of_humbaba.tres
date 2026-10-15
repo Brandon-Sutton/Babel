@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_kfdug"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/seal_of_humbaba.png" id="2_y8cgs"]
+
+[resource]
+script = ExtResource("1_kfdug")
+texture = ExtResource("2_y8cgs")
+pivot = Vector2(3, 1)
+points = Array[StringName]([&"seal"])

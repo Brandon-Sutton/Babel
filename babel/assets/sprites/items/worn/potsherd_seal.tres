@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_gbabg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/potsherd_seal.png" id="2_gt4q7"]
+
+[resource]
+script = ExtResource("1_gbabg")
+texture = ExtResource("2_gt4q7")
+pivot = Vector2(3, 1)
+points = Array[StringName]([&"seal"])

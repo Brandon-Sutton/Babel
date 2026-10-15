@@ -17,3 +17,6 @@ extends Resource
 @export var poise: int = 0
 ## Whether touching its body hurts the player.
 @export var contact_damage: bool = true
+## Rolled once when it dies (INV-013), with the player's luck. Usually a common and a
+## rare piece of gear among Embers and shekels.
+@export var loot: LootTable

@@ -33,9 +33,10 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - The pause menu has the status sheet and the SotN equipment screen.
 - Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
 - **Everything Elam equips is visible on him** (2026-10-15): weapon in hand, shield, circlet, seals, relic anklet, bronze plates and the mantle lining. The swing smear takes the weapon's colour.
+- **Enemies drop gear** (2026-10-15, INV-013): each enemy has a loot table with a common and a rare piece of gear found only as drops (Potsherd Seal, Riverclay Mail, Gate Guard's Helm, Watchman's Mantle, Seal of Humbaba). Dropped gear stays on the floor.
 - **SotN specials pass** (2026-10-15, logic only; art waits for the refill, ART-018): running (double-tap and hold), Relic Arms paid in Embers (Sling Stone, Clay Tablet; V or Up + Attack), Utterances by command input (Išātu: ↓↘→ + Attack), a Breath-paid weapon art per weapon type (←→ + Attack), and equipment that grants abilities and passives. Debug keys F1–F5.
 
-**Playtest wanted (game feel, log the verdict here):** running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
+**Playtest wanted (game feel, log the verdict here):** how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
@@ -47,7 +48,6 @@ Next, in suggested order:
 4. **Systems:**
    - game-over screen (UI-014, completes PLR-010)
    - title screen with continue (UI-012, SAV-005)
-   - enemy loot tables (INV-013)
 5. **World:** room transitions (WLD-001/002), then dual-grid tile art (WLD-023) once the user has decided on the GTE tileset style.
 6. **Art polish:** weapon-specific swings (ART-016), item icons (INV-014), palette locks for the hero and enemy animations.
 
@@ -211,13 +211,13 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | INV-004 | Equipment slots (right and left hand, head, body, mantle, two seals), two-handed rules, stat application | M2 | P0 | M | INV-003 | done |
 | INV-005 | Consumables usable from the menu or a hand; effects defined as data | M2 | P0 | S | INV-003 | todo |
 | INV-006 | Pickups (shekels, items, max-ups, relic arms) with a magnet and toast | M1 | P0 | S | INV-001 | done |
-| INV-007 | Loot tables: weighted common and rare drops, LCK modifier, pity | M2 | P0 | S | INV-002 | done |
+| INV-007 | Loot tables: weighted common and rare drops, LCK modifier (the pity counter was not built; it is in RPG-005) | M2 | P0 | S | INV-002 | done |
 | INV-008 | Chests and one-time pickups, saved as world flags | M2 | P0 | S | WLD-013 | todo |
 | INV-009 | Act I equipment content: about 60 weapons, 30 armor, 12 mantles, 30 seals, 40 consumables (split by region) | M3 | P0 | L | INV-004 | todo |
 | INV-010 | Mantle dye: lining color as a shader parameter; dyes sold in shops | M3 | P2 | S | VFX-005 | todo |
 | INV-011 | Special weapon behaviors: combos, Scepter of Shamash shield combos, elemental procs | M3 | P2 | M | INV-009 | todo |
 | INV-012 | Elam's starting gear and Namtar's gear strip (the Act II recovery is in NAR-013) | M1 | P0 | S | INV-001, NAR-005 | doing |
-| INV-013 | Enemy loot tables (`EnemyData.loot`), rolled on death | M2 | P1 | S | INV-007 | todo |
+| INV-013 | Enemy loot tables (`EnemyData.loot`), rolled on death, with gear found only as drops so the equipment loop works in play | M1 | P0 | S | INV-007 | done |
 | INV-014 | Item icons in the equip menu and pickups (needs PIPE-009) | M2 | P2 | S | PIPE-009 | todo |
 | INV-016 | Equipment that grants abilities and passive effects: `EquipmentData.abilities` (e.g. double jump while worn) and `passives` (Breath regen, HP regen, lifesteal, Ember saver, run speed), with first items to test them | M1 | P0 | M | INV-004 | done |
 | INV-015 | Two-handed weapons: a two-handed weapon empties the left hand, and equipping the left hand removes it. The menu and stat preview follow the rule. First weapon: the Scythe of Ninurta | M1 | P0 | S | INV-004 | done |
@@ -921,6 +921,12 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - A plain attack press still attacks normally.
 - **ENG-012 (first pass)**
   - Debug builds only: F1 toggles an overlay (state, velocity, HP/Breath/Embers, abilities, recent inputs), F2 gives every item, Relic Arm and spell, F3 refills HP, Breath and Embers, F4 toggles god mode, F5 cycles the carried Relic Arm.
+- **INV-013**
+  - `EnemyData.loot` is a `LootTable` rolled once when the enemy dies, with the player's luck; the drop pops out where it died.
+  - Every enemy has a table with a common and a rare piece of gear that is found only as a drop (new items), and each new item is visible on Elam (worn sprite or dye).
+  - Dropped gear and Relic Arms stay until the room is left; Embers and shekels still blink out.
+  - Unit tests: every loot table names real items and has matching entries; every enemy can drop gear; every equipment item is visible.
+  - A visual test kills each enemy with a fixed roll, collects the gear, equips it and sees it on Elam.
 - **CBT-014**
   - A dummy takes hits without dying and shows each hit's damage, the hit count and DPS over the last 5 s.
   - It names the move that dealt the last hit (weapon, art, Utterance or Relic Arm).
@@ -1307,3 +1313,19 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Tests:** new `tests/visual/specials_test.tscn` 16/16; unit 68/68 (17 new: command input and specials); regression 50/50 (gameplay, sandbox, systems, spearman, wall block, equipment).
   - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
   - **Next:** the user playtests the specials (see Now). After the refill: ART-018 (ask first). Suggested logic next: CBT-014 training dummy, QA-008 feature gym, PLR-015 guard, PLR-023 potions.
+- **2026-10-15 (enemy loot tables: INV-013)**
+  - **The user's request:** enemies drop gear, so the equipment loop works in play.
+  - **Loot:** `EnemyData.loot` is a `LootTable` rolled once in `Enemy._on_died` with the player's luck; the drop pops out at mid-height where the enemy died. One shared generator (`Enemy.seed_loot` / `loot_rng`) makes drops repeatable in tests.
+  - **Drop-only gear** (not in the starting bag), with code-drawn worn art and dyes:
+
+    | Enemy | Common (weight /100) | Rare (weight /100) |
+    |---|---|---|
+    | Mudborn | Potsherd Seal (10) | Riverclay Mail (4) |
+    | Gate Spearman | Gate Guard's Helm (16) | Watchman's Mantle (8, HP regen 0.5/s) |
+    | Humbaba Mask | — | Seal of Humbaba (5) |
+
+  - **Pickups:** gear and Relic Arms no longer blink out; Embers and shekels still do after 10 s.
+  - **Found along the way:** INV-007 was marked done with a pity counter that doesn't exist; the row now points to RPG-005, which still owns it. In tests, a freed object compares equal to null, so record results before collecting a pickup.
+  - **Tests:** new `tests/visual/loot_test.tscn` 8/8 (kill drop, gear stays while Embers blink out, collect and wear, each enemy's gear dropped, worn and visible, mantle regen); unit 74/74 (6 new in `test_enemy_loot.gd`: tables well formed, every enemy drops gear, drop-only gear not given, rates, every equipment item visible, seeded rolls repeat); regression 66/66.
+  - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** the user plays the sandbox and judges the drop rates. Suggested: RPG-005 pity counter, CBT-014 training dummy, QA-008 feature gym.

@@ -1,5 +1,6 @@
 extends SceneTree
-## EQV-008: draws the first batch of worn-equipment sprites (GDD §6.7), writes their
+## EQV-008: draws the worn-equipment sprites (GDD §6.7), including the drop-only gear of
+## INV-013, writes their
 ## WornArt resources and links them, plus body and mantle dyes, to the items. The pixel
 ## art is drawn from code so it is reproducible; PixelLab art can replace a PNG later
 ## without touching the data.
@@ -66,6 +67,10 @@ func _initialize() -> void:
 		&"lamp_of_ea": Piece.new(_cylinder_seal(LAPIS_LIGHT, LAPIS), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 		&"fang_of_lamashtu": Piece.new(_cylinder_seal(Color("f0e8d0"), Color("b8a888")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 		&"ember_censer": Piece.new(_cylinder_seal(Color("fbe69b"), Color("df9161")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
+		# Drop-only gear (INV-013).
+		&"potsherd_seal": Piece.new(_cylinder_seal(Color("d08a5a"), Color("8a4a2a")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
+		&"seal_of_humbaba": Piece.new(_cylinder_seal(Color("8ad0a0"), Color("2e7a50")), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
+		&"gate_guard_helm": Piece.new(_helm(), Vector2(9, 9), [&"head"], WornArt.Layer.FRONT, false),
 	}
 	var needs_import: bool = false
 	for id: StringName in pieces:
@@ -88,6 +93,8 @@ func _initialize() -> void:
 	ok = _set_dye(&"crimson_mantle", &"lining", [Color("380611"), Color("8a1428"), Color("ef6a6a")]) and ok
 	ok = _set_dye(&"feather_mantle", &"lining", [Color("5a5868"), Color("b8b4c8"), Color("f0eef8")]) and ok
 	ok = _set_dye(&"courier_mantle", &"lining", [Color("0e3a40"), Color("1f7a78"), Color("6cd0c0")]) and ok
+	ok = _set_dye(&"riverclay_mail", &"plates", [Color("2e3426"), Color("5e6a48"), Color("a0a878")]) and ok
+	ok = _set_dye(&"watchmans_mantle", &"lining", [Color("1a1838"), Color("3a3a78"), Color("8a8ad0")]) and ok
 	print("build_worn_art: %s" % ("done" if ok else "FAILED"))
 	quit(0 if ok else 1)
 
@@ -321,4 +328,29 @@ func _anklet() -> Image:
 	_rect(image, 1, 3, 6, 1, GOLD_DARK)
 	image.set_pixel(5, 4, GOLD)
 	image.set_pixel(6, 5, GOLD_LIGHT)
+	return image
+
+
+## Gate guard's conical bronze helm with a gold brow band, a nasal at the front (+x) and
+## a short neck guard at the back. The pivot is the brow band's lower edge.
+func _helm() -> Image:
+	var image: Image = _canvas(18, 13)
+	var rows: Array[Vector2i] = [Vector2i(8, 9), Vector2i(7, 10), Vector2i(5, 12), Vector2i(4, 13),
+			Vector2i(3, 14), Vector2i(3, 14), Vector2i(2, 15)]
+	for i: int in rows.size():
+		var y: int = 1 + i
+		for x: int in range(rows[i].x, rows[i].y + 1):
+			var shade: Color = BRONZE
+			if x - rows[i].x < 2 or (i < 2 and x < 9):
+				shade = BRONZE_LIGHT
+			elif rows[i].y - x < 2:
+				shade = BRONZE_DARK
+			image.set_pixel(x, y, shade)
+	_rect(image, 2, 8, 14, 1, GOLD)
+	image.set_pixel(2, 8, GOLD_LIGHT)
+	_rect(image, 2, 9, 14, 1, BRONZE_DARK)
+	_rect(image, 2, 10, 3, 2, BRONZE_DARK)
+	image.set_pixel(2, 10, BRONZE)
+	_rect(image, 14, 10, 1, 2, BRONZE)
+	_outline(image)
 	return image

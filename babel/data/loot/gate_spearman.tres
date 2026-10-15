@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LootTable" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/loot_table.gd" id="1_loot"]
+
+[resource]
+script = ExtResource("1_loot")
+drops = PackedStringArray("nothing", "embers", "embers", "shekels", "item:gate_guard_helm", "item:watchmans_mantle")
+weights = PackedInt32Array(28, 15, 6, 27, 16, 8)
+amounts = PackedInt32Array(0, 1, 5, 10, 1, 1)

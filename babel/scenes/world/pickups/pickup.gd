@@ -1,9 +1,10 @@
 class_name Pickup
 extends CharacterBody2D
 ## A drop from a lamp or enemy (INV-006): embers, shekels, an item or a Relic Arm. Pops
-## out, falls to the floor, is pulled to the player when close, and blinks out after a
-## while. Touching a Relic Arm swaps it for the one carried (SUB-011), which drops in
-## its place and can't be picked up again straight away.
+## out, falls to the floor and is pulled to the player when close. Embers and shekels
+## blink out after a while; gear and Relic Arms stay until the room is left (INV-013).
+## Touching a Relic Arm swaps it for the one carried (SUB-011), which drops in its place
+## and can't be picked up again straight away.
 
 const SCENE_PATH: String = "res://scenes/world/pickups/pickup.tscn"
 const MAGNET_RANGE: float = 40.0
@@ -25,6 +26,8 @@ var item_id: StringName = &""
 var arm_frames: int = ARM_FRAMES
 ## Pulled toward the player when close (not for a Relic Arm, which must be touched).
 var magnetic: bool = true
+## Blinks out after LIFETIME_FRAMES (Embers and shekels only).
+var expires: bool = true
 var _frame: int = 0
 
 @onready var _collector: Area2D = %Collector
@@ -38,6 +41,7 @@ static func spawn(parent: Node, at: Vector2, drop: LootTable.Drop) -> void:
 	pickup.kind = drop.kind
 	pickup.amount = drop.amount
 	pickup.item_id = drop.item_id
+	pickup.expires = drop.kind != &"item"
 	pickup.velocity = Vector2(randf_range(-50.0, 50.0), -200.0)
 	var origin: Vector2 = (parent as Node2D).global_position if parent is Node2D else Vector2.ZERO
 	pickup.position = at - origin
@@ -51,6 +55,7 @@ static func spawn_relic_arm(parent: Node, at: Vector2, arm_id: StringName, delay
 	pickup.item_id = arm_id
 	pickup.arm_frames = delay
 	pickup.magnetic = false
+	pickup.expires = false
 	pickup.velocity = Vector2(0.0, -160.0)
 	var origin: Vector2 = (parent as Node2D).global_position if parent is Node2D else Vector2.ZERO
 	pickup.position = at - origin
@@ -77,9 +82,9 @@ func _physics_process(delta: float) -> void:
 	if _frame >= arm_frames and player != null and _collector.overlaps_body(player):
 		_collect()
 		return
-	if _frame >= LIFETIME_FRAMES:
+	if expires and _frame >= LIFETIME_FRAMES:
 		queue_free()
-	visible = _frame < BLINK_FROM or floori(_frame / 4.0) % 2 == 0
+	visible = not expires or _frame < BLINK_FROM or floori(_frame / 4.0) % 2 == 0
 	queue_redraw()
 
 

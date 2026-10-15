@@ -365,6 +365,15 @@ New weapon types (spears, knuckles, bows…) each get their own set. A single we
 - **Currency:** shekels of silver.
 - **Ways to spend shekels:** Nabu's shop, Siduri's tavern, the Surveyor's Maps for each region, and dyes.
 - **Drops:** each enemy has a common and a rare drop, both modified by LCK, plus a hidden pity counter so rare drops don't require endless grinding. Votive lamps drop Embers, shekels, Relic Arms or occasionally items.
+  - An enemy rolls its loot table once when it dies, and the drop pops out where it fell (INV-013).
+  - Gear and Relic Arms stay on the floor until Elam leaves the room; Embers and shekels blink out after 10 s.
+  - Some gear is found only as drops. Starting rates for tuning: common gear about 1 kill in 10, rare about 1 in 25.
+
+  | Enemy | Common gear | Rare gear |
+  |---|---|---|
+  | Mudborn | Potsherd Seal (DEF +1, CON +2) | Riverclay Mail (DEF +6, CON +1) |
+  | Gate Spearman | Gate Guard's Helm (DEF +3) | Watchman's Mantle (DEF +1, HP regenerates) |
+  | Humbaba Mask | — | Seal of Humbaba (LCK +4) |
 - **Max-ups:** Clay Vessel (+HP), Reed Pipe (+Breath), Votive Lamp (+Embers).
 - **Healing:** food and drink (date wine, honey cakes and so on) and potions. Quiet Rooms fully heal.
 

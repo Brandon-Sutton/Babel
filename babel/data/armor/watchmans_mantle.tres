@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_equipment"]
+
+[resource]
+script = ExtResource("1_equipment")
+kind = 4
+defense = 1
+passives = Dictionary[StringName, float]({
+&"hp_regen": 0.5
+})
+dye_material = &"lining"
+dye_ramp = PackedColorArray(0.101960786, 0.09411765, 0.21960784, 1, 0.22745098, 0.22745098, 0.47058824, 1, 0.5411765, 0.5411765, 0.8156863, 1)
+id = &"watchmans_mantle"
+display_name = "Watchman's Mantle"
+description = "The night watch's indigo cloak. Its wearer's wounds close slowly. DEF +1, HP regenerates."
+price = 220
