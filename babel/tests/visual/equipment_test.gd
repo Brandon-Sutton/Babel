@@ -5,21 +5,26 @@ extends Node2D
 ## the hand point sits on the fist in the art, facing left mirrors everything, swapping
 ## the weapon swaps the sprite, swings show the smear in the weapon's colour, and Mason's
 ## Mail turns the steel plates bronze in the rendered frame. Then the two-handed Scythe
-## of Ninurta (INV-015, EQV-015/016): it takes the shield off, every move switches to the
-## two-handed set (the reap gets the procedural arc, as its art has no smear), and the
-## scythe stays in hand throughout.
-## Logs "VISUAL PASS/FAIL". Needs a real window: run it via tools/capture.sh (about 900 frames).
+## of Ninurta (INV-015) takes the shield off and keeps its arc and grip through the
+## reap, and every weapon type (EQV-017) plays its own set for every move.
+## Logs "VISUAL PASS/FAIL". Needs a real window: run it via tools/capture.sh (about 2200 frames).
 
 const Greybox := preload("res://tools/builders/build_greybox_tileset.gd")
 const TILE_SET: TileSet = preload("res://assets/tilesets/greybox/greybox_tileset.tres")
 const PLAYER_SCENE: PackedScene = preload("res://scenes/actors/player/player.tscn")
 const FLOOR_Y: float = 320.0
+## One weapon of each type (EQV-017).
+const WEAPON_TYPES: Array[StringName] = [
+	&"short_sword", &"sappara", &"bronze_mace", &"lion_greatsword", &"scythe_of_ninurta",
+]
 const KIT: Dictionary[StringName, StringName] = {
 	&"left_hand": &"lapis_shield", &"head": &"scribes_circlet",
 	&"seal_1": &"seal_of_shamash", &"seal_2": &"seal_of_nergal",
 }
 
 var _player: Player
+var _arc_seen: bool = false
+var _always_in_hand: bool = true
 var _rig: EquipmentRig
 var _sheet: Image
 var _layout: Dictionary
@@ -58,6 +63,7 @@ func _run() -> void:
 	await _check_dye()
 	await _showcase()
 	await _check_scythe()
+	await _check_weapon_types()
 	print("equipment_test: done")
 
 
@@ -99,7 +105,7 @@ func _check_anchors_in_art() -> void:
 			var origin: Vector2i = Vector2i(col * cell.x, int(entry["row"]) * cell.y) + pivot
 			frames += 1
 			# A two-handed grip is the midpoint between both fists, so allow a little more.
-			var reach: int = 6 if anim_name.begins_with("two_handed") else 3
+			var reach: int = 6 if _is_two_handed_set(anim_name) else 3
 			if not points.get("smear", false) and not _near(origin, points["hand_r"], reach, _is_skin):
 				hand_misses.append("%s %d" % [anim_name, col])
 			if not _near(origin, points["head"], 2, _is_opaque):
@@ -219,6 +225,46 @@ func _check_scythe() -> void:
 			and _piece("lapis_shield") == null and _piece("scythe_of_ninurta") != null)
 	_report("the scythe takes both hands", shield_off, "left hand empty=%s, shield back in the bag=%s, scythe drawn=%s" % [
 			not Game.stats.equipped.has(&"left_hand"), shield_returned, _piece("scythe_of_ninurta") != null])
+	await _play_moves()
+	_report("the reap shows its arc and keeps the scythe in hand", _arc_seen and _always_in_hand,
+			"arc drawn=%s, scythe visible every frame=%s" % [_arc_seen, _always_in_hand])
+	Game.equip(&"right_hand", &"short_sword")
+	await _frames(2)
+	_report("swapping back changes the stance at once", _player.animation_player.assigned_animation == &"idle",
+			"animation after the swap: %s" % _player.animation_player.assigned_animation)
+
+
+## Every weapon type plays its own set for every move (EQV-017): the sword uses the
+## shared set, every other type its "<stance>_<move>" animations.
+func _check_weapon_types() -> void:
+	var wrong: PackedStringArray = []
+	var checked: int = 0
+	for id: StringName in WEAPON_TYPES:
+		Game.inventory.add(id)
+		Game.equip(&"right_hand", id)
+		await _frames(3)
+		var stance: StringName = (Game.stats.weapon as WeaponData).stance
+		var seen: Dictionary[StringName, StringName] = await _play_moves()
+		for move: StringName in seen:
+			checked += 1
+			var expected: StringName = move if stance.is_empty() else StringName("%s_%s" % [stance, move])
+			if seen[move] != expected:
+				wrong.append("%s %s played %s" % [id, move, seen[move]])
+	_report("each weapon type has its own set", checked == WEAPON_TYPES.size() * 7 and wrong.is_empty(),
+			"%d weapon moves checked: %s" % [checked, "all match" if wrong.is_empty() else ", ".join(wrong)])
+	Game.equip(&"right_hand", &"short_sword")
+	await _frames(2)
+
+
+## Walks, crouches, jumps, falls, back-dashes and attacks with the current weapon and
+## returns the animation each move played. Also records whether the procedural arc
+## showed and whether the weapon stayed visible through the swing.
+func _play_moves() -> Dictionary[StringName, StringName]:
+	_player.respawn_at(Vector2(200, FLOOR_Y))
+	_player.invulnerable_frames = 0
+	_player.face(1)
+	await _frames(3)
+	var weapon_id: String = String(Game.stats.weapon.id)
 	var seen: Dictionary[StringName, StringName] = {&"idle": _player.animation_player.assigned_animation}
 	Input.action_press(&"move_right")
 	await _frames(20)
@@ -249,32 +295,23 @@ func _check_scythe() -> void:
 	await _press(&"attack_right")
 	await _frames(2)
 	seen[&"attack"] = _player.animation_player.assigned_animation
-	var arc_seen: bool = false
-	var always_in_hand: bool = true
-	for i: int in 40:
+	_arc_seen = false
+	_always_in_hand = true
+	for i: int in 45:
 		await _frames(1)
-		arc_seen = arc_seen or _player.slash_fx._frames_left > 0
-		always_in_hand = always_in_hand and _piece("scythe_of_ninurta").visible
-	var wrong: PackedStringArray = []
-	for move: StringName in seen:
-		if seen[move] != StringName("two_handed_" + move):
-			wrong.append("%s played %s" % [move, seen[move]])
-	_report("every move uses the two-handed set", wrong.is_empty(), "%d moves checked: %s" % [
-			seen.size(), "all two-handed" if wrong.is_empty() else ", ".join(wrong)])
-	_report("the reap shows its arc and keeps the scythe in hand", arc_seen and always_in_hand,
-			"arc drawn=%s, scythe visible every frame=%s" % [arc_seen, always_in_hand])
-	await _frames(20)
-	Game.equip(&"right_hand", &"short_sword")
-	await _frames(2)
-	_report("swapping back changes the stance at once", _player.animation_player.assigned_animation == &"idle",
-			"animation after the swap: %s" % _player.animation_player.assigned_animation)
-	Game.equip(&"right_hand", &"scythe_of_ninurta")
-	Input.action_press(&"move_left")
-	await _frames(40)
-	Input.action_release(&"move_left")
+		_arc_seen = _arc_seen or _player.slash_fx._frames_left > 0
+		_always_in_hand = _always_in_hand and _piece(weapon_id) != null and _piece(weapon_id).visible
 	await _frames(15)
-	await _press(&"attack_right")
-	await _frames(60)
+	return seen
+
+
+## True if [param anim_name] belongs to a two-handed weapon type's set.
+func _is_two_handed_set(anim_name: String) -> bool:
+	for id: StringName in WEAPON_TYPES:
+		var weapon: WeaponData = Game.item(id) as WeaponData
+		if weapon.two_handed and anim_name.begins_with(String(weapon.stance) + "_"):
+			return true
+	return false
 
 
 func _bronze_pixels() -> int:

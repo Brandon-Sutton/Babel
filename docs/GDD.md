@@ -298,6 +298,7 @@ Familiars level from 1 to 99 through use.
 - Sickle-swords (khopesh and sappara)
 - Maces, spears and knuckles
 - Scythes, two-handed (the Scythe of Ninurta)
+- Great swords, two-handed (the Lion-Hilt Greatsword)
 - Throwing weapons
 - Shields, including a shield-rod analog called the Scepter of Shamash
 - Bows (late game)
@@ -305,10 +306,17 @@ Familiars level from 1 to 99 through use.
 
 **Two-handed weapons** (great swords, scythes) take both hands. Equipping one returns the left-hand item to the bag, and equipping anything in the left hand takes the two-handed weapon off, as in SotN.
 
-**Elam's whole body language follows his grip.**
-- With a two-handed weapon, every move uses the two-handed set: idle, walk, jump, fall, crouch, crouching attack, back-dash, hurt and attack. He holds the weapon upright in a reaper's stance and reaps with both hands.
-- With a one-handed weapon, he uses the one-handed set.
-- A weapon can also name its own stance (a future great-sword set) or replace single moves. Anything it doesn't cover falls back to the set for its grip.
+**Each weapon type has its own animation set**, because each is held differently. Every move changes with the type: idle, walk, jump, fall, crouch, crouching attack, back-dash, hurt and attack.
+
+| Type | Hold and attack |
+|---|---|
+| Sword (one-handed) | Lowered forward; quick slash |
+| Sickle-sword (one-handed) | Held level, ready to hook; wide hooking slash |
+| Mace (one-handed) | Hanging at his side; raise and smash |
+| Great sword (two-handed) | Raised two-handed guard; heavy overhead cleave |
+| Scythe (two-handed) | Upright reaper hold; slow two-handed reap |
+
+New weapon types (spears, knuckles, bows…) each get their own set. A single weapon can also replace individual moves of its type.
 
 **Walls block attacks.** A hit only lands if nothing solid stands between the attacker and the target. This applies to Elam's weapons and to enemy spears alike. A swing that meets a wall strikes sparks off it. One-way platforms don't block.
 

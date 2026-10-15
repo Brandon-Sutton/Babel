@@ -8,7 +8,8 @@ const STARTING_EQUIPMENT: Dictionary[StringName, StringName] = {
 }
 ## Carried from the start for now so every item can be tried in the menu.
 const STARTING_INVENTORY: Array[StringName] = [
-	&"sappara", &"lapis_shield", &"scribes_circlet", &"seal_of_shamash", &"scythe_of_ninurta",
+	&"sappara", &"bronze_mace", &"lion_greatsword", &"scythe_of_ninurta",
+	&"lapis_shield", &"scribes_circlet", &"seal_of_shamash",
 ]
 
 ## Level, experience, attributes, HP/MP, currencies and equipped items.

@@ -102,6 +102,7 @@ func test_game_equip_swaps_with_inventory() -> void:
 	assert_eq(Game.stats.weapon.id, &"sappara")
 	assert_eq(Game.inventory.count(&"short_sword"), 1)
 	assert_eq(Game.inventory.count(&"sappara"), 0)
+	Game.inventory.remove(&"bronze_mace")
 	assert_false(Game.equip(&"right_hand", &"bronze_mace"), "not carried")
 	assert_false(Game.equip(&"head", &"short_sword"), "wrong slot")
 	assert_true(Game.equip(&"right_hand", &""), "unequip")

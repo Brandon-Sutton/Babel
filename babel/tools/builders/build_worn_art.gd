@@ -62,6 +62,7 @@ func _initialize() -> void:
 		&"seal_of_nergal": Piece.new(_cylinder_seal(BASALT_LIGHT, BASALT), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 		&"gazelle_anklet": Piece.new(_anklet(), Vector2(4, 3), [&"ankle_f", &"ankle_b"], WornArt.Layer.FRONT, false),
 		&"scythe_of_ninurta": Piece.new(_scythe(), Vector2(15, 12), [&"hand_r"], WornArt.Layer.FRONT, true),
+		&"lion_greatsword": Piece.new(_greatsword(), Vector2(4, 5), [&"hand_r"], WornArt.Layer.FRONT, true),
 	}
 	var needs_import: bool = false
 	for id: StringName in pieces:
@@ -256,6 +257,27 @@ func _cylinder_seal(light: Color, dark: Color) -> Image:
 	_rect(image, 2, 4, 1, 4, light)
 	_rect(image, 3, 4, 2, 4, dark)
 	_rect(image, 2, 8, 3, 1, GOLD_DARK)
+	_outline(image)
+	return image
+
+
+## Two-handed great sword: lion-head pommel, a long two-hand grip (rear hand at the pommel end),
+## a broad gold guard and a wide steel blade with a fuller, pointing right.
+func _greatsword() -> Image:
+	var image: Image = _canvas(63, 11)
+	_rect(image, 1, 3, 2, 5, GOLD)
+	image.set_pixel(1, 3, GOLD_LIGHT)
+	image.set_pixel(2, 4, GOLD_DARK)
+	_grip(image, 3, 13, 4, 6)
+	_rect(image, 14, 1, 1, 9, GOLD_LIGHT)
+	_rect(image, 15, 1, 1, 9, GOLD_DARK)
+	_rect(image, 16, 3, 41, 1, STEEL_LIGHT)
+	_rect(image, 16, 4, 41, 1, STEEL)
+	_rect(image, 16, 5, 38, 1, STEEL_DARK)
+	_rect(image, 16, 6, 41, 1, STEEL)
+	_rect(image, 16, 7, 41, 1, STEEL_DARK)
+	_rect(image, 57, 4, 2, 3, STEEL)
+	image.set_pixel(59, 5, STEEL_LIGHT)
 	_outline(image)
 	return image
 

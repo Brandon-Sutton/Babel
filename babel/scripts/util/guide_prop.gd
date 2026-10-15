@@ -19,6 +19,8 @@ const SPECK_REACH: int = 3
 const MAGENTA_SMEAR_MIN: int = 40
 ## How far (px) to look across a key pixel for body pixels on both sides.
 const FILL_REACH: int = 24
+## Skin along the rod with a gap wider than this (px) belongs to two separate fists.
+const FIST_GAP: float = 4.0
 ## Max distance (px) from the rod axis for a skin pixel to count as the gripping fist.
 const GRIP_DISTANCE: float = 3.5
 ## The far (left) hand, from the chest point: at the torso's front edge, a little low,
@@ -172,8 +174,7 @@ static func _fit_rod(frame: Image, key: Array[Vector2i], result: Extraction) -> 
 		var t: float = (Vector2(p) - mean).dot(axis)
 		t_min = minf(t_min, t)
 		t_max = maxf(t_max, t)
-	var grip_sum: float = 0.0
-	var grip_count: int = 0
+	var hand_ts: Array[float] = []
 	var normal: Vector2 = Vector2(-axis.y, axis.x)
 	for y: int in frame.get_height():
 		for x: int in frame.get_width():
@@ -182,17 +183,42 @@ static func _fit_rod(frame: Image, key: Array[Vector2i], result: Extraction) -> 
 			var d: Vector2 = Vector2(x, y) - mean
 			var t: float = d.dot(axis)
 			if absf(d.dot(normal)) <= GRIP_DISTANCE and t >= t_min - 4.0 and t <= t_max + 4.0:
-				grip_sum += t
-				grip_count += 1
-	if grip_count == 0:
+				hand_ts.append(t)
+	if hand_ts.is_empty():
 		return
-	var t_grip: float = grip_sum / grip_count
-	result.grip = mean + axis * t_grip
-	# The blade points from the grip toward the rod's longer side.
-	if absf(t_max - t_grip) < absf(t_min - t_grip):
+	# The blade points from the hands toward the rod's longer side.
+	var t_hands: float = _mean(hand_ts)
+	var blade_positive: bool = absf(t_max - t_hands) >= absf(t_min - t_hands)
+	# Two fists apart on the rod (a wide two-handed grip): the grip is the rear fist,
+	# the one nearer the butt, so the weapon's grip sits in that hand and the blade runs
+	# forward through the other.
+	var fists: Array[Array] = _fist_clusters(hand_ts)
+	var rear: Array = fists[0] if blade_positive else fists[-1]
+	result.grip = mean + axis * _mean(rear)
+	if not blade_positive:
 		axis = -axis
 	result.angle = rad_to_deg(axis.angle())
 	result.has_rod = true
+
+
+## Groups positions along the rod into fists: a gap of more than FIST_GAP px starts a
+## new one. Sorted from the rod's negative end.
+static func _fist_clusters(ts: Array[float]) -> Array[Array]:
+	var sorted_ts: Array[float] = ts.duplicate()
+	sorted_ts.sort()
+	var clusters: Array[Array] = [[sorted_ts[0]]]
+	for i: int in range(1, sorted_ts.size()):
+		if sorted_ts[i] - sorted_ts[i - 1] > FIST_GAP:
+			clusters.append([])
+		clusters[-1].append(sorted_ts[i])
+	return clusters
+
+
+static func _mean(values: Array) -> float:
+	var total: float = 0.0
+	for value: float in values:
+		total += value
+	return total / values.size()
 
 
 ## Removes key pixels: filled from body pixels found on both sides, else transparent.

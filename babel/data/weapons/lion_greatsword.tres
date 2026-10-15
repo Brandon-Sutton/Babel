@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/weapon_data.gd" id="1_weapon"]
+[ext_resource type="Resource" path="res://assets/sprites/items/worn/lion_greatsword.tres" id="2_28hrs"]
+
+[resource]
+script = ExtResource("1_weapon")
+startup_frames = 14
+active_frames = 8
+recovery_frames = 20
+reach = 66.0
+hitbox_height = 48.0
+knockback = 260.0
+hit_stop_frames = 8
+slash_color = Color(0.9843137, 0.9019608, 0.6901961, 1)
+two_handed = true
+stance = &"greatsword"
+attack = 16
+worn = ExtResource("2_28hrs")
+dye_ramp = PackedColorArray()
+id = &"lion_greatsword"
+display_name = "Lion-Hilt Greatsword"
+description = "A temple guardian's two-handed blade, its hilt cast as a roaring lion. Cleaves wide and slow."
+price = 400

@@ -32,9 +32,11 @@ def line(a, b):
     return [(round(x0 + (x1 - x0) * t / n), round(y0 + (y1 - y0) * t / n)) for t in range(n + 1)]
 
 
+# Thicken across the rod: sideways for steep rods, up/down for flat ones.
+flat = abs(tip[0] - butt[0]) > abs(tip[1] - butt[1])
 for x, y in line(butt, tip):
-    for dx, c in ((0, KEY), (1, KEY), (-1, EDGE), (2, EDGE)):
-        X, Y = x + dx + PAD, y + PAD
+    for o, c in ((0, KEY), (1, KEY), (-1, EDGE), (2, EDGE)):
+        X, Y = x + (0 if flat else o) + PAD, y + (o if flat else 0) + PAD
         if c == KEY or px[X, Y][3] == 0 or px[X, Y][:3] == EDGE[:3]:
             px[X, Y] = c
 # Put the fist (skin pixels around the grip) back on top of the rod.

@@ -24,6 +24,19 @@
           "north": "Idle/rotations/north.png"
         },
         "animations": {
+          "rig_sickle_walk": {
+            "east": [
+              "Idle/animations/rig_sickle_walk/east/frame_000.png",
+              "Idle/animations/rig_sickle_walk/east/frame_001.png",
+              "Idle/animations/rig_sickle_walk/east/frame_002.png",
+              "Idle/animations/rig_sickle_walk/east/frame_003.png",
+              "Idle/animations/rig_sickle_walk/east/frame_004.png",
+              "Idle/animations/rig_sickle_walk/east/frame_005.png",
+              "Idle/animations/rig_sickle_walk/east/frame_006.png",
+              "Idle/animations/rig_sickle_walk/east/frame_007.png",
+              "Idle/animations/rig_sickle_walk/east/frame_008.png"
+            ]
+          },
           "rig_2h_backdash": {
             "east": [
               "Idle/animations/rig_2h_backdash/east/frame_000.png",
@@ -31,6 +44,19 @@
               "Idle/animations/rig_2h_backdash/east/frame_002.png",
               "Idle/animations/rig_2h_backdash/east/frame_003.png",
               "Idle/animations/rig_2h_backdash/east/frame_004.png"
+            ]
+          },
+          "rig_sickle_jump": {
+            "east": [
+              "Idle/animations/rig_sickle_jump/east/frame_000.png",
+              "Idle/animations/rig_sickle_jump/east/frame_001.png",
+              "Idle/animations/rig_sickle_jump/east/frame_002.png",
+              "Idle/animations/rig_sickle_jump/east/frame_003.png",
+              "Idle/animations/rig_sickle_jump/east/frame_004.png",
+              "Idle/animations/rig_sickle_jump/east/frame_005.png",
+              "Idle/animations/rig_sickle_jump/east/frame_006.png",
+              "Idle/animations/rig_sickle_jump/east/frame_007.png",
+              "Idle/animations/rig_sickle_jump/east/frame_008.png"
             ]
           },
           "rig_crouch": {
@@ -68,6 +94,19 @@
               "Idle/animations/rig_scythe_idle/east/frame_008.png"
             ]
           },
+          "rig_mace_crouch_attack": {
+            "east": [
+              "Idle/animations/rig_mace_crouch_attack/east/frame_000.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_001.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_002.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_003.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_004.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_005.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_006.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_007.png",
+              "Idle/animations/rig_mace_crouch_attack/east/frame_008.png"
+            ]
+          },
           "hurt": {
             "east": [
               "Idle/animations/hurt/east/frame_000.png",
@@ -84,6 +123,54 @@
               "Idle/animations/backdash/east/frame_003.png"
             ]
           },
+          "rig_sickle_attack": {
+            "east": [
+              "Idle/animations/rig_sickle_attack/east/frame_000.png",
+              "Idle/animations/rig_sickle_attack/east/frame_001.png",
+              "Idle/animations/rig_sickle_attack/east/frame_002.png",
+              "Idle/animations/rig_sickle_attack/east/frame_003.png",
+              "Idle/animations/rig_sickle_attack/east/frame_004.png",
+              "Idle/animations/rig_sickle_attack/east/frame_005.png",
+              "Idle/animations/rig_sickle_attack/east/frame_006.png",
+              "Idle/animations/rig_sickle_attack/east/frame_007.png",
+              "Idle/animations/rig_sickle_attack/east/frame_008.png"
+            ]
+          },
+          "rig_mace_walk": {
+            "east": [
+              "Idle/animations/rig_mace_walk/east/frame_000.png",
+              "Idle/animations/rig_mace_walk/east/frame_001.png",
+              "Idle/animations/rig_mace_walk/east/frame_002.png",
+              "Idle/animations/rig_mace_walk/east/frame_003.png",
+              "Idle/animations/rig_mace_walk/east/frame_004.png",
+              "Idle/animations/rig_mace_walk/east/frame_005.png",
+              "Idle/animations/rig_mace_walk/east/frame_006.png",
+              "Idle/animations/rig_mace_walk/east/frame_007.png",
+              "Idle/animations/rig_mace_walk/east/frame_008.png"
+            ]
+          },
+          "rig_greatsword_jump": {
+            "east": [
+              "Idle/animations/rig_greatsword_jump/east/frame_000.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_001.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_002.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_003.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_004.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_005.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_006.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_007.png",
+              "Idle/animations/rig_greatsword_jump/east/frame_008.png"
+            ]
+          },
+          "rig_mace_crouch": {
+            "east": [
+              "Idle/animations/rig_mace_crouch/east/frame_000.png",
+              "Idle/animations/rig_mace_crouch/east/frame_001.png",
+              "Idle/animations/rig_mace_crouch/east/frame_002.png",
+              "Idle/animations/rig_mace_crouch/east/frame_003.png",
+              "Idle/animations/rig_mace_crouch/east/frame_004.png"
+            ]
+          },
           "rig_jump": {
             "east": [
               "Idle/animations/rig_jump/east/frame_000.png",
@@ -95,6 +182,54 @@
               "Idle/animations/rig_jump/east/frame_006.png",
               "Idle/animations/rig_jump/east/frame_007.png",
               "Idle/animations/rig_jump/east/frame_008.png"
+            ]
+          },
+          "rig_sickle_idle": {
+            "east": [
+              "Idle/animations/rig_sickle_idle/east/frame_000.png",
+              "Idle/animations/rig_sickle_idle/east/frame_001.png",
+              "Idle/animations/rig_sickle_idle/east/frame_002.png",
+              "Idle/animations/rig_sickle_idle/east/frame_003.png",
+              "Idle/animations/rig_sickle_idle/east/frame_004.png",
+              "Idle/animations/rig_sickle_idle/east/frame_005.png",
+              "Idle/animations/rig_sickle_idle/east/frame_006.png",
+              "Idle/animations/rig_sickle_idle/east/frame_007.png",
+              "Idle/animations/rig_sickle_idle/east/frame_008.png"
+            ]
+          },
+          "rig_mace_idle": {
+            "east": [
+              "Idle/animations/rig_mace_idle/east/frame_000.png",
+              "Idle/animations/rig_mace_idle/east/frame_001.png",
+              "Idle/animations/rig_mace_idle/east/frame_002.png",
+              "Idle/animations/rig_mace_idle/east/frame_003.png",
+              "Idle/animations/rig_mace_idle/east/frame_004.png",
+              "Idle/animations/rig_mace_idle/east/frame_005.png",
+              "Idle/animations/rig_mace_idle/east/frame_006.png",
+              "Idle/animations/rig_mace_idle/east/frame_007.png",
+              "Idle/animations/rig_mace_idle/east/frame_008.png"
+            ]
+          },
+          "rig_greatsword_hurt": {
+            "east": [
+              "Idle/animations/rig_greatsword_hurt/east/frame_000.png",
+              "Idle/animations/rig_greatsword_hurt/east/frame_001.png",
+              "Idle/animations/rig_greatsword_hurt/east/frame_002.png",
+              "Idle/animations/rig_greatsword_hurt/east/frame_003.png",
+              "Idle/animations/rig_greatsword_hurt/east/frame_004.png"
+            ]
+          },
+          "rig_mace_jump": {
+            "east": [
+              "Idle/animations/rig_mace_jump/east/frame_000.png",
+              "Idle/animations/rig_mace_jump/east/frame_001.png",
+              "Idle/animations/rig_mace_jump/east/frame_002.png",
+              "Idle/animations/rig_mace_jump/east/frame_003.png",
+              "Idle/animations/rig_mace_jump/east/frame_004.png",
+              "Idle/animations/rig_mace_jump/east/frame_005.png",
+              "Idle/animations/rig_mace_jump/east/frame_006.png",
+              "Idle/animations/rig_mace_jump/east/frame_007.png",
+              "Idle/animations/rig_mace_jump/east/frame_008.png"
             ]
           },
           "walk": {
@@ -109,6 +244,15 @@
               "Idle/animations/walk/east/frame_007.png"
             ]
           },
+          "rig_sickle_crouch": {
+            "east": [
+              "Idle/animations/rig_sickle_crouch/east/frame_000.png",
+              "Idle/animations/rig_sickle_crouch/east/frame_001.png",
+              "Idle/animations/rig_sickle_crouch/east/frame_002.png",
+              "Idle/animations/rig_sickle_crouch/east/frame_003.png",
+              "Idle/animations/rig_sickle_crouch/east/frame_004.png"
+            ]
+          },
           "rig_2h_jump": {
             "east": [
               "Idle/animations/rig_2h_jump/east/frame_000.png",
@@ -120,6 +264,19 @@
               "Idle/animations/rig_2h_jump/east/frame_006.png",
               "Idle/animations/rig_2h_jump/east/frame_007.png",
               "Idle/animations/rig_2h_jump/east/frame_008.png"
+            ]
+          },
+          "rig_mace_attack": {
+            "east": [
+              "Idle/animations/rig_mace_attack/east/frame_000.png",
+              "Idle/animations/rig_mace_attack/east/frame_001.png",
+              "Idle/animations/rig_mace_attack/east/frame_002.png",
+              "Idle/animations/rig_mace_attack/east/frame_003.png",
+              "Idle/animations/rig_mace_attack/east/frame_004.png",
+              "Idle/animations/rig_mace_attack/east/frame_005.png",
+              "Idle/animations/rig_mace_attack/east/frame_006.png",
+              "Idle/animations/rig_mace_attack/east/frame_007.png",
+              "Idle/animations/rig_mace_attack/east/frame_008.png"
             ]
           },
           "rig_crouch_attack": {
@@ -147,6 +304,32 @@
               "Idle/animations/crouch_attack/east/frame_007.png"
             ]
           },
+          "rig_greatsword_walk": {
+            "east": [
+              "Idle/animations/rig_greatsword_walk/east/frame_000.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_001.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_002.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_003.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_004.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_005.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_006.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_007.png",
+              "Idle/animations/rig_greatsword_walk/east/frame_008.png"
+            ]
+          },
+          "rig_greatsword_attack": {
+            "east": [
+              "Idle/animations/rig_greatsword_attack/east/frame_000.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_001.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_002.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_003.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_004.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_005.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_006.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_007.png",
+              "Idle/animations/rig_greatsword_attack/east/frame_008.png"
+            ]
+          },
           "attack": {
             "east": [
               "Idle/animations/attack/east/frame_000.png",
@@ -172,6 +355,24 @@
               "Idle/animations/rig_attack/east/frame_008.png"
             ]
           },
+          "rig_greatsword_crouch": {
+            "east": [
+              "Idle/animations/rig_greatsword_crouch/east/frame_000.png",
+              "Idle/animations/rig_greatsword_crouch/east/frame_001.png",
+              "Idle/animations/rig_greatsword_crouch/east/frame_002.png",
+              "Idle/animations/rig_greatsword_crouch/east/frame_003.png",
+              "Idle/animations/rig_greatsword_crouch/east/frame_004.png"
+            ]
+          },
+          "rig_greatsword_backdash": {
+            "east": [
+              "Idle/animations/rig_greatsword_backdash/east/frame_000.png",
+              "Idle/animations/rig_greatsword_backdash/east/frame_001.png",
+              "Idle/animations/rig_greatsword_backdash/east/frame_002.png",
+              "Idle/animations/rig_greatsword_backdash/east/frame_003.png",
+              "Idle/animations/rig_greatsword_backdash/east/frame_004.png"
+            ]
+          },
           "idle": {
             "east": [
               "Idle/animations/idle/east/frame_000.png",
@@ -193,6 +394,28 @@
               "Idle/animations/rig_backdash/east/frame_004.png"
             ]
           },
+          "rig_sickle_crouch_attack": {
+            "east": [
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_000.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_001.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_002.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_003.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_004.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_005.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_006.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_007.png",
+              "Idle/animations/rig_sickle_crouch_attack/east/frame_008.png"
+            ]
+          },
+          "rig_sickle_backdash": {
+            "east": [
+              "Idle/animations/rig_sickle_backdash/east/frame_000.png",
+              "Idle/animations/rig_sickle_backdash/east/frame_001.png",
+              "Idle/animations/rig_sickle_backdash/east/frame_002.png",
+              "Idle/animations/rig_sickle_backdash/east/frame_003.png",
+              "Idle/animations/rig_sickle_backdash/east/frame_004.png"
+            ]
+          },
           "rig_scythe_walk": {
             "east": [
               "Idle/animations/rig_scythe_walk/east/frame_000.png",
@@ -204,6 +427,15 @@
               "Idle/animations/rig_scythe_walk/east/frame_006.png",
               "Idle/animations/rig_scythe_walk/east/frame_007.png",
               "Idle/animations/rig_scythe_walk/east/frame_008.png"
+            ]
+          },
+          "rig_mace_backdash": {
+            "east": [
+              "Idle/animations/rig_mace_backdash/east/frame_000.png",
+              "Idle/animations/rig_mace_backdash/east/frame_001.png",
+              "Idle/animations/rig_mace_backdash/east/frame_002.png",
+              "Idle/animations/rig_mace_backdash/east/frame_003.png",
+              "Idle/animations/rig_mace_backdash/east/frame_004.png"
             ]
           },
           "rig_2h_hurt": {
@@ -279,6 +511,37 @@
               "Idle/animations/jump/east/frame_007.png"
             ]
           },
+          "rig_sickle_hurt": {
+            "east": [
+              "Idle/animations/rig_sickle_hurt/east/frame_000.png",
+              "Idle/animations/rig_sickle_hurt/east/frame_001.png",
+              "Idle/animations/rig_sickle_hurt/east/frame_002.png",
+              "Idle/animations/rig_sickle_hurt/east/frame_003.png",
+              "Idle/animations/rig_sickle_hurt/east/frame_004.png"
+            ]
+          },
+          "rig_greatsword_idle": {
+            "east": [
+              "Idle/animations/rig_greatsword_idle/east/frame_000.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_001.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_002.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_003.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_004.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_005.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_006.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_007.png",
+              "Idle/animations/rig_greatsword_idle/east/frame_008.png"
+            ]
+          },
+          "rig_mace_hurt": {
+            "east": [
+              "Idle/animations/rig_mace_hurt/east/frame_000.png",
+              "Idle/animations/rig_mace_hurt/east/frame_001.png",
+              "Idle/animations/rig_mace_hurt/east/frame_002.png",
+              "Idle/animations/rig_mace_hurt/east/frame_003.png",
+              "Idle/animations/rig_mace_hurt/east/frame_004.png"
+            ]
+          },
           "rig_walk": {
             "east": [
               "Idle/animations/rig_walk/east/frame_000.png",
@@ -290,6 +553,19 @@
               "Idle/animations/rig_walk/east/frame_006.png",
               "Idle/animations/rig_walk/east/frame_007.png",
               "Idle/animations/rig_walk/east/frame_008.png"
+            ]
+          },
+          "rig_greatsword_crouch_attack": {
+            "east": [
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_000.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_001.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_002.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_003.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_004.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_005.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_006.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_007.png",
+              "Idle/animations/rig_greatsword_crouch_attack/east/frame_008.png"
             ]
           },
           "attack_sword": {
@@ -309,5 +585,5 @@
     }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-15T12:45:57.568939"
+  "export_date": "2026-10-15T13:07:27.492235"
 }

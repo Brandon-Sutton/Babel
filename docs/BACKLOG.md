@@ -41,7 +41,7 @@ The user's priority is the game: keep building gameplay ahead of the art pipelin
 Next, in suggested order:
 1. **Visible equipment (EQV):** after the 2026-10-17 refill, regenerate the rest of Elam's set with the guide prop (EQV-009): jump attack, death, guard, cast, throw, double jump, landing and more. Then PixelLab worn art (EQV-012).
 2. **Relics:** `RelicData` for every relic with a worn spot, plus menu toggling (EQV-010, REL-001).
-3. **Per-weapon animations:** two-handed weapons have a full stance set (EQV-016). Next are class sets for great swords, spears and maces (EQV-017).
+3. **Per-weapon animations:** every weapon type has its own full set (EQV-017). Next: split the sheet per type (EQV-018), and new types such as the spear, each with its own set.
 4. **Systems:**
    - game-over screen (UI-014, completes PLR-010)
    - title screen with continue (UI-012, SAV-005)
@@ -238,7 +238,10 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | EQV-014 | Afterimage ghosts also copy the worn items and the dye | M2 | P2 | S | EQV-005 | todo |
 | EQV-015 | Per-weapon animations: `WeaponData.animations` maps any of Elam's animations (attack, idle, walk…) to that weapon's own version, falling back to the shared one. First user: the scythe (idle, walk, attack) | M1 | P0 | S | EQV-002 | done |
 | EQV-016 | Two-handed stance set: every move (idle, walk, jump, fall, crouch, crouching slash, back-dash, hurt, attack) has a `two_handed_*` version, and every two-handed weapon uses it unless it names its own stance | M1 | P0 | M | EQV-015 | done |
-| EQV-017 | Weapon-class animation sets: great swords, spears and maces each get their own stance and swing, shared by every weapon of that class through `WeaponData.animations` | M2 | P1 | M | EQV-015 | todo |
+| EQV-017 | Every weapon type has its own full animation set, because each is held differently: sword (lowered forward), sickle-sword (level, ready to hook), mace (hanging, overhead smash), great sword (two-handed raised guard, cleave), scythe (upright reaper hold). `WeaponData.stance` names the type's set. Adds the two-handed Lion-Hilt Greatsword | M1 | P0 | L | EQV-016 | done |
+| EQV-018 | Split Elam's sheet per weapon type (one sheet per stance, loaded when that weapon is equipped). The single sheet is now 1664x6120 with 45 animations and grows by about 1,200 px of height per type | M2 | P1 | M | EQV-017 | todo |
+| EQV-019 | Great-sword crouch is only a half crouch (he keeps the guard up), so the art stands taller than the crouch hurtbox. Regenerate a lower crouch and crouching cut after the refill | M2 | P2 | S | EQV-017 | todo |
+| EQV-020 | Mace overhead wind-up: the model turns Elam's back to the camera when he lifts a one-handed weapon overhead, so the mace attack uses frames 1, 5-8 (raise forward, smash). Retry the full wind-up with an end-frame pin after the refill | M2 | P2 | S | EQV-017 | todo |
 
 ### SUB: Relic Arms (sub-weapons)
 
@@ -885,6 +888,10 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - An enemy's spear does not hit the player through a wall.
   - One-way platforms do not block attacks.
   - A swing stopped by a wall shows a spark at the wall.
+- **EQV-017**
+  - Each weapon type plays its own idle, walk, jump, fall, crouch, crouching attack, back-dash, hurt and attack. No two types share a hold.
+  - The weapon sits in his hands in every frame of every set (equipment_test's per-frame check).
+  - equipment_test equips each weapon in turn and checks every move plays that type's set.
 - **EQV-005**
   - Equipping a weapon, shield, helm, seal or relic shows its sprite at the right attach point in every animation frame, mirrored correctly when facing left.
   - Changing equipment in the pause menu updates Elam immediately.
@@ -1224,3 +1231,30 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
     - Regression 33/33, unit 51/51.
   - Gens spent: 7 (6 two-handed animations + 1 crouching-slash redo). **About 33.6 left** until the 2026-10-17 reset.
   - **Next:** the user tries the scythe's full stance and the wall blocking. Then EQV-017 class sets after the refill.
+- **2026-10-15 (one animation set per weapon type: EQV-017)**
+  - **The user's report:** no difference between two-handed and one-handed swords; each weapon needs its own animations for the character and its attacks, because each type is held differently.
+  - **Why it looked the same:** the Short Sword, Sappara and Bronze Mace (all one-handed) shared the sword set, and there was no two-handed sword.
+  - **Change:** every weapon type now has its own full set (idle, walk, jump, fall, crouch, crouching attack, back-dash, hurt, attack):
+
+    | Type | Weapon | Hold |
+    |---|---|---|
+    | sword | Short Sword | shared set, lowered forward |
+    | sickle_sword | Sappara | level, ready to hook; slash with a wide smear |
+    | mace | Bronze Mace | hanging; raise and smash |
+    | greatsword | Lion-Hilt Greatsword (new, two-handed, ATK 16) | raised two-handed guard; overhead cleave |
+    | scythe | Scythe of Ninurta | upright reaper hold (renamed from `two_handed_*`) |
+
+  - **Code:**
+    - `WeaponData.stance` names the type's set, and the implicit two-handed default is gone.
+    - The importer anchors a wide two-handed grip on the rear fist, and the great sword pivots at its pommel end.
+    - The mace and great sword are in the starting bag.
+  - **Art:**
+    - 24 guide-prop animations plus 1 redo (the mace attack turned Elam's back twice, so frames 2-4 are dropped; see EQV-020).
+    - Crouching attacks pinned with painted end frames.
+    - Lifts: -1 to -4 for the crouched poses.
+    - PixelLab runs at most 8 jobs at once.
+  - **Tests:**
+    - `equipment_test` 11/11: 35 weapon moves each play their own type's set; 247 frames with the hand on the fist; 1,720 placements exact.
+    - Regression 39/39, unit 51/51.
+  - Gens spent: 25. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** the user compares the five holds in game. After the refill: EQV-018 sheet split, EQV-019 and EQV-020.

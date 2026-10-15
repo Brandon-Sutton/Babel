@@ -16,9 +16,9 @@ extends EquipmentData
 @export var slash_color: Color = Color("e8dfc4")
 ## Held in both hands: the left hand must stay empty (INV-015).
 @export var two_handed: bool = false
-## The animation set Elam fights with while holding this weapon (EQV-016): he plays
-## "<stance>_<move>" (e.g. two_handed_jump) wherever the sheet has it. Empty means
-## &"two_handed" for two-handed weapons and the shared one-handed set otherwise.
+## The weapon type's animation set (EQV-017): each type is held differently, so Elam
+## plays "<stance>_<move>" (e.g. mace_walk, scythe_jump) wherever the sheet has it.
+## Empty uses the shared set, which is the one-handed sword's.
 @export var stance: StringName
 ## Single moves this weapon replaces on top of its stance (EQV-015), e.g.
 ## {&"attack": &"greatsword_attack"}.
@@ -31,9 +31,8 @@ func animation_candidates(move: StringName) -> Array[StringName]:
 	var candidates: Array[StringName] = []
 	if animations.has(move):
 		candidates.append(animations[move])
-	var set_name: StringName = stance if not stance.is_empty() else (&"two_handed" if two_handed else &"")
-	if not set_name.is_empty():
-		candidates.append(StringName("%s_%s" % [set_name, move]))
+	if not stance.is_empty():
+		candidates.append(StringName("%s_%s" % [stance, move]))
 	return candidates
 
 

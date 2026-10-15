@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WornArt" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/worn_art.gd" id="1_3fibn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/worn/lion_greatsword.png" id="2_oeeli"]
+
+[resource]
+script = ExtResource("1_3fibn")
+texture = ExtResource("2_oeeli")
+pivot = Vector2(4, 5)
+follows_angle = true
