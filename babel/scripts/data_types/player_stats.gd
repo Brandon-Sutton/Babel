@@ -95,33 +95,56 @@ func defense() -> int:
 	return floori(total(&"constitution") / 2.0) + armor
 
 
-## Puts [param item] in [param slot] (null empties it) and returns what was there.
-## Items that don't fit the slot are refused (returns the current item unchanged).
-func equip(slot: StringName, item: EquipmentData) -> EquipmentData:
-	var previous: EquipmentData = equipped.get(slot)
+## Puts [param item] in [param slot] (null empties it) and returns everything taken off:
+## the slot's previous item, plus the other hand's item when the two-handed rule applies
+## (INV-015): a two-handed weapon empties the left hand, and putting anything in the left
+## hand takes a two-handed weapon off. Items that don't fit the slot are refused, and
+## nothing changes.
+func equip(slot: StringName, item: EquipmentData) -> Array[EquipmentData]:
 	if item != null and not fits(item, slot):
-		return previous
+		return []
+	var removed: Array[EquipmentData] = _apply(slot, item)
+	emit_changed()
+	return removed
+
+
+## True if [param item] is a weapon held in both hands.
+static func is_two_handed(item: EquipmentData) -> bool:
+	return item is WeaponData and (item as WeaponData).two_handed
+
+
+## True while a two-handed weapon is held, so the left hand is taken.
+func hands_full() -> bool:
+	return is_two_handed(equipped.get(&"right_hand"))
+
+
+func _apply(slot: StringName, item: EquipmentData) -> Array[EquipmentData]:
+	var removed: Array[EquipmentData] = []
+	if equipped.has(slot):
+		removed.append(equipped[slot])
 	if item == null:
 		equipped.erase(slot)
-	else:
-		equipped[slot] = item
-	emit_changed()
-	return previous
+		return removed
+	equipped[slot] = item
+	var other: StringName = &""
+	if slot == &"right_hand" and is_two_handed(item):
+		other = &"left_hand"
+	elif slot == &"left_hand" and hands_full():
+		other = &"right_hand"
+	if not other.is_empty() and equipped.has(other):
+		removed.append(equipped[other])
+		equipped.erase(other)
+	return removed
 
 
 ## Attack, defense and the four attributes as they would be with [param item] in
-## [param slot], without changing anything (for the equip menu's comparison).
+## [param slot] (two-handed rule included), without changing anything (for the equip
+## menu's comparison).
 func preview(slot: StringName, item: EquipmentData) -> Dictionary[StringName, int]:
-	var saved: EquipmentData = equipped.get(slot)
-	if item == null:
-		equipped.erase(slot)
-	else:
-		equipped[slot] = item
+	var saved: Dictionary[StringName, EquipmentData] = equipped.duplicate()
+	_apply(slot, item)
 	var result: Dictionary[StringName, int] = summary()
-	if saved == null:
-		equipped.erase(slot)
-	else:
-		equipped[slot] = saved
+	equipped = saved
 	return result
 
 

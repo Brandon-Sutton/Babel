@@ -201,6 +201,10 @@ func _draw_slots(box: Rect2) -> void:
 			_text(Vector2(box.position.x + 6, y), ">", GOLD)
 		_text(Vector2(box.position.x + 20, y), PlayerStats.SLOT_LABELS[slot], GOLD if selected else DIM)
 		var item: EquipmentData = stats_item(slot)
+		if slot == &"left_hand" and Game.stats.hands_full():
+			# Taken by the two-handed weapon; equipping here takes that weapon off.
+			_text(Vector2(box.position.x + 92, y), "(TWO-HANDED)", DIM)
+			continue
 		_text(Vector2(box.position.x + 92, y), item.display_name if item != null else "-", TEXT if selected else Color(TEXT, 0.8))
 
 
@@ -254,6 +258,8 @@ func _draw_description(box: Rect2) -> void:
 		return
 	var header: String = item.display_name
 	var details: PackedStringArray = [item.kind_label()]
+	if PlayerStats.is_two_handed(item):
+		details.append("TWO-HANDED")
 	if item.attack != 0:
 		details.append("ATK %d" % item.attack)
 	if item.defense != 0:

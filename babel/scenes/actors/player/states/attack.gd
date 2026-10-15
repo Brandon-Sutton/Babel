@@ -30,13 +30,16 @@ func enter(previous: StringName) -> void:
 	player.set_crouching(_kind == Kind.CROUCH)
 	if _kind != Kind.AIR:
 		player.velocity.x = 0.0
-	var animation: StringName = ANIMATIONS[_kind]
-	if not player.animation_player.has_animation(animation):
-		# Air attacks reuse the standing swing; a crouching swing needs its own art.
-		_needs_arc = _kind == Kind.CROUCH or not player.animation_player.has_animation(&"attack")
-		animation = &"attack"
-	else:
-		_needs_arc = false
+	# The weapon's own swing when it has one (the scythe's reap), else the shared one.
+	var animation: StringName = player.resolve_animation(ANIMATIONS[_kind])
+	var own_art: bool = player.animation_player.has_animation(animation)
+	if not own_art:
+		# Air attacks reuse the standing swing (the weapon's own, if it has one).
+		animation = player.resolve_animation(&"attack")
+	# The procedural arc stands in where the art has no smear of its own (the scythe's
+	# reap), or where a crouching swing has to borrow the standing art.
+	_needs_arc = (not own_art and _kind == Kind.CROUCH) or not player.animation_player.has_animation(animation) \
+			or not player.equipment_rig.has_smear(animation)
 	player.play_animation(animation, true)
 	# Stretch the swing art to this weapon's timing (the mace is slower than the sword).
 	var swing_seconds: float = _weapon.total_frames() / 60.0

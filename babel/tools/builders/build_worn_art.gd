@@ -19,6 +19,8 @@ const GOLD: Color = Color("c59c5c")
 const GOLD_DARK: Color = Color("82633f")
 const GRIP: Color = Color("6b4a32")
 const GRIP_DARK: Color = Color("3e2a1c")
+const WOOD_LIGHT: Color = Color("9a7450")
+const WOOD: Color = Color("6b4a32")
 const BRONZE_LIGHT: Color = Color("f0c088")
 const BRONZE: Color = Color("c08040")
 const BRONZE_DARK: Color = Color("7a4a22")
@@ -59,6 +61,7 @@ func _initialize() -> void:
 		&"seal_of_shamash": Piece.new(_cylinder_seal(CARNELIAN_LIGHT, CARNELIAN), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 		&"seal_of_nergal": Piece.new(_cylinder_seal(BASALT_LIGHT, BASALT), Vector2(3, 1), [&"seal"], WornArt.Layer.FRONT, false),
 		&"gazelle_anklet": Piece.new(_anklet(), Vector2(4, 3), [&"ankle_f", &"ankle_b"], WornArt.Layer.FRONT, false),
+		&"scythe_of_ninurta": Piece.new(_scythe(), Vector2(15, 12), [&"hand_r"], WornArt.Layer.FRONT, true),
 	}
 	var needs_import: bool = false
 	for id: StringName in pieces:
@@ -253,6 +256,33 @@ func _cylinder_seal(light: Color, dark: Color) -> Image:
 	_rect(image, 2, 4, 1, 4, light)
 	_rect(image, 3, 4, 2, 4, dark)
 	_rect(image, 2, 8, 3, 1, GOLD_DARK)
+	_outline(image)
+	return image
+
+
+## War scythe: a long wooden snath (gripped 14 px from the butt) with a bronze collar
+## and a crescent steel blade. Drawn pointing right, so the blade hangs toward +y, which
+## faces forward when the scythe is held upright.
+func _scythe() -> Image:
+	var image: Image = _canvas(64, 32)
+	image.set_pixel(1, 11, BRONZE_LIGHT)
+	image.set_pixel(1, 12, BRONZE_DARK)
+	_rect(image, 2, 11, 56, 1, WOOD_LIGHT)
+	_rect(image, 2, 12, 56, 1, WOOD)
+	_grip(image, 10, 20, 11, 12)
+	_rect(image, 57, 10, 3, 4, BRONZE)
+	image.set_pixel(57, 10, BRONZE_LIGHT)
+	var centre: Vector2 = Vector2(44.0, 12.0)
+	for y: int in range(10, 32):
+		for x: int in range(40, 64):
+			var d: Vector2 = Vector2(x + 0.5, y + 0.5) - centre
+			var angle: float = rad_to_deg(atan2(d.y, d.x))
+			if angle < 4.0 or angle > 84.0:
+				continue
+			var thickness: float = 3.6 * (1.0 - angle / 95.0) + 0.6
+			var r: float = d.length()
+			if r <= 17.0 and r >= 17.0 - thickness:
+				image.set_pixel(x, y, STEEL_LIGHT if r > 16.0 else (STEEL if r > 14.8 else STEEL_DARK))
 	_outline(image)
 	return image
 

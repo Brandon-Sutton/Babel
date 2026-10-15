@@ -121,6 +121,52 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_a3ug8"]
+length = 0.63
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.045, 0.09, 0.14, 0.2, 0.32, 0.43, 0.53),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 11), Vector2i(1, 11), Vector2i(2, 11), Vector2i(3, 11), Vector2i(4, 11), Vector2i(5, 11), Vector2i(6, 11), Vector2i(7, 11)]
+}
+
+[sub_resource type="Animation" id="Animation_vpeqs"]
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 9), Vector2i(1, 9), Vector2i(2, 9), Vector2i(3, 9), Vector2i(4, 9), Vector2i(5, 9), Vector2i(6, 9), Vector2i(7, 9)]
+}
+
+[sub_resource type="Animation" id="Animation_ea7t8"]
+length = 0.664
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083, 0.166, 0.249, 0.332, 0.415, 0.498, 0.581),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 10), Vector2i(1, 10), Vector2i(2, 10), Vector2i(3, 10), Vector2i(4, 10), Vector2i(5, 10), Vector2i(6, 10), Vector2i(7, 10)]
+}
+
+[sub_resource type="Animation" id="Animation_f4bmq"]
 length = 0.664
 loop_mode = 1
 tracks/0/type = "value"
@@ -146,5 +192,8 @@ _data = {
 &"hurt": SubResource("Animation_0ldpg"),
 &"idle": SubResource("Animation_vawp6"),
 &"jump": SubResource("Animation_yxs7b"),
-&"walk": SubResource("Animation_a3ug8")
+&"scythe_attack": SubResource("Animation_a3ug8"),
+&"scythe_idle": SubResource("Animation_vpeqs"),
+&"scythe_walk": SubResource("Animation_ea7t8"),
+&"walk": SubResource("Animation_f4bmq")
 }

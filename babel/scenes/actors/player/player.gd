@@ -182,11 +182,24 @@ func take_hit(info: DamageInfo) -> bool:
 	return true
 
 
-## Plays [param animation_name], falling back to idle if the sheet doesn't have it yet.
-## A finished non-looping animation (crouch, jump) holds its last frame rather than
-## restarting; pass [param restart] to play it again from the start.
+## The animation that plays for [param animation_name]: the equipped weapon's own version
+## when it has one in the sheet (WeaponData.animations, EQV-015), else the shared one.
+func resolve_animation(animation_name: StringName) -> StringName:
+	var weapon: WeaponData = Game.stats.weapon
+	if weapon != null and weapon.animations.has(animation_name):
+		var own: StringName = weapon.animations[animation_name]
+		if animation_player.has_animation(own):
+			return own
+	return animation_name
+
+
+## Plays [param animation_name] (or the weapon's version of it), falling back to idle if
+## the sheet doesn't have it yet. A finished non-looping animation (crouch, jump) holds
+## its last frame rather than restarting; pass [param restart] to play it again.
 func play_animation(animation_name: StringName, restart: bool = false) -> void:
-	var name_to_play: StringName = animation_name if animation_player.has_animation(animation_name) else &"idle"
+	var name_to_play: StringName = resolve_animation(animation_name)
+	if not animation_player.has_animation(name_to_play):
+		name_to_play = resolve_animation(&"idle")
 	if not animation_player.has_animation(name_to_play):
 		return
 	if restart or animation_player.assigned_animation != name_to_play:
@@ -196,9 +209,10 @@ func play_animation(animation_name: StringName, restart: bool = false) -> void:
 
 ## Shows the last frame of [param animation_name] (e.g. already crouched).
 func hold_last_frame(animation_name: StringName) -> void:
-	if not animation_player.has_animation(animation_name):
+	var name_to_play: StringName = resolve_animation(animation_name)
+	if not animation_player.has_animation(name_to_play):
 		return
-	animation_player.play(animation_name)
+	animation_player.play(name_to_play)
 	animation_player.seek(animation_player.current_animation_length, true)
 
 

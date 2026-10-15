@@ -297,10 +297,15 @@ Familiars level from 1 to 99 through use.
 - Short swords, swords and great swords
 - Sickle-swords (khopesh and sappara)
 - Maces, spears and knuckles
+- Scythes, two-handed (the Scythe of Ninurta)
 - Throwing weapons
 - Shields, including a shield-rod analog called the Scepter of Shamash
 - Bows (late game)
 - Food and potions, which can be used directly from a hand slot
+
+**Two-handed weapons** (great swords, scythes) take both hands. Equipping one returns the left-hand item to the bag, and equipping anything in the left hand takes the two-handed weapon off, as in SotN.
+
+**Each weapon can have its own animations.** A weapon may replace any of Elam's animations (stance, walk, attack…) with its own; anything it doesn't replace uses the shared set. The scythe has a reaper's stance and walk and a slow two-handed reap. Weapon classes (great swords, spears, maces) are next.
 
 **Content targets:** about 60 weapons, 30 head and body pieces, 12 mantles, 30 seals and 40 consumables. The mantle lining can be dyed.
 

@@ -4,8 +4,10 @@ extends Node2D
 ## Anklet), every piece is drawn at its attach point in every frame of every animation,
 ## the hand point sits on the fist in the art, facing left mirrors everything, swapping
 ## the weapon swaps the sprite, swings show the smear in the weapon's colour, and Mason's
-## Mail turns the steel plates bronze in the rendered frame. Logs "VISUAL PASS/FAIL".
-## Needs a real window: run it via tools/capture.sh (about 900 frames).
+## Mail turns the steel plates bronze in the rendered frame. Then the two-handed Scythe
+## of Ninurta (INV-015, EQV-015): it takes the shield off, plays its own idle, walk and
+## reap (with the procedural arc, as its art has no smear) and stays in hand throughout.
+## Logs "VISUAL PASS/FAIL". Needs a real window: run it via tools/capture.sh (about 900 frames).
 
 const Greybox := preload("res://tools/builders/build_greybox_tileset.gd")
 const TILE_SET: TileSet = preload("res://assets/tilesets/greybox/greybox_tileset.tres")
@@ -54,6 +56,7 @@ func _run() -> void:
 	await _check_smear()
 	await _check_dye()
 	await _showcase()
+	await _check_scythe()
 	print("equipment_test: done")
 
 
@@ -200,6 +203,50 @@ func _showcase() -> void:
 	await _frames(10)
 	await _press(&"attack_right")
 	await _frames(40)
+
+
+## The scythe takes both hands and brings its own idle, walk and reap.
+func _check_scythe() -> void:
+	Game.inventory.add(&"scythe_of_ninurta")
+	var shields_before: int = Game.inventory.count(&"lapis_shield")
+	Game.equip(&"right_hand", &"scythe_of_ninurta")
+	await _frames(3)
+	var shield_returned: bool = Game.inventory.count(&"lapis_shield") == shields_before + 1
+	var shield_off: bool = (not Game.stats.equipped.has(&"left_hand") and shield_returned
+			and _piece("lapis_shield") == null and _piece("scythe_of_ninurta") != null)
+	_report("the scythe takes both hands", shield_off, "left hand empty=%s, shield back in the bag=%s, scythe drawn=%s" % [
+			not Game.stats.equipped.has(&"left_hand"), shield_returned, _piece("scythe_of_ninurta") != null])
+	var idle: StringName = _player.animation_player.assigned_animation
+	Input.action_press(&"move_right")
+	await _frames(20)
+	var walk: StringName = _player.animation_player.assigned_animation
+	Input.action_release(&"move_right")
+	await _frames(5)
+	await _press(&"attack_right")
+	await _frames(2)
+	var reap: StringName = _player.animation_player.assigned_animation
+	var arc_seen: bool = false
+	var always_in_hand: bool = true
+	for i: int in 40:
+		await _frames(1)
+		arc_seen = arc_seen or _player.slash_fx._frames_left > 0
+		always_in_hand = always_in_hand and _piece("scythe_of_ninurta").visible
+	_report("the scythe's own animations", idle == &"scythe_idle" and walk == &"scythe_walk" and reap == &"scythe_attack",
+			"idle %s, walk %s, attack %s" % [idle, walk, reap])
+	_report("the reap shows its arc and keeps the scythe in hand", arc_seen and always_in_hand,
+			"arc drawn=%s, scythe visible every frame=%s" % [arc_seen, always_in_hand])
+	await _frames(20)
+	Game.equip(&"right_hand", &"short_sword")
+	await _frames(2)
+	_report("swapping back changes the stance at once", _player.animation_player.assigned_animation == &"idle",
+			"animation after the swap: %s" % _player.animation_player.assigned_animation)
+	Game.equip(&"right_hand", &"scythe_of_ninurta")
+	Input.action_press(&"move_left")
+	await _frames(40)
+	Input.action_release(&"move_left")
+	await _frames(15)
+	await _press(&"attack_right")
+	await _frames(60)
 
 
 func _bronze_pixels() -> int:

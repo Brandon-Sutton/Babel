@@ -12,8 +12,14 @@ extends EquipmentData
 ## Horizontal knockback applied to what it hits, in px/s.
 @export var knockback: float = 140.0
 @export var hit_stop_frames: int = 4
-## Colour of the placeholder slash arc (used where an animation has no swing art).
+## Colour of the swing smear (and of the placeholder arc where an animation has none).
 @export var slash_color: Color = Color("e8dfc4")
+## Held in both hands: the left hand must stay empty (INV-015).
+@export var two_handed: bool = false
+## This weapon's own versions of Elam's animations (EQV-015), e.g.
+## {&"attack": &"scythe_attack", &"idle": &"scythe_idle"}. Animations without an entry
+## use the shared ones.
+@export var animations: Dictionary[StringName, StringName] = {}
 
 
 ## Total frames of one swing.

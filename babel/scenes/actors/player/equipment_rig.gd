@@ -33,6 +33,8 @@ class Piece:
 var _anchors: Dictionary[Vector2i, Dictionary] = {}
 ## Frames whose animation carries hand points (guide-prop animations).
 var _has_hands: Dictionary[Vector2i, bool] = {}
+## Animations whose art includes a swing smear.
+var _smeared: Dictionary[StringName, bool] = {}
 var _body: Sprite2D
 var _smear: Sprite2D
 var _dye: ShaderMaterial
@@ -52,6 +54,7 @@ func setup(body: Sprite2D, layout: Dictionary, smear_texture: Texture2D) -> void
 	_body = body
 	_anchors.clear()
 	_has_hands.clear()
+	_smeared.clear()
 	var animations: Dictionary = layout.get("animations", {})
 	for anim_name: String in animations:
 		var entry: Dictionary = animations[anim_name]
@@ -60,6 +63,8 @@ func setup(body: Sprite2D, layout: Dictionary, smear_texture: Texture2D) -> void
 		for col: int in frames.size():
 			_anchors[Vector2i(col, row)] = frames[col]
 			_has_hands[Vector2i(col, row)] = entry.get("hands", false)
+			if (frames[col] as Dictionary).get("smear", false):
+				_smeared[StringName(anim_name)] = true
 	_dye = ShaderMaterial.new()
 	_dye.shader = preload("res://assets/shaders/equipment_dye.gdshader")
 	_body.material = _dye
@@ -75,6 +80,12 @@ func setup(body: Sprite2D, layout: Dictionary, smear_texture: Texture2D) -> void
 		_smear.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		add_child(_smear)
 	_signature = "-"
+
+
+## True if [param animation]'s art has its own swing smear. Swings without one get the
+## procedural arc (SlashFX) in the weapon's colour instead.
+func has_smear(animation: StringName) -> bool:
+	return _smeared.has(animation)
 
 
 func _process(_delta: float) -> void:

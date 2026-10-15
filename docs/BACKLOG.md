@@ -34,20 +34,21 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
 - **Everything Elam equips is visible on him** (2026-10-15): weapon in hand, shield, circlet, seals, relic anklet, bronze plates and the mantle lining. The swing smear takes the weapon's colour.
 
-**Playtest wanted (game feel, log the verdict here):** the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
+**Playtest wanted (game feel, log the verdict here):** the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
 Next, in suggested order:
 1. **Visible equipment (EQV):** after the 2026-10-17 refill, regenerate the rest of Elam's set with the guide prop (EQV-009): jump attack, death, guard, cast, throw, double jump, landing and more. Then PixelLab worn art (EQV-012).
 2. **Relics:** `RelicData` for every relic with a worn spot, plus menu toggling (EQV-010, REL-001).
-3. **Systems:**
+3. **Per-weapon animations:** the scythe proves it (EQV-015). Next are class sets for great swords, spears and maces (EQV-017), and the scythe's remaining moves (EQV-016).
+4. **Systems:**
    - game-over screen (UI-014, completes PLR-010)
    - title screen with continue (UI-012, SAV-005)
    - enemy loot tables (INV-013)
    - Relic Arms using embers (SUB-001/002)
-4. **World:** room transitions (WLD-001/002), then dual-grid tile art (WLD-023) once the user has decided on the GTE tileset style.
-5. **Art polish:** weapon-specific swings (ART-016), item icons (INV-014), palette locks for the hero and enemy animations.
+5. **World:** room transitions (WLD-001/002), then dual-grid tile art (WLD-023) once the user has decided on the GTE tileset style.
+6. **Art polish:** weapon-specific swings (ART-016), item icons (INV-014), palette locks for the hero and enemy animations.
 
 **M0 exit criteria:**
 - ✅ A greybox test room runs with a placeholder capsule player (`tests/visual/greybox_room.tscn`).
@@ -132,7 +133,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | ART-013 | Familiar sprites (5) | M3 | P1 | M | FAM-001 | todo |
 | ART-014 | Title key art and logo | M5 | P1 | M | — | todo |
 | ART-015 | Act II drowned variants: palette plans and new overlay art | M4 | P0 | L | VFX-010 | todo |
-| ART-016 | Weapon-specific swing art: the Sappara and Bronze Mace reuse the sword slash (stretched to their timing) | M2 | P2 | M | ART-001 | todo |
+| ART-016 | Weapon-specific swing art: the Sappara and Bronze Mace reuse the sword slash (stretched to their timing). The mechanism exists now (EQV-015); this is the art, see EQV-017 | M2 | P2 | M | ART-001 | todo |
 | ART-017 | A lower crouch pose for Elam, so high attacks can be ducked visibly. The current crouch is 59 px tall and the Spearman's stab (46–53 px) crosses the head, so a crouch does not dodge it. | M2 | P2 | S | ART-001 | todo |
 
 ### PLR: Player controller
@@ -212,6 +213,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | INV-012 | Elam's starting gear and Namtar's gear strip (the Act II recovery is in NAR-013) | M1 | P0 | S | INV-001, NAR-005 | doing |
 | INV-013 | Enemy loot tables (`EnemyData.loot`), rolled on death | M2 | P1 | S | INV-007 | todo |
 | INV-014 | Item icons in the equip menu and pickups (needs PIPE-009) | M2 | P2 | S | PIPE-009 | todo |
+| INV-015 | Two-handed weapons: a two-handed weapon empties the left hand, and equipping the left hand removes it. The menu and stat preview follow the rule. First weapon: the Scythe of Ninurta | M1 | P0 | S | INV-004 | done |
 
 ### EQV: Visible equipment (paper doll)
 
@@ -233,6 +235,9 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | EQV-012 | Worn art, PixelLab pass: replace the code-drawn batch 1 sprites with generated ones (same pivots) | M2 | P1 | S | EQV-008 | todo |
 | EQV-013 | Per-frame weapon layer: put the weapon behind the body on frames where the near hand passes behind it (detected from how much of the guide rod is hidden) | M2 | P2 | S | EQV-002 | todo |
 | EQV-014 | Afterimage ghosts also copy the worn items and the dye | M2 | P2 | S | EQV-005 | todo |
+| EQV-015 | Per-weapon animations: `WeaponData.animations` maps any of Elam's animations (attack, idle, walk…) to that weapon's own version, falling back to the shared one. First user: the scythe (idle, walk, attack) | M1 | P0 | S | EQV-002 | done |
+| EQV-016 | Scythe moves still using the shared art: crouching slash, jump and fall, back-dash and hurt (guide prop with the upright-pole start frame) | M2 | P2 | S | EQV-015 | todo |
+| EQV-017 | Weapon-class animation sets: great swords, spears and maces each get their own stance and swing, shared by every weapon of that class through `WeaponData.animations` | M2 | P1 | M | EQV-015 | todo |
 
 ### SUB: Relic Arms (sub-weapons)
 
@@ -861,6 +866,15 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - No key-green pixels remain in the imported body sheet. Pixels the rod covered over the body are filled; pixels outside the body become transparent.
   - Key-green swing smears are saved as a separate mask sheet.
   - A review sheet marks the grip and angle on every frame, and it has been checked by eye.
+- **INV-015**
+  - Equipping a two-handed weapon returns the left-hand item to the inventory.
+  - Equipping anything in the left hand while a two-handed weapon is held returns that weapon to the inventory.
+  - The stat preview shows the result of both rules, and the menu shows the left hand as taken by the two-handed weapon.
+  - Unit tests cover each rule, and a save round trip keeps the two-handed weapon equipped.
+- **EQV-015**
+  - With the scythe equipped, Elam plays the scythe's idle, walk and attack. Moves the scythe has no version of fall back to the shared ones.
+  - Swapping weapons changes the animation set immediately, even mid-idle.
+  - The scythe is drawn in his hands in every frame of its own animations, and the attack's smear shows in its slash colour.
 - **EQV-005**
   - Equipping a weapon, shield, helm, seal or relic shows its sprite at the right attach point in every animation frame, mirrored correctly when facing left.
   - Changing equipment in the pause menu updates Elam immediately.
@@ -1154,3 +1168,26 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
     - Regression: gameplay 8/8, sandbox 4/4, systems 9/9, spearman 12/12, unit 46/46. No key-green pixels remain in `hero.png`.
   - Gens spent: 12 (8 guide-prop animations, 3 loose-image experiments, 1 crouching slash). **About 43.6 left** until the 2026-10-17 reset.
   - **Next:** the user looks at Elam in his gear. After the refill, finish EQV-009 (the rest of the animation set), then EQV-012 worn art and EQV-010 relics.
+- **2026-10-15 (two-handed scythe and per-weapon animations: INV-015, EQV-015)**
+  - **The user's request:** a two-handed weapon (scythe) that empties the left hand and changes the attack animation, with custom animations per weapon in future.
+  - **Two-handed rule:**
+    - `PlayerStats.equip()` now returns everything it takes off.
+    - A two-handed weapon empties the left hand, and anything put in the left hand takes a two-handed weapon off (as in SotN).
+    - `preview()` runs the same rule on a copy, so the menu's before/after numbers always match.
+    - The menu shows the left hand as `(TWO-HANDED)` and tags the weapon.
+  - **Per-weapon animations:**
+    - `WeaponData.animations` maps any of Elam's animation names to the weapon's own version.
+    - `Player.resolve_animation()` applies it everywhere (`play_animation`, `hold_last_frame`, the attack state), falling back to the shared animation.
+    - Swapping weapons changes the stance at once.
+    - Swings whose art has no smear get the procedural `SlashFX` arc in the weapon's colour.
+  - **Scythe of Ninurta:** `data/weapons/scythe_of_ninurta.tres`. ATK 14, 12/8/18 frames, reach 74, height 56, pale violet slash. Worn sprite (64x32) drawn by `build_worn_art.gd`.
+  - **Art:**
+    - New start frame `rig/start_standing_pole.png`: an upright green pole, so the stance is a reaper's.
+    - Guide-prop `scythe_idle`, `scythe_walk` and `scythe_attack`.
+    - The first attack prompt said "scythe reap", and the model painted its own scythe blade and a dark arc that the key can't remove. It was deleted and redone with neutral wording ("swing of the plain green pole"). Lesson in ART_BIBLE §6.3.
+  - **Tests:**
+    - Unit 51/51 (5 new: two-handed empties the left hand, the left hand removes the two-handed weapon, one-handed keeps the shield, preview follows the rule, Game.equip returns both, and the save round trip keeps the scythe).
+    - `equipment_test` 11/11 (4 new: both hands taken, own animations, arc and scythe in hand through the reap, instant swap back).
+    - Regression 33/33.
+  - Gens spent: 4 (idle, walk, attack twice). **About 40.6 left** until the 2026-10-17 reset.
+  - **Next:** the user tries the scythe. Then EQV-017 class sets and EQV-016 for the scythe's other moves after the refill.

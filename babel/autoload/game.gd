@@ -6,7 +6,10 @@ extends Node
 const STARTING_EQUIPMENT: Dictionary[StringName, StringName] = {
 	&"right_hand": &"short_sword", &"body": &"masons_mail", &"mantle": &"crimson_mantle",
 }
-const STARTING_INVENTORY: Array[StringName] = [&"sappara", &"lapis_shield", &"scribes_circlet", &"seal_of_shamash"]
+## Carried from the start for now so every item can be tried in the menu.
+const STARTING_INVENTORY: Array[StringName] = [
+	&"sappara", &"lapis_shield", &"scribes_circlet", &"seal_of_shamash", &"scythe_of_ninurta",
+]
 
 ## Level, experience, attributes, HP/MP, currencies and equipped items.
 var stats: PlayerStats
@@ -54,19 +57,20 @@ func item(id: StringName) -> ItemData:
 	return Db.get_entry(id) as ItemData
 
 
-## Puts the carried item [param item_id] in [param slot], returning whatever was there
-## to the inventory. An empty [param item_id] just unequips the slot. Returns false if
-## the item isn't carried or doesn't fit the slot.
+## Puts the carried item [param item_id] in [param slot], returning whatever it takes off
+## to the inventory (both hands' items when the two-handed rule applies). An empty
+## [param item_id] just unequips the slot. Returns false if the item isn't carried or
+## doesn't fit the slot.
 func equip(slot: StringName, item_id: StringName) -> bool:
 	var equipment: EquipmentData = null
 	if not item_id.is_empty():
 		equipment = item(item_id) as EquipmentData
 		if equipment == null or inventory.count(item_id) == 0 or not PlayerStats.fits(equipment, slot):
 			return false
-	var previous: EquipmentData = stats.equip(slot, equipment)
+	var removed: Array[EquipmentData] = stats.equip(slot, equipment)
 	if equipment != null:
 		inventory.remove(item_id)
-	if previous != null:
+	for previous: EquipmentData in removed:
 		inventory.add(previous.id)
 	return true
 

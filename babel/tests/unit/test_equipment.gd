@@ -24,8 +24,55 @@ func test_slots_only_accept_their_kind() -> void:
 	assert_false(PlayerStats.fits(_item(&"sappara"), &"head"))
 	assert_true(PlayerStats.fits(_item(&"lapis_shield"), &"left_hand"))
 	assert_true(PlayerStats.fits(_item(&"seal_of_shamash"), &"seal_2"))
-	assert_eq(stats.equip(&"head", _item(&"sappara")), null, "refused, slot stays empty")
+	assert_true(stats.equip(&"head", _item(&"sappara")).is_empty(), "refused, nothing taken off")
 	assert_false(stats.equipped.has(&"head"))
+
+
+func test_two_handed_weapon_empties_the_left_hand() -> void:
+	stats.equip(&"right_hand", _item(&"short_sword"))
+	stats.equip(&"left_hand", _item(&"lapis_shield"))
+	var removed: Array[EquipmentData] = stats.equip(&"right_hand", _item(&"scythe_of_ninurta"))
+	assert_eq(removed.size(), 2, "sword and shield both come off")
+	assert_true(removed.has(_item(&"lapis_shield")))
+	assert_false(stats.equipped.has(&"left_hand"))
+	assert_true(stats.hands_full())
+
+
+func test_left_hand_item_takes_off_a_two_handed_weapon() -> void:
+	stats.equip(&"right_hand", _item(&"scythe_of_ninurta"))
+	var removed: Array[EquipmentData] = stats.equip(&"left_hand", _item(&"lapis_shield"))
+	assert_eq(removed, [_item(&"scythe_of_ninurta")] as Array[EquipmentData])
+	assert_eq(stats.weapon, null)
+	assert_eq(stats.equipped[&"left_hand"].id, &"lapis_shield")
+	assert_false(stats.hands_full())
+
+
+func test_one_handed_weapon_keeps_the_shield() -> void:
+	stats.equip(&"left_hand", _item(&"lapis_shield"))
+	stats.equip(&"right_hand", _item(&"sappara"))
+	assert_true(stats.equipped.has(&"left_hand"))
+
+
+func test_preview_follows_the_two_handed_rule() -> void:
+	stats.equip(&"right_hand", _item(&"short_sword"))
+	stats.equip(&"left_hand", _item(&"lapis_shield"))
+	var defense_with_shield: int = stats.defense()
+	var preview: Dictionary[StringName, int] = stats.preview(&"right_hand", _item(&"scythe_of_ninurta"))
+	assert_eq(preview[&"attack"], 6 + 14)
+	assert_eq(preview[&"defense"], defense_with_shield - _item(&"lapis_shield").defense, "the shield would come off")
+	assert_eq(stats.weapon.id, &"short_sword", "nothing changed")
+	assert_true(stats.equipped.has(&"left_hand"), "nothing changed")
+
+
+func test_game_equip_returns_both_hands_to_the_inventory() -> void:
+	Game.reset()
+	assert_true(Game.equip(&"left_hand", &"lapis_shield"))
+	assert_true(Game.equip(&"right_hand", &"scythe_of_ninurta"))
+	assert_eq(Game.inventory.count(&"short_sword"), 1)
+	assert_eq(Game.inventory.count(&"lapis_shield"), 1)
+	assert_true(Game.equip(&"left_hand", &"lapis_shield"))
+	assert_eq(Game.stats.weapon, null)
+	assert_eq(Game.inventory.count(&"scythe_of_ninurta"), 1)
 
 
 func test_equipment_adds_attack_defense_and_bonuses() -> void:
@@ -67,6 +114,7 @@ func test_save_round_trip_restores_the_run() -> void:
 	Game.stats.add_xp(PlayerStats.xp_total_for(3))
 	Game.stats.add_shekels(42)
 	Game.equip(&"seal_1", &"seal_of_shamash")
+	Game.equip(&"right_hand", &"scythe_of_ninurta")
 	Game.grant_ability(&"double_jump")
 	Game.set_flag(&"test/flag")
 	assert_eq(SaveSystem.save_game(TEST_SLOT, "res://scenes/world/rooms/test/sandbox_room.tscn", Vector2(96, 320)), OK)
@@ -79,6 +127,8 @@ func test_save_round_trip_restores_the_run() -> void:
 	assert_eq(Game.stats.shekels, 42)
 	assert_eq((Game.stats.equipped[&"seal_1"] as EquipmentData).id, &"seal_of_shamash")
 	assert_eq(Game.inventory.count(&"seal_of_shamash"), 0, "equipped, not carried")
+	assert_eq(Game.stats.weapon.id, &"scythe_of_ninurta")
+	assert_true(Game.stats.hands_full(), "the two-handed weapon is still in both hands")
 	assert_true(Game.has_ability(&"double_jump"))
 	assert_true(Game.is_flag(&"test/flag"))
 	assert_eq(SaveSystem.saved_position(data), Vector2(96, 320))
