@@ -10,6 +10,9 @@ signal room_entered(room_id: StringName)
 signal enemy_killed(enemy_id: StringName, position: Vector2)
 ## The player obtained an item, relic or ability.
 signal item_acquired(item_id: StringName, count: int)
+## A boss fight is about to begin (BOSS-000): the HUD shows its name card and HP bar.
+## [param boss] is the Boss node.
+signal boss_started(boss: Node)
 ## A boss was defeated for the first time.
 signal boss_defeated(boss_id: StringName)
 ## A persistent world flag changed (see [code]Game.set_flag()[/code]).

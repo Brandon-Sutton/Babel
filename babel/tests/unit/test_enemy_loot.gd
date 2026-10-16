@@ -16,7 +16,8 @@ func _tables() -> Dictionary[String, LootTable]:
 func _enemies() -> Array[EnemyData]:
 	var enemies: Array[EnemyData] = []
 	for id: StringName in Db.ids():
-		if Db.get_entry(id) is EnemyData:
+		# Bosses drop a guaranteed reward instead of rolling loot (BOSS-000).
+		if Db.get_entry(id) is EnemyData and not Db.get_entry(id) is BossData:
 			enemies.append(Db.get_entry(id) as EnemyData)
 	return enemies
 

@@ -442,10 +442,10 @@ The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I 
 | Fireball | 150 px or more away | crouch, jump, or cut it with a weapon |
 | Leap-plunge | 100–220 px away | step out from under the landing |
 
-**Boss rules:**
+**Boss rules** (the framework is built, BOSS-000 and BOSS-030, 2026-10-16; the code-drawn **Weeping Effigy** in the test arena proves it, F6 in a debug build):
 - The arena locks when the fight begins.
 - A title card shows the boss's name, SotN style.
-- Each boss has two or three phases, and its attack patterns are readable and telegraphed.
+- Each boss has two or three phases, and its attack patterns are readable and telegraphed. Crossing a phase threshold makes it flinch, then play faster. A pattern is picked by weight, never twice in a row while another is available, and only if the phase, the range and the boss's remaining parts allow it.
 - No boss can be cheesed into a softlock.
 - Each boss drops a guaranteed key item plus a stat or HP reward.
 

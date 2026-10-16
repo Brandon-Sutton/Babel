@@ -54,7 +54,8 @@ func load_index() -> void:
 func _physics_process(_delta: float) -> void:
 	var player: Node2D = get_tree().get_first_node_in_group(&"player") as Node2D
 	var room: Node2D = get_tree().get_first_node_in_group(&"room") as Node2D
-	if player == null or room == null:
+	# Test rooms kept off the map (on_map = false) discover nothing.
+	if player == null or room == null or room.get(&"on_map") == false:
 		return
 	locate(room, room.to_local(player.global_position))
 

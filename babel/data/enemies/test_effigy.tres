@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="BossData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/boss_data.gd" id="1_boss"]
+[ext_resource type="Script" path="res://scripts/data_types/boss_pattern.gd" id="2_pattern"]
+
+[sub_resource type="Resource" id="BossPattern_slam"]
+script = ExtResource("2_pattern")
+id = &"slam"
+weight = 3.0
+requires_part = &"arm_front"
+max_range = 200.0
+
+[sub_resource type="Resource" id="BossPattern_sweep"]
+script = ExtResource("2_pattern")
+id = &"sweep"
+weight = 3.0
+requires_part = &"arm_back"
+max_range = 240.0
+
+[sub_resource type="Resource" id="BossPattern_tears"]
+script = ExtResource("2_pattern")
+id = &"tears"
+weight = 2.0
+
+[sub_resource type="Resource" id="BossPattern_gaze"]
+script = ExtResource("2_pattern")
+id = &"gaze"
+weight = 4.0
+needs_severed = &"mask"
+
+[resource]
+script = ExtResource("1_boss")
+title = "A saint the tower would not let die"
+phase_thresholds = PackedFloat32Array(0.5)
+phase_speed = 1.3
+rest_frames = 40
+patterns = Array[ExtResource("2_pattern")]([SubResource("BossPattern_slam"), SubResource("BossPattern_sweep"), SubResource("BossPattern_tears"), SubResource("BossPattern_gaze")])
+reward = &"seal_of_nergal"
+id = &"test_effigy"
+display_name = "The Weeping Effigy"
+max_hp = 360
+attack = 12
+defense = 2
+xp = 300
+move_speed = 0.0
+aggro_range = 0.0
+poise = 999
+contact_damage = true

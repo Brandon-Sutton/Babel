@@ -9,6 +9,7 @@ extends Control
 ##   F3  refill HP, Breath and Embers
 ##   F4  god mode (hits are ignored)
 ##   F5  cycle the carried Relic Arm
+##   F6  warp to the next test room (the sandbox, the boss arena)
 
 const TEXT: Color = Color("e8dfc4")
 const GOLD: Color = Color("c59c5c")
@@ -46,6 +47,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				Events.notice.emit("DEBUG", "GOD MODE " + ("ON" if player.god_mode else "OFF"))
 		KEY_F5:
 			cycle_relic_arm()
+		KEY_F6:
+			var main: Node = get_tree().current_scene
+			if main != null and main.has_method(&"warp_next_room"):
+				main.call(&"warp_next_room")
 		_:
 			return
 	get_viewport().set_input_as_handled()

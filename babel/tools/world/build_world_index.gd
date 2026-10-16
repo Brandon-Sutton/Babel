@@ -33,7 +33,9 @@ func _build() -> void:
 	for path: String in FileScan.list_files(ROOMS_DIR, [".tscn"]):
 		var room: Node = (load(path) as PackedScene).instantiate()
 		root.add_child(room)
-		if room.get(&"bounds") is Rect2:
+		if room.get(&"on_map") == false:
+			print("world_index: skipped %s (kept off the map)" % path)
+		elif room.get(&"bounds") is Rect2:
 			_describe(room, path)
 		else:
 			print("world_index: skipped %s (no bounds)" % path)

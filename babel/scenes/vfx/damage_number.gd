@@ -29,7 +29,7 @@ static func spawn_text(tree: SceneTree, at: Vector2, message: String, tint: Colo
 	number.scale_px = pixel_scale
 	number.lifetime_frames = frames
 	number.z_index = 60
-	tree.current_scene.add_child(number)
+	(tree.current_scene if tree.current_scene != null else tree.root).add_child(number)
 	number.global_position = at.round()
 	number.reset_physics_interpolation()
 	# Set after positioning: _ready() runs inside add_child, before the position is known.

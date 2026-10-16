@@ -1,0 +1,101 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/actors/bosses/test_effigy/test_effigy.gd" id="1_script"]
+[ext_resource type="Resource" path="res://data/enemies/test_effigy.tres" id="2_data"]
+[ext_resource type="Script" path="res://scenes/components/health_component.gd" id="3_health"]
+[ext_resource type="Script" path="res://scenes/components/hurtbox.gd" id="4_hurtbox"]
+[ext_resource type="Script" path="res://scenes/components/hitbox.gd" id="5_hitbox"]
+[ext_resource type="Script" path="res://scenes/components/boss_part.gd" id="6_part"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(40, 110)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(44, 84)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
+size = Vector2(36, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
+size = Vector2(80, 40)
+
+[node name="TestEffigy" type="CharacterBody2D"]
+z_index = 10
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_script")
+body_rect = Rect2(-34, -140, 68, 140)
+data = ExtResource("2_data")
+visual_height = 146.0
+
+[node name="BodyShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -55)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Health" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_health")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_hurtbox")
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -62)
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="ContactHitbox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 16
+monitorable = false
+script = ExtResource("5_hitbox")
+
+[node name="Shape" type="CollisionShape2D" parent="ContactHitbox"]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_contact")
+
+[node name="Visual" type="Node2D" parent="."]
+unique_name_in_owner = true
+use_parent_material = true
+
+[node name="BackArm" type="Node2D" parent="Visual"]
+position = Vector2(-20, -100)
+script = ExtResource("6_part")
+part_id = &"arm_back"
+max_hp = 70
+hurt_rect = Rect2(-24, -6, 32, 84)
+
+[node name="Body" type="Sprite2D" parent="Visual"]
+unique_name_in_owner = true
+use_parent_material = true
+centered = false
+
+[node name="FrontArm" type="Node2D" parent="Visual"]
+position = Vector2(24, -100)
+script = ExtResource("6_part")
+part_id = &"arm_front"
+max_hp = 70
+hurt_rect = Rect2(-8, -6, 32, 84)
+
+[node name="Mask" type="Node2D" parent="Visual"]
+position = Vector2(2, -110)
+script = ExtResource("6_part")
+part_id = &"mask"
+max_hp = 90
+sever_damage = 40
+hurt_rect = Rect2(-13, -30, 26, 30)
+
+[node name="AttackHitbox" type="Area2D" parent="Visual"]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 16
+monitorable = false
+script = ExtResource("5_hitbox")
+
+[node name="AttackShape" type="CollisionShape2D" parent="Visual/AttackHitbox"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_attack")
