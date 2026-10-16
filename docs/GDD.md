@@ -6,13 +6,15 @@
 **Engine:** Godot 4.6.1, GDScript
 **Art:** pixel art generated with PixelLab, then finished by hand
 
-**Status:** v0.2 outline. v0.1 2026-10-14; **tone set 2026-10-16: grim devotional horror in a twisted religious alternate world** (§1, §2, §4.6–4.7). This is a living document. Items marked ⟨open⟩ are undecided. Build tasks are tracked in [BACKLOG.md](BACKLOG.md), and the visual spec is in [ART_BIBLE.md](ART_BIBLE.md).
+**Status:** v0.2 outline. v0.1 2026-10-14; **tone set 2026-10-16: grim devotional horror in an alternate, warped 1893 of old gods, cosmic horrors and twisted religion** (§1, §2, §4.2, §4.6–4.7). This is a living document. Items marked ⟨open⟩ are undecided. Build tasks are tracked in [BACKLOG.md](BACKLOG.md), and the visual spec is in [ART_BIBLE.md](ART_BIBLE.md).
 
 ---
 
 ## 1. Pitch
 
-The Tower of Babel was never destroyed. When the tongues were confounded, the unfinished tower was cursed instead: it cannot fall and it cannot be finished, and everyone who died building it is still inside it. Four thousand years on, it is the cathedral of a world that worships the curse. The **Church of the Sealed Mouth** teaches that speech is the first sin, and its penitents sew their lips and cut out their tongues to be forgiven. The angels who came down to scatter the builders, **the Choir**, never went back: they keep the tower as its jailers and rot in their own holiness. Beneath it, the old gods and demons of the plain gnaw at the foundations.
+It is 1893, but not the 1893 we know. In this century the old gods never died, the Church rules from the plain of Shinar, and things older than heaven press against the firmament. Telegraph wires circle the globe and humanity is beginning to speak with one voice again. In answer, the Tower of Babel rises from the plain.
+
+The tower was never destroyed. When the tongues were confounded, the unfinished tower was cursed instead: it cannot fall and it cannot be finished, and everyone who died building it is still inside it. Four thousand years on, it is the cathedral of a world that worships the curse. The **Church of the Sealed Mouth** teaches that speech is the first sin, and its penitents sew their lips and cut out their tongues to be forgiven. The angels who came down to scatter the builders, **the Choir**, never went back: they keep the tower as its jailers and rot in their own holiness. Beneath it, the old gods and demons of the plain gnaw at the foundations.
 
 **Elam** is the scribe who shattered the Tablet of Destinies and brought the Confounding down. He is the last mouth that still speaks the First Tongue, and the curse will not let him die while the tower can still be finished. Now the tower stirs again. He wakes in a buried kiln and climbs it, through the damned, the faithful and the broken Choir, to stop **Nimrod, the Hunter-King**, from speaking the Name that opens heaven.
 
@@ -21,7 +23,7 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN) in
 ## 2. Design pillars
 
 1. **Devotion is the horror (decided 2026-10-16).** The world is religious through and through, and every part of it is twisted: miracles maim, relics are pieces of people, angels are jailers rotting in their own holiness, demons are the old gods of the plain, and the church worships the curse that broke humankind. It is dark and edgy, but made with care: the grotesque is ornate, sad and beautiful, never cheap shock (§4.6–4.7).
-2. **One tower, every age of pride.** Every age that dreamed of reaching heaven added a layer to the tower, each in its own architecture and its own heresy: mudbrick at the base, then arches like Bruegel's Babel, Gothic spires, Renaissance clockwork, and iron and wire at the top. Each region is a new age, yet it is all one continuous building. ⟨open: how much late technology the alternate world keeps (§14)⟩
+2. **One tower, every age of pride.** Every age that dreamed of reaching heaven added a layer to the tower, each in its own architecture and its own heresy: mudbrick at the base, then arches like Bruegel's Babel, Gothic spires, Renaissance clockwork, and iron and wire at the top. Each region is a new age, yet it is all one continuous building. The top is 1893's own architecture, iron, telegraph wire and electric light, warped by the tower.
 3. **Language is power, and blasphemy.** The First Tongue is the magic system, and in the Church's eyes speaking it is the oldest sin: every Utterance Elam casts is a blasphemy, and the tower hears it.
    - Spells are spoken words entered as "syllables" (command inputs).
    - Doors are sealed by words.
@@ -57,17 +59,18 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN) in
 - **Elam**, his royal scribe and master mason, understood what the Name would do and shattered the Tablet at the summit. In that moment **the Choir** descended and confounded the tongues. The builders could no longer understand each other; many tore at their own mouths. The work stopped.
 - The Choir could not unmake the tower, so they cursed it: **it cannot fall and it cannot be finished.** They stayed to guard it, and have kept their watch so long that their holiness has curdled: wings nailed to the brickwork, eyes multiplied, faces worn smooth by the one note of the Confounding they still sing.
 - Elam alone kept the First Tongue, and it binds him: **he cannot die while the tower can still be finished.** He sleeps whenever the tower sleeps. He knows the Confounding was his doing, and carries it as penance.
-- From the ruin grew the **Church of the Sealed Mouth**. It teaches that speech was humankind's first sin and the Confounding its just punishment. The faithful sew their mouths to be forgiven, its priests speak only in signs, and its saints are those who cut out their own tongues; its relics are what is left of them. ⟨open: final name of the faith⟩
+- From the ruin grew the **Church of the Sealed Mouth**. It teaches that speech was humankind's first sin and the Confounding its just punishment. The faithful sew their mouths to be forgiven, its priests speak only in signs, and its saints are those who cut out their own tongues; its relics are what is left of them.
 - The **old gods and demons of the plain** (Lamashtu, Pazuzu, Humbaba, Namtar, the spawn of Tiamat) were here before the tower, and feed on it from below.
+- **Heaven is not what the Church preaches.** Nimrod's arrow came back wet with the blood of something vast. The Choir guard heaven's gate as much to keep something in as to keep humanity out, and below the tower the Abzu still holds Tiamat's primordial chaos. These are the **cosmic horrors** the Name would let through.
 - The tower sank beneath the plain, and it rises whenever enough voices are raised as one. Every age that rose with it left its architecture on it.
 - The 72 shards of the Tablet (one for each tongue of the nations) are scattered through the tower. They are the **Glyphs**, the game's lore collectibles.
 
-### 4.2 The present (proposal, 2026-10-16; to be settled in NAR-001)
+### 4.2 The present: an alternate 1893 (decided 2026-10-16)
 
-- The game is set in an **alternate world** shaped by the Confounding, not in our history. ⟨open: the v0.1 frame (the year 1893, the Eiffel Tower, telegraph cables, Ottoman Mesopotamia, a Danish philologist) is to be reworked into it⟩
-- **The Jubilee of One Voice:** the Church gathers its pilgrims for a great silent liturgy at the tower's foot, the first time in an age that so many have been of one mind. It is enough. The tower stirs. Ashipu, the Church's high priest, arranged it.
-- **Prologue (a generation ago):** Sera Valcourt of the **Measurers**, an order that breaks the tower whenever it rises, climbs during the last Stirring and puts Nimrod back to sleep at the summit. Then she vanishes.
-- **Now:** the tower rises again, faster. Elam wakes.
+- It is 1893, in a world like ours but warped: the old gods were never forgotten, the Church of the Sealed Mouth is the great faith of the age, and cosmic horrors press at the edges of the world (§4.6). Its history and places echo ours, twisted to fit.
+- World's fairs, iron towers and telegraph cables under every ocean mean humanity is talking as one again. The Church preaches that the wire is a second Babel, and it is right. The tower rises in Mesopotamia, near the ruins of Babylon.
+- **Prologue (1889):** Sera Valcourt of the **Measurers**, an order that breaks the tower whenever it rises, wields the **Measuring Chain**. She climbs the tower during the last rising and puts Nimrod back to sleep at the summit. Then she vanishes.
+- **1893:** The tower rises again, faster this time, as Ashipu, the Church's high priest, intends. Elam wakes.
 
 ### 4.3 Characters
 
@@ -75,7 +78,7 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN) in
 |---|---|---|
 | **Elam** | Protagonist (Alucard) | Ageless scribe-mason of Nimrod's court and keeper of the First Tongue; the man who brought the Confounding down, carrying it as penance. **His look follows the user's reference art in `assets/` at the repo root (2026-10-14):** a tall, lean man with short swept silver-grey hair and a stern face. He wears a long dark charcoal frock coat with purple-and-silver plate armor on the shoulders, chest and forearms, a crimson vest, tall laced boots with silver buckles, and a long dark cape lined in crimson. Calm, sorrowful and dryly bitter. He speaks rarely. The sprite is in ART_BIBLE §10.1. |
 | **Sera Valcourt** | Richter | A tower-breaker of the Measurers, who won the last rising. Elam finds her at the summit as the "Herald of the Tower," her mouth sewn by Ashipu, speaking only a confounded tongue. Her weapon, the Measuring Chain, is a surveyor's chain used like a whip, its links stamped with the names of the fallen. |
-| **Adela Rask** | Maria | ⟨open, NAR-001⟩ A scholar of the forbidden tongues, hunted by the Church as a heretic. She is searching for Sera, who is her friend. She gives Elam the **Interpreter's Lens**. In Act II she can be lost or rescued, which affects the ending. |
+| **Dr. Adela Rask** | Maria | A Danish philologist with the archaeological dig, who reads the forbidden tongues: a heresy the Church burns people for. She is searching for Sera, who is her friend. She gives Elam the **Interpreter's Lens**. In Act II she can be lost or rescued, which affects the ending. |
 | **Nimrod, the Hunter-King** | Dracula | Builder of the tower: a giant archer who shot an arrow at heaven that came back bloodied. Half-ascended, he sleeps in the tower's reflected foundation, crowned with the wings of the angels he brought down. |
 | **Ashipu, the Many-Mouthed** | Shaft | High priest of the Church of the Sealed Mouth, once Nimrod's exorcist. He wears a golden mask with a sewn-shut mouth, and his robes are covered in mouths that speak every language. He engineers the rising and controls Sera. |
 | **Namtar, Herald of Fate** | Death | The death-herald of the old gods, who carries plague and fate. He strips Elam's gear at the Grand Gate and returns as a recurring threat and later a boss. |
@@ -102,7 +105,7 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN) in
 
 ### 4.6 Angels, demons and the damned
 
-Every enemy and most characters belong to one of four families, which set their look and the voice of their Codex entries.
+Every enemy and most characters belong to one of five families, which set their look and the voice of their Codex entries. The names of the faith and of the angels are final (2026-10-16).
 
 | Family | What they are | Examples |
 |---|---|---|
@@ -110,12 +113,13 @@ Every enemy and most characters belong to one of four families, which set their 
 | **The Old Ones** (demons) | The gods and demons of the plain, older than the tower, feeding on it from below. Hungry and sly, and sometimes the only ones who tell the truth. | Lamashtu, Pazuzu, Humbaba, Namtar, the Spawn of Tiamat |
 | **The Damned** (monsters) | The builders and pilgrims the tower kept: bodies baked into brick, penitents who climbed until nothing human was left. | Mudborn, Mud Bats, Pitch Ooze, flagellants, the Brick-Father |
 | **The Faithful** (the Church) | The Church of the Sealed Mouth's guards, priests and zealots, mouths sewn, who kill to keep the silence. | Gate Spearman, sewn-mouth priests, Ashipu |
+| **The Unnamed** (cosmic horrors) | What lies beyond the firmament and in the deeps of the Abzu: too large or too wrong to see whole, glimpsed through cracks in the sky, in the telegraph's static and in the drowned reflection. The Name would let them in. | Things in the Wire Spire's static and the Orrery's broken sky; Tiamat's Reflection ⟨proposals⟩ |
 
 ### 4.7 Tone, voice and content (decided 2026-10-16)
 
 - **Influences:** *Blasphemous* 1 and 2 (devotional grotesque art, penance and guilt, cryptic liturgical lore told in item and NPC fragments, bosses that are beautiful and cruel) and *Fear & Hunger* (grimdark cruelty, dread, desperate ascension, a world where hope is a trap), with SotN for structure.
 - **Voice:** item, enemy and lore text is short, solemn and oblique, in the register of a liturgy or a confession, with the occasional plain, cruel sentence. Lore comes in fragments for the player to piece together; nothing is explained outright. No jokes in lore text. Characters speak in plain, elevated English.
-- **Motifs:** mouths and tongues (sewn, cut out, multiplied); bricks made of people; gold leaf over rot; votive candles and kiln fire; nails, cords and wax seals; wings nailed down; the unfinished (scaffolds, broken stairs, half-built rooms); the one note of the Confounding; penance and guilt.
+- **Motifs:** cosmic dread (things too large to see whole, a sky that is a shell); mouths and tongues (sewn, cut out, multiplied); bricks made of people; gold leaf over rot; votive candles and kiln fire; nails, cords and wax seals; wings nailed down; the unfinished (scaffolds, broken stairs, half-built rooms); the one note of the Confounding; penance and guilt.
 - **In scope:** gore, body horror, desecration, cruelty and despair, shown with craft and meaning: ornate, devotional and sad, never shock for its own sake.
 - **Limits:** no sexual violence or sexualised gore. The faith is invented: it draws on Abrahamic and Mesopotamian imagery (angels, saints, relics, demons, the Tower) but does not depict or mock real-world religions' sacred figures. The Most High is never shown: the horror is in His servants, His silence, and what people made of His curse. Whether the Confounding was justice or cruelty is left to the player.
 - **Applies everywhere:** names, item and enemy descriptions, NPC lines, PixelLab prompts (ART_BIBLE §7.2) and art. The existing item text was rewritten in this voice on 2026-10-16.
@@ -416,7 +420,7 @@ New weapon types (spears, knuckles, bows…) each get their own set. A single we
 
 ## 7. Enemies and bosses
 
-The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I has about 60 enemies, and palette-swapped variants push the Codex toward 100 or more entries. Every enemy belongs to one of the four families in §4.6 (the Choir, the Old Ones, the Damned, the Faithful).
+The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I has about 60 enemies, and palette-swapped variants push the Codex toward 100 or more entries. Every enemy belongs to one of the five families in §4.6 (the Choir, the Old Ones, the Damned, the Faithful, the Unnamed).
 
 **Behavior archetypes:**
 - Walker, charger and jumper
@@ -446,6 +450,12 @@ The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I 
 - Each boss drops a guaranteed key item plus a stat or HP reward.
 
 **Large bosses** are built from parts (Skeleton2D or a Node2D hierarchy driven by AnimationPlayer) instead of full-frame giant sprites. This makes them both cheaper to generate and smoother to animate.
+
+**Severable parts (decided 2026-10-16; certain bosses only).** The one mechanic taken from *Fear & Hunger*: on chosen bosses, damaged limbs and pieces come off.
+- Each severable part (an arm, a wing, a head, a mask, a plate of armour) has its own HP. A hit on it damages both the part and the boss.
+- When a part's HP runs out it is torn away. Its sprite falls off as a piece, and the spritework drawn beneath it shows: a stump, bone, wet flesh, or something worse, such as the eyes under an angel's face.
+- The attacks that used the part stop, or turn into worse ones. A part stays severed for the rest of the fight.
+- Each boss's design sheet says which parts are severable. Regular enemies don't have this, and there is no hunger, sanity or lasting injury for Elam (decided 2026-10-16).
 
 ## 8. NPCs, dialogue and confounded speech
 
@@ -518,6 +528,4 @@ Act I must never be cut below the quality of the slice.
 - Music sourcing and voice-over budget.
 - Should Sera mode ship at launch?
 - Map size: confirm the 400-cell Act I after the M1 slice reveals the real cost per room.
-- The alternate world's framing (§4.2): rework the v0.1 1893 frame, its real-world places and the Danish philologist (NAR-001); decide how much late technology (iron, wire) the world keeps.
-- Final names of the faith (working: the Church of the Sealed Mouth) and of the angels (working: the Choir).
-- *Fear & Hunger*-style mechanics (hunger, sanity, lasting injuries) are not planned: the inspiration is tone only, unless the user asks for them.
+- Which bosses get severable parts, and what lies beneath each part (BOSS design sheets).

@@ -39,7 +39,7 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - **Enemies drop gear** (2026-10-15, INV-013): each enemy has a loot table with a common and a rare piece of gear found only as drops (Potsherd Seal, Riverclay Mail, Gate Guard's Helm, Watchman's Mantle, Seal of Humbaba). Dropped gear stays on the floor.
 - **SotN specials pass** (2026-10-15, logic only; art waits for the refill, ART-018): running (double-tap and hold), Relic Arms paid in Embers (Sling Stone, Clay Tablet; V or Up + Attack), Utterances by command input (Išātu: ↓↘→ + Attack), a Breath-paid weapon art per weapon type (←→ + Attack), and equipment that grants abilities and passives. Debug keys F1–F5.
 
-**Tone (2026-10-16):** grim devotional horror, heavy inspiration from *Blasphemous* and *Fear & Hunger* (GDD §4.6–4.7, ART_BIBLE §1). Item text was rewritten in that voice.
+**Tone (2026-10-16):** grim devotional horror in an alternate, warped 1893 of old gods, cosmic horrors and twisted religion, heavy inspiration from *Blasphemous* and *Fear & Hunger* (GDD §4.2, §4.6–4.7, ART_BIBLE §1). Item text was rewritten in that voice. The only *Fear & Hunger* mechanic is severable boss parts (BOSS-030).
 
 **Playtest wanted (game feel, log the verdict here):** Nabu's prices and the shop's layout, and whether bought map sections read clearly (dim unvisited, lit explored); the map's readability (cell size 24×14 px, colours, the blinking marker); breakable walls (3 hits for hidden ones, 2 for cracked bricks; the crack, rubble and camera pan into a secret room); how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
@@ -472,6 +472,8 @@ Each row covers design, art (PixelLab), `EnemyData`, behavior and the Codex entr
 | ENM-065 | Censer-Seraph (six wings, a censer for a head; swings burning incense) | CAT | Swooper and caster | L | M3 | P1 | todo |
 | ENM-066 | Sewn-Mouth Penitent (a pilgrim of the Church who flails as it walks) | SHN | Walker | M | M3 | P1 | todo |
 | ENM-067 | Silent Priest (a Church priest who casts only in signs) | ARC | Caster | M | M3 | P1 | todo |
+| ENM-068 | Static Saint (one of the Unnamed, made of the telegraph's noise; flickers between wires) | WIR | Phaser | M | M3 | P2 | todo |
+| ENM-069 | Firmament Leech (one of the Unnamed, fallen through a crack in the Orrery's sky) | ORR | Tether/binder | M | M3 | P2 | todo |
 | ENM-062 | Act II: the Eleven Spawn of Tiamat (Bašmu, Ugallu, Uridimmu, Kusarikku, Storm Demons, Mušmaḫḫū, and others) — design pass | Act II | Mixed | — | M4 | P0 | todo |
 
 ### BOSS: Bosses
@@ -481,6 +483,7 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | ID | Boss | Region | Concept and mechanics | Reward | MS | Pri | Status |
 |---|---|---|---|---|---|---|---|
 | BOSS-000 | **Framework**: arena lock, name card, HP bar, phase controller, weighted no-repeat pattern sequencer, death sequence, reward drop, defeated flag | — | — | — | M1 | P0 | todo |
+| BOSS-030 | **Severable parts** (GDD §7, the one *Fear & Hunger* mechanic): parts with their own HP that take damage with the boss; at 0 HP the part tears away as a falling piece and the spritework beneath shows; attacks tied to it stop or change. A test boss proves it before the first real one | — | — | — | M2 | P1 | todo |
 | BOSS-001 | Lamassu, Gate-Warden | GTE | Winged bull with a human head. Charges, wing gusts, stomp shockwaves; flies at low HP | Gazelle Anklet | M1 | P0 | todo |
 | BOSS-002 | The Brick-Father | FND | Kiln golem that sheds bricks (new platforms and hazards) as it takes damage | Form of Dust | M3 | P0 | todo |
 | BOSS-003 | Humbaba | GRD | Guardian of the cedar forest. Face of entrails, roots grab, seven auras as phases | Lion of Ishtar | M3 | P0 | todo |
@@ -621,7 +624,7 @@ Each step's ID is `LVL-<CODE>-<step>`, so the Grand Gate blockout is `LVL-GTE-2`
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| NAR-001 | Story bible and lore pass to the grim devotional direction (GDD §4.6–4.7, set 2026-10-16): rework the v0.1 1893 frame into the alternate world, settle the Church and the Choir, Rask's role and the regions' framing; verify Akkadian and Sumerian names and terms | M2 | P1 | M | — | todo |
+| NAR-001 | Story bible and lore pass to the grim devotional direction (GDD §4.2, §4.6–4.7, set 2026-10-16): the alternate 1893, how each region is warped, the Church of the Sealed Mouth, the Choir and the Unnamed; verify Akkadian and Sumerian names and terms | M2 | P1 | M | — | todo |
 | NAR-002 | Full English script, each line tagged by tongue | M3 | P0 | L | NAR-001 | todo |
 | NAR-003 | Cutscene system: AnimationPlayer sequences, dialogue, camera moves, letterbox, skip | M1 | P0 | M | WLD-004 | todo |
 | NAR-004 | Prologue: Sera vs. Nimrod, 1889 | M3 | P0 | L | ART-009, BOSS-014 | todo |
@@ -1407,3 +1410,10 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Open for the user:** the alternate world's framing replacing 1893; final names of the faith and the angels; whether any *Fear & Hunger* mechanics are wanted (tone only for now).
   - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
   - **Next:** the user's answers on the open points; PixelLab work after the refill uses the new style suffix.
+- **2026-10-16 (setting decisions)**
+  - **The user's answers:** set it in 1893, but an alternate version where old gods, cosmic horrors and religion are warped; "the Church of the Sealed Mouth" and "the Choir" are final; no *Fear & Hunger* mechanics except, on certain bosses, limbs or portions that are removed from the sprite when damaged, showing the spritework beneath.
+  - **GDD:** §1 pitch opens on the alternate 1893; §2 keeps iron, wire and electric light at the tower's top; §4.1 adds the cosmic horror (Nimrod's arrow came back with the blood of something vast; the Choir guard heaven's gate to keep something in; the Abzu below); §4.2 restores the v0.1 beats (the telegraph's one voice raises the tower, prologue in 1889, Rask the Danish philologist), warped; §4.6 gains a fifth family, **the Unnamed** (cosmic horrors); §7 adds the severable-parts rules; §14 drops the settled questions.
+  - **Art bible:** severable parts are drawn twice on one canvas and pivot (the part, and what lies beneath).
+  - **New rows:** BOSS-030 severable parts (with a test boss before the first real one), ENM-068 Static Saint, ENM-069 Firmament Leech. NAR-001 no longer reworks 1893; it warps it.
+  - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** BOSS-030 can be built now with a code-drawn test boss, or wait for the boss framework (BOSS-000).

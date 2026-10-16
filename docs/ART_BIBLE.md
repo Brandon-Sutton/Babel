@@ -154,6 +154,7 @@ That is about 24 animations at roughly 2.5 generations each.
 - **Weapons are separate sprites** attached to a hand bone or offset track. One set of attack animations then serves every weapon in a class, which is a big generation saving.
 - **Frame data lives in the AnimationPlayer** (hitbox on and off, SFX, VFX), not in the art.
 - **Smears:** fast attacks get one or two smear frames, either generated or painted with `pixelart_workbench`.
+- **Severable boss parts (GDD §7, BOSS-030):** each severable part is drawn twice on the same canvas and pivot: the part itself, and the layer beneath it (stump, bone, wet flesh, or what hides under it, such as eyes under an angel's face). The torn-off piece that falls away is the part sprite itself. Generate the beneath layer from the part image (inpaint or edit) so the two line up exactly.
 
 ### 6.3 Guide-prop rig: attach points for visible equipment (EQV-002, 2026-10-15)
 
