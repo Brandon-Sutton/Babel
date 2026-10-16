@@ -4,7 +4,8 @@ extends Control
 ##   F1  overlay: FPS, state, velocity, gait, HP/MP/Embers, Relic Arm, abilities, spells,
 ##       recent directional inputs (for practising commands); outlines breakable tiles
 ##       and secret areas (WLD-006)
-##   F2  give every item, learn every Utterance, grant every relic's ability
+##   F2  give every item and map, learn every Utterance, grant every relic's ability,
+##       add 5000 shekels
 ##   F3  refill HP, Breath and Embers
 ##   F4  god mode (hits are ignored)
 ##   F5  cycle the carried Relic Arm
@@ -33,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			BreakableTiles.show_hints = _overlay
 		KEY_F2:
 			give_everything()
-			Events.notice.emit("DEBUG", "EVERY ITEM, SPELL AND RELIC")
+			Events.notice.emit("DEBUG", "EVERY ITEM, SPELL, RELIC AND MAP, +5000 SHEKELS")
 		KEY_F3:
 			Game.stats.full_restore()
 			Game.stats.add_embers(Game.stats.max_embers)
@@ -50,17 +51,19 @@ func _unhandled_input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 
-## Adds one of every equipment item to the bag, learns every Utterance and grants every
-## relic's ability.
+## Adds one of every equipment item and map to the bag, learns every Utterance, grants
+## every relic's ability and adds 5000 shekels.
 static func give_everything() -> void:
 	for id: StringName in Db.ids():
 		var entry: Resource = Db.get_entry(id)
-		if entry is EquipmentData and Game.inventory.count(id) == 0:
+		if (entry is EquipmentData or entry is MapData) and Game.inventory.count(id) == 0:
 			Game.inventory.add(id)
 		elif entry is SpellData and not String(id).begins_with("art_"):
 			Game.learn_spell(id)
 		elif entry is RelicData:
 			Game.grant_ability((entry as RelicData).ability)
+	Game.stats.add_shekels(5000)
+	Game.stats.emit_changed()
 
 
 ## Switches the carried Relic Arm to the next one in the database.

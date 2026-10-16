@@ -15,6 +15,7 @@ const HUD_SCRIPT: Script = preload("res://scenes/ui/hud/hud.gd")
 const MENU_SCRIPT: Script = preload("res://scenes/ui/menus/pause_menu.gd")
 const TEST_SLOT: int = 9
 const FLOOR_Y: float = 320.0
+const WindowSettle := preload("res://tests/visual/window_settle.gd")
 
 var _player: Player
 var _menu: Control
@@ -29,6 +30,7 @@ var _attack_before: int = 0
 
 
 func _ready() -> void:
+	WindowSettle.isolate_input()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Game.reset()
 	SaveSystem.active_slot = TEST_SLOT

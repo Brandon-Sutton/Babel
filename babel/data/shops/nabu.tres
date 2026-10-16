@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ShopData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/shop_data.gd" id="1_shop"]
+
+[resource]
+script = ExtResource("1_shop")
+id = &"shop_nabu"
+keeper = "Archivist Nabu"
+greeting = "The tower remembers every stone. For silver, so can you."
+stock = Array[StringName]([&"surveyor_map_west", &"surveyor_map_east", &"saffron_mantle", &"seal_of_nergal", &"wanderers_cube", &"gazelle_anklet"])

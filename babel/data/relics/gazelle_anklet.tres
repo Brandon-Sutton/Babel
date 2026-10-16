@@ -10,3 +10,4 @@ worn = ExtResource("2_42lxe")
 id = &"gazelle_anklet"
 display_name = "Gazelle Anklet"
 description = "A gold anklet hung with a gazelle's horn. Leap again in mid-air."
+price = 500

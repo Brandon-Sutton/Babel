@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/equipment_data.gd" id="1_equipment"]
+
+[resource]
+script = ExtResource("1_equipment")
+kind = 4
+defense = 1
+luck = 2
+dye_material = &"lining"
+dye_ramp = PackedColorArray(0.3529412, 0.22745098, 0.03137255, 1, 0.7529412, 0.5411765, 0.1254902, 1, 0.9411765, 0.78431374, 0.3764706, 1)
+id = &"saffron_mantle"
+display_name = "Saffron Mantle"
+description = "A merchant's cloak lined in saffron silk, dyed in the markets below the tower. DEF +1, LCK +2."
+price = 120

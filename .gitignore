@@ -7,3 +7,5 @@ docs/art_reviews/reference_*
 # Godot cache and exports
 babel/.godot/
 build/
+# Written by babel/tools/capture.sh for the length of a capture only.
+babel/override.cfg

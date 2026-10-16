@@ -5,6 +5,8 @@ extends Node2D
 ## reloads.
 
 @export var loot: LootTable = preload("res://data/loot/votive_lamp.tres")
+## Item weight factor while Elam owns the Wanderer's Cube (REL-009).
+@export var cube_item_factor: float = 2.0
 
 var _time: float = 0.0
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -25,7 +27,8 @@ func _process(delta: float) -> void:
 
 func _on_hit(info: DamageInfo) -> bool:
 	HitSpark.spawn(get_tree(), info.position, Color("fbe69b"))
-	var drop: LootTable.Drop = loot.roll(_rng, Game.stats.total(&"luck"))
+	var item_factor: float = cube_item_factor if Game.has_ability(&"lamp_items") else 1.0
+	var drop: LootTable.Drop = loot.roll(_rng, Game.stats.total(&"luck"), item_factor)
 	Pickup.spawn(get_parent(), global_position + Vector2(0, -36), drop)
 	queue_free()
 	return true

@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scenes/ui/menus/pause_menu.gd" id="3_pause"]
 [ext_resource type="Script" path="res://scenes/main/debug_tools.gd" id="4_debug"]
 [ext_resource type="Script" path="res://scenes/ui/map/map_screen.gd" id="5_map"]
+[ext_resource type="Script" path="res://scenes/ui/menus/shop_menu.gd" id="6_shop"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_main")
@@ -47,6 +48,16 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_map")
+
+[node name="ShopMenu" type="Control" parent="Menus"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_shop")
 
 [node name="Transition" type="CanvasLayer" parent="."]
 layer = 30

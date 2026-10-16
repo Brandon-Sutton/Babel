@@ -114,6 +114,7 @@ func test_save_round_trip_restores_the_run() -> void:
 	Game.reset()
 	Game.stats.add_xp(PlayerStats.xp_total_for(3))
 	Game.stats.add_shekels(42)
+	var purse: int = Game.stats.shekels
 	Game.equip(&"seal_1", &"seal_of_shamash")
 	Game.equip(&"right_hand", &"scythe_of_ninurta")
 	Game.grant_ability(&"double_jump")
@@ -125,7 +126,7 @@ func test_save_round_trip_restores_the_run() -> void:
 	assert_false(data.is_empty())
 	SaveSystem.apply_save(data)
 	assert_eq(Game.stats.level, 3)
-	assert_eq(Game.stats.shekels, 42)
+	assert_eq(Game.stats.shekels, purse)
 	assert_eq((Game.stats.equipped[&"seal_1"] as EquipmentData).id, &"seal_of_shamash")
 	assert_eq(Game.inventory.count(&"seal_of_shamash"), 0, "equipped, not carried")
 	assert_eq(Game.stats.weapon.id, &"scythe_of_ninurta")

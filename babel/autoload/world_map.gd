@@ -90,6 +90,20 @@ func is_discovered(cell: Vector2i) -> bool:
 	return discovered.has(cell)
 
 
+## True if a Surveyor's Map Elam owns shows [param cell] (MAP-005). Secret rooms never
+## show until found.
+func is_revealed(cell: Vector2i) -> bool:
+	var entry: Dictionary = entry_at(cell)
+	if entry.is_empty() or entry.get("secret", false):
+		return false
+	var region: StringName = StringName(str(entry.get("region", "")))
+	for id: StringName in Game.inventory.ids():
+		var map: MapData = Game.item(id) as MapData
+		if map != null and map.covers(cell, region):
+			return true
+	return false
+
+
 ## The room entry of [param cell], or an empty dictionary if no room covers it.
 func entry_at(cell: Vector2i) -> Dictionary:
 	return cells.get(cell, {})

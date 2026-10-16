@@ -22,6 +22,19 @@ outdir="${3:-$repo/build/captures/$(basename "$scene" .tscn)}"
 mkdir -p "$outdir"
 rm -f "$outdir"/f*.png "$outdir"/f.wav "$outdir"/godot.log
 
+# The capture window never takes focus (display/window/size/no_focus, set through an
+# override.cfg that only exists during the run). Losing focus makes Godot release every
+# held action, which broke tests whenever something else on the desktop took focus, and
+# a window that can't be focused also leaves your editor's focus alone.
+override="$project/override.cfg"
+if [[ ! -e "$override" ]]; then
+	printf '[display]
+
+window/size/no_focus=true
+' >"$override"
+	trap 'rm -f "$override"' EXIT
+fi
+
 if ! godot --path "$project" --write-movie "$outdir/f.png" --fixed-fps 60 \
 		--quit-after "$frames" --scene "$scene" >"$outdir/godot.log" 2>&1; then
 	cat "$outdir/godot.log" >&2

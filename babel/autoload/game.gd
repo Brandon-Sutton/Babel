@@ -12,6 +12,8 @@ const STARTING_SPELLS: Array[StringName] = [&"isatu"]
 ## Relics owned from the start for now: the Builder's Plan (the map, REL-008) will be
 ## found in the world with the level pass.
 const STARTING_RELICS: Array[StringName] = [&"builders_plan"]
+## Shekels to spend at Nabu's shop (NPC-004) in the playtest.
+const STARTING_SHEKELS: int = 600
 const STARTING_INVENTORY: Array[StringName] = [
 	&"sappara", &"bronze_mace", &"lion_greatsword", &"scythe_of_ninurta",
 	&"lapis_shield", &"scribes_circlet", &"seal_of_shamash",
@@ -77,6 +79,12 @@ func grant_ability(ability: StringName) -> void:
 	abilities[ability] = true
 
 
+## True if Elam owns [param relic] (its ability was granted by the relic itself, not by
+## something he is wearing).
+func owns_relic(relic: RelicData) -> bool:
+	return relic != null and abilities.get(relic.ability, false)
+
+
 ## The item with [param id], or null if no such item exists.
 func item(id: StringName) -> ItemData:
 	return Db.get_entry(id) as ItemData
@@ -109,6 +117,7 @@ func reset() -> void:
 	for item_id: StringName in STARTING_INVENTORY:
 		inventory.add(item_id)
 	stats.relic_arm = item(STARTING_RELIC_ARM) as RelicArmData
+	stats.shekels = STARTING_SHEKELS
 	flags.clear()
 	abilities.clear()
 	spells.clear()

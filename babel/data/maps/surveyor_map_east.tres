@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MapData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/map_data.gd" id="1_map"]
+
+[resource]
+script = ExtResource("1_map")
+region = &"test"
+area = Rect2i(2, 0, 1, 1)
+id = &"surveyor_map_east"
+display_name = "Surveyor's Map: East Hall"
+description = "A surveyor's copy of the East Hall, pressed into the Builder's Plan. It says nothing of what lies behind its walls."
+price = 50

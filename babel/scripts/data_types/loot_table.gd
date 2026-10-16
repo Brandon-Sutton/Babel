@@ -17,14 +17,15 @@ class Drop:
 	var amount: int = 0
 
 
-## Picks one entry by weight using [param rng].
-func roll(rng: RandomNumberGenerator, luck: int = 0) -> Drop:
+## Picks one entry by weight using [param rng]. [param item_factor] multiplies the item
+## entries' weights on top of luck (the Wanderer's Cube doubles them for lamps).
+func roll(rng: RandomNumberGenerator, luck: int = 0, item_factor: float = 1.0) -> Drop:
 	var total: float = 0.0
 	var scaled: PackedFloat32Array = []
 	for i: int in drops.size():
 		var weight: float = float(weights[i]) if i < weights.size() else 1.0
 		if drops[i].begins_with("item:"):
-			weight *= 1.0 + luck * 0.02
+			weight *= (1.0 + luck * 0.02) * item_factor
 		scaled.append(weight)
 		total += weight
 	var drop: Drop = Drop.new()

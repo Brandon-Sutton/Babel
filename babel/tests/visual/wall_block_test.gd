@@ -15,6 +15,7 @@ const PLAYER_X: float = 240.0
 ## The wall: one tile wide (x 256..272), six tiles tall, between the player and the enemy.
 const WALL_COLUMN: int = 16
 const WALL_ROWS: Array[int] = [14, 15, 16, 17, 18, 19]
+const WindowSettle := preload("res://tests/visual/window_settle.gd")
 
 var _player: Player
 var _tiles: TileMapLayer
@@ -22,6 +23,7 @@ var _enemy: Enemy
 
 
 func _ready() -> void:
+	WindowSettle.isolate_input()
 	Game.reset()
 	_tiles = TileMapLayer.new()
 	_tiles.tile_set = TILE_SET

@@ -33,12 +33,13 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - The pause menu has the status sheet and the SotN equipment screen.
 - Crouch holds while Down is held, with its own crouching slash; the Gate Spearman has five attacks (2026-10-15).
 - **Everything Elam equips is visible on him** (2026-10-15): weapon in hand, shield, circlet, seals, relic anklet, bronze plates and the mantle lining. The swing smear takes the weapon's colour.
-- **Map** (2026-10-15, MAP-001..003, MAP-009, REL-008): Tab opens the Builder's Plan: explored cells blue, unexplored dim, secret rooms once found, Elam blinking, % explored. The plan is a relic (carried from the start for now). After changing a room, rebuild `data/world_index.json`.
+- **Map** (2026-10-15, MAP-001..003, MAP-009, REL-008): Tab opens the Builder's Plan: explored cells blue, Elam blinking, % explored, secret rooms once found. The plan is a relic (carried from the start for now). After changing a room, rebuild `data/world_index.json`.
+- **Nabu's shop** (2026-10-16, NPC-004, UI-018, MAP-005, REL-009): Archivist Nabu stands past the first ramp; Up opens his shop. He sells Surveyor's Maps (West Hall, East Hall: they add those sections' unvisited rooms to the map, dim), the Saffron Mantle, the Seal of Nergal, the Wanderer's Cube and the Gazelle Anklet. Elam starts with 600 shekels; F2 adds 5000.
 - **Secrets** (2026-10-15, WLD-006): hidden breakable walls and floors (look like the wall, 3 hits) and cracked bricks (2 hits), with secret rooms off camera behind them. In the sandbox: a cracked block in the middle stretch, a hidden floor just past the double-jump wall over a cellar, and a hidden stretch of the far right wall into a secret room. F1 outlines them.
 - **Enemies drop gear** (2026-10-15, INV-013): each enemy has a loot table with a common and a rare piece of gear found only as drops (Potsherd Seal, Riverclay Mail, Gate Guard's Helm, Watchman's Mantle, Seal of Humbaba). Dropped gear stays on the floor.
 - **SotN specials pass** (2026-10-15, logic only; art waits for the refill, ART-018): running (double-tap and hold), Relic Arms paid in Embers (Sling Stone, Clay Tablet; V or Up + Attack), Utterances by command input (Išātu: ↓↘→ + Attack), a Breath-paid weapon art per weapon type (←→ + Attack), and equipment that grants abilities and passives. Debug keys F1–F5.
 
-**Playtest wanted (game feel, log the verdict here):** the map's readability (cell size 24×14 px, colours, the blinking marker); breakable walls (3 hits for hidden ones, 2 for cracked bricks; the crack, rubble and camera pan into a secret room); how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
+**Playtest wanted (game feel, log the verdict here):** Nabu's prices and the shop's layout, and whether bought map sections read clearly (dim unvisited, lit explored); the map's readability (cell size 24×14 px, colours, the blinking marker); breakable walls (3 hits for hidden ones, 2 for cracked bricks; the crack, rubble and camera pan into a secret room); how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
 
@@ -139,6 +140,7 @@ Region tilesets, backgrounds and props are tracked in the Level content grid as 
 | ART-015 | Act II drowned variants: palette plans and new overlay art | M4 | P0 | L | VFX-010 | todo |
 | ART-016 | Weapon-specific swing art: the Sappara and Bronze Mace reuse the sword slash (stretched to their timing). The mechanism exists now (EQV-015); this is the art, see EQV-017 | M2 | P2 | M | ART-001 | todo |
 | ART-017 | A lower crouch pose for Elam, so high attacks can be ducked visibly. The current crouch is 59 px tall and the Spearman's stab (46–53 px) crosses the head, so a crouch does not dodge it. | M2 | P2 | S | ART-001 | todo |
+| ART-019 | Archivist Nabu: sprite (ghost scribe at a lectern of tablets), idle and talk animations, portrait. Placeholder drawn in code until then | M2 | P1 | M | NPC-004 | todo |
 | ART-018 | Specials art pass after the refill (ART_BIBLE §8.1): run, throw and cast per weapon type, art-specific attacks, Relic Arm sprites, spell and art effects, worn art for the new mantles and seals. About 25 gens: ask first | M1 | P0 | M | PLR-025, SUB-001, SPL-020 | todo |
 
 ### PLR: Player controller
@@ -323,6 +325,7 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | REL-005 | Interpreter's Lens: resolves confounded speech and reveals the Binding Seal | M3 | P0 | S | NPC-002 | todo |
 | REL-006 | The five Tongue relics | M3 | P1 | S | NPC-002 | todo |
 | REL-007 | Codex Scroll, Wanderer's Cube, Bitumen Plate, Silver and Gold Seals | M3 | P1 | S | REL-001 | todo |
+| REL-009 | Wanderer's Cube (from REL-007): votive lamps drop items twice as often while it is owned; sold by Nabu for now | M1 | P1 | S | NPC-004 | done |
 | REL-008 | The Builder's Plan: the relic that unlocks the map (MAP-003), worn as a clay tablet on the belt. Carried from the start for now; placed in the world with the level pass | M1 | P0 | S | MAP-003 | done |
 
 ### WLD: World systems
@@ -363,7 +366,7 @@ The user's rule (2026-10-15): every weapon, shield, armor piece, mantle, seal an
 | MAP-003 | Full map screen: pan, region colors, icons, player marker, %. First pass without icons (MAP-010) | M1 | P0 | M | MAP-002, UI-001 | done |
 | MAP-010 | Map icons: save altars, lifts, bosses, uncollected items; doors drawn from room exits once WLD-002 exists | M1 | P1 | S | MAP-003, WLD-002 | todo |
 | MAP-004 | Optional minimap on the HUD | M2 | P1 | S | MAP-003 | todo |
-| MAP-005 | Surveyor's Maps sold by region (reveal unvisited outlines). Revisit: the Builder's Plan (REL-008) already shows unvisited rooms | M3 | P2 | S | NPC-004 | todo |
+| MAP-005 | Surveyor's Maps sold by Nabu: each reveals a section's unvisited rooms (by region and/or a rectangle of cells). Without them the map shows only explored rooms | M1 | P0 | S | NPC-004 | done |
 | MAP-006 | Player-placed map pins | M3 | P2 | S | MAP-003 | todo |
 | MAP-007 | Completion %: Act I 100%, Act II 200%, plus the secret bonus | M2 | P0 | S | MAP-002 | todo |
 | MAP-009 | Secret areas (WLD-006 `SecretArea`) are hidden on the map until entered; finding one counts toward the secret bonus (MAP-007) | M2 | P0 | S | MAP-002, WLD-006 | done |
@@ -503,8 +506,9 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | NPC-001 | Dialogue system: `DialogueData`, typewriter text, speaker and portrait, tongue tag, simple choices, flags | M2 | P0 | M | UI-021 | todo |
 | NPC-002 | **Confound `RichTextEffect`:** a glyph set per tongue, a resolve animation, tests | M2 | P0 | M | NPC-001 | todo |
 | NPC-003 | Inscriptions: readable wall objects with hint text, gated by Tongue | M3 | P1 | S | NPC-002 | todo |
-| NPC-004 | Shop logic: buy, sell, stock unlocked by progress | M2 | P0 | M | INV-003 | todo |
-| NPC-005 | Nabu: Codex viewer, map sales, music and lore archive | M3 | P1 | M | NPC-004, AI-006 | todo |
+| NPC-004 | Shop logic: buy, sell, stock unlocked by progress. First pass: buying from `ShopData` stock (equipment, relics, maps); selling and progress-gated stock in NPC-008 | M1 | P0 | M | INV-003 | done |
+| NPC-008 | Shop, second pass: selling to Nabu, stock that grows with progress (flags), dyes (INV-010) | M2 | P1 | S | NPC-004 | todo |
+| NPC-005 | Nabu: Codex viewer, map sales, music and lore archive (his shop and map sales are in from NPC-004 and MAP-005; placeholder look until ART-019) | M3 | P1 | M | NPC-004, AI-006 | todo |
 | NPC-006 | Siduri's side quests (5–8) | M3 | P2 | M | NPC-001 | todo |
 | NPC-007 | Urshanabi's ferry sequence | M3 | P1 | S | NAR-003 | todo |
 
@@ -529,7 +533,7 @@ Every boss row is `L`. When one is pulled into work, split it into: **design she
 | UI-015 | Credits | M5 | P1 | S | — | todo |
 | UI-016 | Screen transitions (fade, flash) | M1 | P0 | S | ENG-008 | todo |
 | UI-017 | Controller glyphs that switch automatically (Xbox, PlayStation, keyboard) | M2 | P1 | M | UI-001 | todo |
-| UI-018 | Shop UI | M2 | P0 | M | NPC-004 | todo |
+| UI-018 | Shop UI | M1 | P0 | M | NPC-004 | done |
 | UI-019 | Codex (bestiary) UI | M3 | P1 | S | AI-006 | todo |
 | UI-021 | Dialogue box with portraits | M2 | P0 | S | UI-001 | todo |
 
@@ -927,6 +931,14 @@ Write the criteria here **before** starting a task. Criteria for M0 and the M1 P
   - A plain attack press still attacks normally.
 - **ENG-012 (first pass)**
   - Debug builds only: F1 toggles an overlay (state, velocity, HP/Breath/Embers, abilities, recent inputs), F2 gives every item, Relic Arm and spell, F3 refills HP, Breath and Embers, F4 toggles god mode, F5 cycles the carried Relic Arm.
+- **NPC-004, UI-018, MAP-005, REL-009 (Nabu's shop, first pass)**
+  - Archivist Nabu stands in the sandbox (placeholder look); near him "UP  TALK" shows and Up opens his shop, pausing the game.
+  - The shop lists his stock (`ShopData`) with prices, Elam's shekels, and a description of the highlighted entry: stats and effects for gear, the ability for a relic, and for a map how many of its screens are already explored. Entries he can't afford are dimmed; relics and maps already owned show OWNED and can't be bought again.
+  - Buying takes the shekels and gives the item: gear to the bag, a relic's ability at once (shown on Elam), a map's section to the map.
+  - The map now shows only explored rooms, plus the unvisited rooms of the sections whose Surveyor's Maps Elam owns, drawn dim; explored rooms stay highlighted and secret rooms stay hidden.
+  - The Wanderer's Cube doubles item drops from votive lamps.
+  - Elam starts with 600 shekels for the playtest; F2 adds more.
+  - Unit tests: prices, too poor, already owned, what each kind of purchase gives, map reveal by section, the cube's odds. A visual test talks to Nabu in the real game, buys with real input and checks the map.
 - **MAP-001..003, MAP-009, REL-008 (map, first pass)**
   - `tools/world/build_world_index.gd` instantiates every room scene and writes `data/world_index.json`: each room's map cells (640×360 px each, placed by the room's `map_cell`), its region, its secret areas as their own hidden rooms, and the openings between neighbouring cells read from the Solid tiles (breakable tiles count as open).
   - `WorldMap` marks the cell Elam stands in as discovered, saves the discovered cells with the game and restores them on load; it reports % explored (secret cells add a bonus beyond 100%).
@@ -1368,3 +1380,14 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Tests:** new `tests/visual/map_test.tscn` 5/5 in the real game (discovery, the drawn cell colours, Esc closes without the pause menu, no plan no map, a found secret room with its door); unit 86/86 (7 new in `test_world_map.gd`); regression 80/80 (equipment_test counts the plan on the belt).
   - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
   - **Next:** the user tries the map. Later: MAP-010 icons, MAP-004 minimap, MAP-007 full completion rules, MAP-008 exit validator once rooms connect (WLD-002).
+- **2026-10-16 (Nabu's shop and Surveyor's Maps: NPC-004, UI-018, MAP-005, REL-009)**
+  - **The user's request:** a merchant to talk to who sells items and relics, and maps that add specific sections to the map; parts already explored stay highlighted.
+  - **Decision (changes the map):** without a section's Surveyor's Map, the map shows only the rooms Elam has explored. A map adds its section's unvisited rooms, dim; explored ones stay lit; secrets never show until found. GDD §5.1 updated.
+  - **Data:** `MapData` (a section by region and/or a rectangle of map cells), `ShopData` (keeper, greeting, stock in order, price overrides). Maps: `surveyor_map_west` (cells 0-1), `surveyor_map_east` (cell 2). New items: Saffron Mantle (dye), Wanderer's Cube (relic `lamp_items`, worn as a bone die at the neck); the Gazelle Anklet now has a price.
+  - **Logic:** `Shop` (price, status ok/owned/poor, buy, a map's section progress). Gear goes to the bag and can be bought again; relics grant their ability once (`Game.owns_relic` ignores abilities that only come from worn gear); maps go to the bag once. `WorldMap.is_revealed()` asks the owned maps. `LootTable.roll()` takes an item factor; lamps double it with the cube.
+  - **Nabu:** `scenes/actors/npcs/nabu/` on the interact layer, drawn in code as a ghost scribe at a lectern (ART-019 for his sprite). Up beside him opens `ShopMenu` (Menus layer): stock with prices and shekels, a description box, dimmed when too dear, OWNED for relics and maps owned, a line for what happened. Esc, Back or X leaves without opening the pause menu.
+  - **Playtest money:** 600 starting shekels; F2 also adds every map and 5000 shekels.
+  - **Test reliability (found this session):** an XInput controller is connected to this PC, and Godot reads controllers even when unfocused; stick noise near zero released held directions, which made older suites fail at random. `WindowSettle.isolate_input()` now strips gamepad bindings in every scripted visual test, and `capture.sh` makes the capture window unfocusable (a temporary `babel/override.cfg`, git-ignored), so it also stops stealing focus from the editor.
+  - **Tests:** new `tests/visual/shop_test.tscn` 6/6 (Up opens the shop without moving the cursor, a map bought once, a relic granted and worn, too poor buys nothing, leaving doesn't open the pause menu, the map shows the bought section); `map_test` 6/6 (now checks a map's section dim beside lit explored cells); unit 94/94 (8 new in `test_shop.gd`); regression 80/80.
+  - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** the user tries Nabu's shop and the map sections. Later: NPC-008 selling and progress-gated stock, ART-019 Nabu's sprite after the refill.

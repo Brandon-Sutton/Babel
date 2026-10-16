@@ -105,7 +105,9 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN). I
   - **Words** gate sealed doors.
   - **Tongues** gate optional NPC content and inscriptions.
 - **Fast travel and saving:** about one **Builders' Lift** (teleport) per region plus one at key junctions, and a **Quiet Room** (save) every 8–12 cells along the critical path.
-- **The map (decided 2026-10-15, MAP-001..003).** The map is a relic, the **Builder's Plan**, found later in the game. With it, Tab shows the whole tower one screen per cell: explored cells in their region's colour, unexplored cells dim (where Elam has yet to go), secret rooms only once found, walls around each room with gaps where rooms connect, Elam's position blinking, and the share explored (secrets count past 100%). Cells are discovered as Elam walks them, whether or not he has the plan yet.
+- **The map (decided 2026-10-15, MAP-001..003, MAP-005).** The map is a relic, the **Builder's Plan**, found later in the game. With it, Tab shows the tower one screen per cell: the cells Elam has explored in their region's colour, walls around each room with gaps where rooms connect, Elam's position blinking, and the share explored (secrets count past 100%). Cells are discovered as Elam walks them, whether or not he has the plan yet.
+  - **Surveyor's Maps** add sections. Archivist Nabu sells one per section; owning it shows that section's unvisited rooms dim (where Elam has yet to go), while the rooms he has already explored there stay highlighted. Without a section's map, its unvisited rooms don't show at all.
+  - Secret rooms never appear until found, map or not.
 - **Secrets behind breakable walls (decided 2026-10-15, WLD-006).** As in SotN, walls, floors and ceilings can hide secret rooms.
   - A **hidden** breakable tile looks exactly like the wall around it and takes 3 hits; a **cracked brick** shows it can be broken and takes 2. Touching breakable tiles crack together and crumble together.
   - Elam's weapons, weapon arts and Relic Arms break them; a crouching strike breaks floors. Enemies can't.
@@ -208,8 +210,8 @@ Starting tuning values are listed below. They live in `PlayerTuning.tres` and wi
 | Bitumen Plate | Walk over burning pitch and spikes | Spike Breaker |
 | Silver Seal, Gold Seal | Open the Orrery's inner chamber | Silver/Gold Ring |
 | Codex Scroll | Shows enemy names and HP | Faerie Scroll |
-| **Builder's Plan** | The map: where Elam has been, where he has yet to go, and where he is (Tab). Carried from the start until the level pass places it | (new: in SotN the map is always available, and the Castle Map reveals unexplored rooms) |
-| Wanderer's Cube | Lamps drop items more often | Cube of Zoe |
+| **Builder's Plan** | The map: where Elam has been and where he is (Tab); Surveyor's Maps add the unvisited rooms of their sections. Carried from the start until the level pass places it | (new: in SotN the map is always available, and the Castle Map reveals unexplored rooms) |
+| Wanderer's Cube | Lamps drop items twice as often (sold by Nabu for now) | Cube of Zoe |
 | **Interpreter's Lens** | Understand any spoken tongue; reveals the Binding Seal | Holy Glasses |
 | Tongues (Akkadian, Latin, Liturgical, Mechanist, Telegraphic) | Read the matching inscriptions and NPC speech | (new) |
 
@@ -371,6 +373,8 @@ New weapon types (spears, knuckles, bows…) each get their own set. A single we
 
 - **Currency:** shekels of silver.
 - **Ways to spend shekels:** Nabu's shop, Siduri's tavern, the Surveyor's Maps for each region, and dyes.
+  - **Nabu's shop (decided 2026-10-16, NPC-004).** Talk to Archivist Nabu (Up) to buy gear, relics and Surveyor's Maps. Gear can be bought again; relics and maps once. A relic works the moment it is bought. The shop shows the price, Elam's shekels, and what each entry gives, including how much of a map's section he has already explored. Selling and stock that grows with progress come later (NPC-008).
+  - Elam starts with 600 shekels for the playtest.
 - **Drops:** each enemy has a common and a rare drop, both modified by LCK, plus a hidden pity counter so rare drops don't require endless grinding. Votive lamps drop Embers, shekels, Relic Arms or occasionally items.
   - An enemy rolls its loot table once when it dies, and the drop pops out where it fell (INV-013).
   - Gear and Relic Arms stay on the floor until Elam leaves the room; Embers and shekels blink out after 10 s.

@@ -1,8 +1,8 @@
 extends Node
 ## Scripted check of the map (MAP-001..003, MAP-009, REL-008) in the real game (main.tscn
 ## with the sandbox): cells are discovered where Elam stands, Tab opens the map and
-## pauses, explored cells are drawn in the region's colour and unexplored ones dim while
-## secret rooms stay hidden, Esc closes the map without opening the pause menu, there is
+## pauses, explored cells are drawn in the region's colour, a Surveyor's Map adds its
+## section's unvisited cells dim (MAP-005) while secret rooms stay hidden, Esc closes the map without opening the pause menu, there is
 ## no map without the Builder's Plan, and a found secret room appears with a door into
 ## it. Logs "VISUAL PASS/FAIL". Needs a real window: run it via tools/capture.sh (about
 ## 700 frames).
@@ -51,21 +51,36 @@ func _check_discovery() -> void:
 			"start cell=%s, second=%s, third (not reached)=%s, Elam in %s" % [start, second, third, WorldMap.player_cell])
 
 
-## Tab opens the map over a paused game; the cells are drawn by their state.
+## Tab opens the map over a paused game. Without a Surveyor's Map only explored cells
+## are drawn; with one, its section's unvisited cells show dim and explored ones stay
+## highlighted (MAP-005). Secret cells never show until found.
 func _check_open_and_draw() -> void:
 	await _press(&"map")
 	await _frames(3)
 	var opened: bool = _map.visible and get_tree().paused and MapScreen.is_open
 	var image: Image = await _screen()
-	var explored: Color = _pixel(image, _map.cell_rect(Vector2i(0, 0)).get_center())
-	var unexplored: Color = _pixel(image, _map.cell_rect(Vector2i(2, 0)).get_center())
-	var hidden: Color = _pixel(image, _map.cell_rect(Vector2i(3, 0)).get_center())
 	var region: Color = MapScreen.REGION_COLORS[&"test"]
-	var ok: bool = opened and _same(explored, region) and _same(unexplored, MapScreen.UNEXPLORED) \
+	var explored: Color = _pixel(image, _map.cell_rect(Vector2i(0, 0)).get_center())
+	var unvisited: Color = _pixel(image, _map.cell_rect(Vector2i(2, 0)).get_center())
+	var hidden: Color = _pixel(image, _map.cell_rect(Vector2i(3, 0)).get_center())
+	var ok: bool = opened and _same(explored, region) and _same(unvisited, MapScreen.BACKGROUND) \
 			and _same(hidden, MapScreen.BACKGROUND)
-	_report("Tab shows explored, unexplored and hidden cells", ok,
-			"open and paused=%s, explored cell %s (want %s), unexplored %s, secret %s (want background)"
-			% [opened, explored.to_html(false), region.to_html(false), unexplored.to_html(false), hidden.to_html(false)])
+	_report("Tab shows only explored cells without a map", ok,
+			"open and paused=%s, explored cell %s (want %s), unvisited %s and secret %s (want background)"
+			% [opened, explored.to_html(false), region.to_html(false), unvisited.to_html(false), hidden.to_html(false)])
+	# Owning the East Hall's map adds its unvisited cell, dim.
+	Game.inventory.add(&"surveyor_map_east")
+	await _frames(2)
+	image = await _screen()
+	var revealed: Color = _pixel(image, _map.cell_rect(Vector2i(2, 0)).get_center())
+	# Away from Elam's marker, which sits in this cell.
+	var still: Color = _pixel(image, _map.cell_rect(Vector2i(1, 0)).position + Vector2(4, 4))
+	hidden = _pixel(image, _map.cell_rect(Vector2i(3, 0)).get_center())
+	_report("a Surveyor's Map shows its section dim, explored stays lit", _same(revealed, MapScreen.UNEXPLORED)
+			and _same(still, region) and _same(hidden, MapScreen.BACKGROUND),
+			"East Hall %s (want %s), explored %s (want %s), secret %s"
+			% [revealed.to_html(false), MapScreen.UNEXPLORED.to_html(false), still.to_html(false), region.to_html(false),
+			hidden.to_html(false)])
 	await _frames(40)
 
 

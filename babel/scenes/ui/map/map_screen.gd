@@ -2,8 +2,9 @@ class_name MapScreen
 extends Control
 ## The map (MAP-003, MAP-009), opened with Tab once Elam carries the Builder's Plan
 ## (REL-008). It pauses the game and draws the world index from WorldMap: explored cells
-## filled in their region's colour, unexplored cells dim (where he has yet to go),
-## secret rooms only once found, walls around each room with gaps where rooms connect,
+## filled in their region's colour, and the unvisited cells of the sections whose
+## Surveyor's Maps he owns (MAP-005) dim, where he has yet to go. Secret rooms show only
+## once found; walls around each room with gaps where rooms connect,
 ## Elam's position blinking, and the share of the map explored. Arrow keys pan; Tab, Esc
 ## or Back closes. Without the plan, Tab only says there is no map.
 
@@ -98,23 +99,31 @@ func _mark_closed() -> void:
 	is_open = false
 
 
-## How [param cell] is drawn: &"explored", &"unexplored", &"hidden" (a secret not yet
-## found) or &"none" (no room there).
+## How [param cell] is drawn: &"explored" (visited), &"unexplored" (shown dim by a
+## Surveyor's Map), or not at all: &"hidden" (a secret not yet found), &"unknown" (not
+## visited and on no map he owns) or &"none" (no room there).
 static func cell_state(cell: Vector2i) -> StringName:
 	var entry: Dictionary = WorldMap.entry_at(cell)
 	if entry.is_empty():
 		return &"none"
 	if WorldMap.is_discovered(cell):
 		return &"explored"
-	return &"hidden" if entry.get("secret", false) else &"unexplored"
+	if entry.get("secret", false):
+		return &"hidden"
+	return &"unexplored" if WorldMap.is_revealed(cell) else &"unknown"
+
+
+## True if [param cell] is drawn on the map.
+static func is_shown(cell: Vector2i) -> bool:
+	var state: StringName = cell_state(cell)
+	return state == &"explored" or state == &"unexplored"
 
 
 ## What is drawn on the side of [param cell] facing [param direction]: &"none" inside a
 ## room, &"door" where it opens into another shown room, else &"wall".
 static func edge_kind(cell: Vector2i, direction: Vector2i) -> StringName:
 	var next: Vector2i = cell + direction
-	var state: StringName = cell_state(next)
-	if state == &"none" or state == &"hidden":
+	if not is_shown(next):
 		return &"wall"
 	if WorldMap.entry_at(next).get("id") == WorldMap.entry_at(cell).get("id"):
 		return &"none"
@@ -147,7 +156,7 @@ func _map_rect() -> Rect2:
 	var rect: Rect2 = Rect2()
 	var first: bool = true
 	for cell: Vector2i in WorldMap.cells:
-		if cell_state(cell) == &"hidden":
+		if not is_shown(cell):
 			continue
 		var cell_area: Rect2 = Rect2(Vector2(cell) * CELL, CELL)
 		rect = cell_area if first else rect.merge(cell_area)
@@ -176,7 +185,7 @@ func _draw_map() -> void:
 	var view_rect: Rect2 = Rect2(Vector2.ZERO, VIEW.size)
 	for cell: Vector2i in WorldMap.cells:
 		var state: StringName = cell_state(cell)
-		if state == &"hidden":
+		if state != &"explored" and state != &"unexplored":
 			continue
 		var rect: Rect2 = Rect2(_to_view(Vector2(cell) * CELL), CELL)
 		if not view_rect.intersects(rect):

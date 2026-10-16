@@ -8,6 +8,7 @@ extends Node2D
 const MAIN_SCENE: PackedScene = preload("res://scenes/main/main.tscn")
 const TILE: float = 16.0
 const FLOOR_Y: float = 320.0
+const WindowSettle := preload("res://tests/visual/window_settle.gd")
 
 var _main: Node
 var _player: Player
@@ -17,6 +18,7 @@ var _hp_before: int = 0
 
 
 func _ready() -> void:
+	WindowSettle.isolate_input()
 	Game.reset()
 	_main = MAIN_SCENE.instantiate()
 	_main.set(&"continue_from_save", false)

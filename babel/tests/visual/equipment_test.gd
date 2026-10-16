@@ -17,6 +17,7 @@ const FLOOR_Y: float = 320.0
 const WEAPON_TYPES: Array[StringName] = [
 	&"short_sword", &"sappara", &"bronze_mace", &"lion_greatsword", &"scythe_of_ninurta",
 ]
+const WindowSettle := preload("res://tests/visual/window_settle.gd")
 const KIT: Dictionary[StringName, StringName] = {
 	&"left_hand": &"lapis_shield", &"head": &"scribes_circlet",
 	&"seal_1": &"seal_of_shamash", &"seal_2": &"seal_of_nergal",
@@ -31,6 +32,7 @@ var _layout: Dictionary
 
 
 func _ready() -> void:
+	WindowSettle.isolate_input()
 	Game.reset()
 	for slot: StringName in KIT:
 		Game.inventory.add(KIT[slot])

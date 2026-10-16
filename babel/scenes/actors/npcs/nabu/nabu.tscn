@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/actors/npcs/nabu/nabu.gd" id="1_nabu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_talk"]
+size = Vector2(64, 80)
+
+[node name="Nabu" type="Area2D"]
+z_index = 10
+collision_layer = 512
+collision_mask = 4
+monitorable = false
+script = ExtResource("1_nabu")
+
+[node name="TalkShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_talk")

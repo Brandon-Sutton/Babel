@@ -87,7 +87,9 @@ func test_the_builders_plan_grants_the_map() -> void:
 func test_map_cell_states() -> void:
 	WorldMap.discover_cell(Vector2i(0, 0))
 	assert_eq(MapScreen.cell_state(Vector2i(0, 0)), &"explored")
-	assert_eq(MapScreen.cell_state(Vector2i(1, 0)), &"unexplored", "known, not yet visited")
+	assert_eq(MapScreen.cell_state(Vector2i(1, 0)), &"unknown", "not visited, on no map he owns")
+	Game.inventory.add(&"surveyor_map_west")
+	assert_eq(MapScreen.cell_state(Vector2i(1, 0)), &"unexplored", "shown dim by the Surveyor's Map")
 	assert_eq(MapScreen.cell_state(Vector2i(3, 0)), &"hidden", "secret until found")
 	assert_eq(MapScreen.cell_state(Vector2i(2, 1)), &"hidden")
 	assert_eq(MapScreen.cell_state(Vector2i(7, 7)), &"none")
@@ -96,6 +98,8 @@ func test_map_cell_states() -> void:
 
 
 func test_map_walls_and_doors() -> void:
+	Game.inventory.add(&"surveyor_map_west")
+	Game.inventory.add(&"surveyor_map_east")
 	assert_eq(MapScreen.edge_kind(Vector2i(0, 0), Vector2i.RIGHT), &"none", "inside one room")
 	assert_eq(MapScreen.edge_kind(Vector2i(0, 0), Vector2i.LEFT), &"wall", "the world's edge")
 	assert_eq(MapScreen.edge_kind(Vector2i(2, 0), Vector2i.RIGHT), &"wall", "the secret room isn't shown yet")

@@ -20,6 +20,7 @@ const SWEEP: int = 1
 const ANTI_AIR: int = 2
 const FIREBALL: int = 3
 const LEAP: int = 4
+const WindowSettle := preload("res://tests/visual/window_settle.gd")
 
 var _player: Player
 var _spearman: Enemy
@@ -28,6 +29,7 @@ var _spear_hits: Array[int] = []
 
 
 func _ready() -> void:
+	WindowSettle.isolate_input()
 	Game.reset()
 	var floor_layer: TileMapLayer = TileMapLayer.new()
 	floor_layer.tile_set = TILE_SET

@@ -73,6 +73,8 @@ func _initialize() -> void:
 		&"gate_guard_helm": Piece.new(_helm(), Vector2(9, 9), [&"head"], WornArt.Layer.FRONT, false),
 		# The map relic (REL-008): a clay tablet tied at the back of the belt.
 		&"builders_plan": Piece.new(_plan_tablet(), Vector2(11, 1), [&"belt"], WornArt.Layer.FRONT, false),
+		# Sold by Nabu (REL-009): a bone die on a cord at the neck.
+		&"wanderers_cube": Piece.new(_cube(), Vector2(3, 1), [&"neck"], WornArt.Layer.FRONT, false),
 	}
 	var needs_import: bool = false
 	for id: StringName in pieces:
@@ -97,6 +99,7 @@ func _initialize() -> void:
 	ok = _set_dye(&"courier_mantle", &"lining", [Color("0e3a40"), Color("1f7a78"), Color("6cd0c0")]) and ok
 	ok = _set_dye(&"riverclay_mail", &"plates", [Color("2e3426"), Color("5e6a48"), Color("a0a878")]) and ok
 	ok = _set_dye(&"watchmans_mantle", &"lining", [Color("1a1838"), Color("3a3a78"), Color("8a8ad0")]) and ok
+	ok = _set_dye(&"saffron_mantle", &"lining", [Color("5a3a08"), Color("c08a20"), Color("f0c860")]) and ok
 	print("build_worn_art: %s" % ("done" if ok else "FAILED"))
 	quit(0 if ok else 1)
 
@@ -376,5 +379,22 @@ func _plan_tablet() -> Image:
 	_rect(image, 2, 5, 2, 1, clay_dark)
 	_rect(image, 3, 6, 1, 2, clay_dark)
 	_rect(image, 4, 7, 1, 1, clay_dark)
+	_outline(image)
+	return image
+
+
+## The Wanderer's Cube: a small bone die with dark pips, hanging on a gold cord.
+func _cube() -> Image:
+	var bone_light: Color = Color("f0e8d0")
+	var bone: Color = Color("c8bc9c")
+	var pip: Color = Color("3a2a20")
+	var image: Image = _canvas(7, 9)
+	image.set_pixel(3, 1, GOLD_DARK)
+	image.set_pixel(3, 2, GOLD_DARK)
+	_rect(image, 1, 3, 5, 5, bone)
+	_rect(image, 1, 3, 5, 1, bone_light)
+	_rect(image, 1, 3, 1, 5, bone_light)
+	image.set_pixel(2, 4, pip)
+	image.set_pixel(4, 6, pip)
 	_outline(image)
 	return image

@@ -4,7 +4,7 @@ extends Node2D
 ## until rooms are authored (LVL-GTE-2). Left to right: 45° ramps over a plateau,
 ## stacked one-way platforms, a pillar to jump, the Gazelle Anklet on a ledge, a wall
 ## that needs the double jump, and every enemy type (Mudborn, Gate Spearman, and Humbaba
-## Masks in the middle stretch). Secrets (WLD-006): a cracked-brick block in the middle
+## Masks in the middle stretch), and Archivist Nabu's shop past the first ramp. Secrets (WLD-006): a cracked-brick block in the middle
 ## stretch, a hidden floor past the double-jump wall over a cellar, and a hidden stretch
 ## of the far right wall into a secret room. Both secret rooms lie outside the camera
 ## bounds, so they stay out of sight until Elam gets in.
@@ -16,6 +16,9 @@ const SPEARMAN: PackedScene = preload("res://scenes/actors/enemies/gate_spearman
 const RELIC: PackedScene = preload("res://scenes/world/pickups/relic_pickup.tscn")
 const LAMP: PackedScene = preload("res://scenes/world/props/votive_lamp.tscn")
 const ALTAR: PackedScene = preload("res://scenes/world/props/save_altar.tscn")
+const NABU: PackedScene = preload("res://scenes/actors/npcs/nabu/nabu.tscn")
+## Where Archivist Nabu keeps his shop (tile x on the floor), past the first ramp.
+const NABU_TILE: int = 27
 ## Votive lamp positions (tile x, tile y of the floor they stand on).
 const LAMPS: Array[Vector2i] = [
 	Vector2i(9, 20), Vector2i(17, 16), Vector2i(31, 15), Vector2i(38, 11),
@@ -143,6 +146,9 @@ func _spawn_entities() -> void:
 		var lamp: Node2D = LAMP.instantiate() as Node2D
 		lamp.position = Vector2(cell.x * TILE + TILE / 2.0, cell.y * TILE)
 		_entities.add_child(lamp)
+	var nabu: Node2D = NABU.instantiate() as Node2D
+	nabu.position = Vector2(NABU_TILE * TILE + TILE / 2.0, FLOOR_ROW * TILE)
+	_entities.add_child(nabu)
 	var altar: Node2D = ALTAR.instantiate() as Node2D
 	altar.position = Vector2(6 * TILE, FLOOR_ROW * TILE)
 	_entities.add_child(altar)
