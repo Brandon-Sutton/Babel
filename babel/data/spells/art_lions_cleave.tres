@@ -6,7 +6,7 @@
 script = ExtResource("1_script")
 id = &"art_lions_cleave"
 display_name = "Lion's Cleave"
-description = "Great-sword art: a vast cleave that reaches far ahead and hurls foes back."
+description = "Great-sword art: one vast cleave in the name of the lions of the Gate, who no longer remember which side they guard."
 command = "B,F"
 window_frames = 20
 cost_mp = 10

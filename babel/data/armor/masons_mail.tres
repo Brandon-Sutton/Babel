@@ -10,5 +10,5 @@ dye_material = &"plates"
 dye_ramp = PackedColorArray(0.2901961, 0.16470589, 0.078431375, 1, 0.6039216, 0.3529412, 0.15686275, 1, 0.8784314, 0.627451, 0.3764706, 1)
 id = &"masons_mail"
 display_name = "Mason's Mail"
-description = "Layered leather and bronze scales, cut for hauling bricks up the tower."
+description = "Leather and bronze scales, cut for hauling bricks up the tower. The straps are stained where the backs beneath them broke."
 price = 100

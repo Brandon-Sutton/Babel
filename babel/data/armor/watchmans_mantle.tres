@@ -13,5 +13,5 @@ dye_material = &"lining"
 dye_ramp = PackedColorArray(0.101960786, 0.09411765, 0.21960784, 1, 0.22745098, 0.22745098, 0.47058824, 1, 0.5411765, 0.5411765, 0.8156863, 1)
 id = &"watchmans_mantle"
 display_name = "Watchman's Mantle"
-description = "The night watch's indigo cloak. Its wearer's wounds close slowly. DEF +1, HP regenerates."
+description = "The night watch kept their posts long after their hearts stopped. Its wounds close, slowly, whether you wish it or not."
 price = 220

@@ -2,6 +2,8 @@
 
 BABEL is a 2D side-view action-RPG metroidvania for PC. It is a spiritual successor to *Castlevania: Symphony of the Night*, set in the Tower of Babel. It is built in **Godot 4.6.1 with GDScript only**, and its pixel art is generated with the **PixelLab MCP**, then finished with PixelLab's free workbench tools.
 
+**Tone (set by the user, 2026-10-16): dark, edgy devotional horror in a twisted religious alternate world of corrupted angels, demons and monsters, with heavy inspiration from *Blasphemous* 1 and 2 and *Fear & Hunger*.** Every name, description, enemy, NPC line, PixelLab prompt and piece of art follows GDD §4.6–4.7 and ART_BIBLE §1.
+
 ## Where things are
 
 | Path | What it is |

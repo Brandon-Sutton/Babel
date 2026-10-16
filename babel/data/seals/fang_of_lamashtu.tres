@@ -13,5 +13,5 @@ worn = ExtResource("2_7sxr2")
 dye_ramp = PackedColorArray()
 id = &"fang_of_lamashtu"
 display_name = "Fang of Lamashtu"
-description = "A demon's tooth on a cord. Heals 15% of the damage your blade deals."
+description = "A tooth of the demoness who preys on the newborn, strung on a mother's hair. It drinks from every wound your blade opens."
 price = 240

@@ -11,5 +11,5 @@ dye_material = &"lining"
 dye_ramp = PackedColorArray(0.3529412, 0.34509805, 0.40784314, 1, 0.72156864, 0.7058824, 0.78431374, 1, 0.9411765, 0.93333334, 0.972549, 1)
 id = &"feather_mantle"
 display_name = "Feather Mantle"
-description = "A mantle of white eagle feathers. Leap again in mid-air while it is worn."
+description = "Pinions plucked from one of the Choir as it slept, sewn by hands that did not survive the sewing. It remembers how to rise."
 price = 180

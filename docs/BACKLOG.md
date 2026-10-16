@@ -39,6 +39,8 @@ The current milestone is **M0 Foundation**. Work top to bottom:
 - **Enemies drop gear** (2026-10-15, INV-013): each enemy has a loot table with a common and a rare piece of gear found only as drops (Potsherd Seal, Riverclay Mail, Gate Guard's Helm, Watchman's Mantle, Seal of Humbaba). Dropped gear stays on the floor.
 - **SotN specials pass** (2026-10-15, logic only; art waits for the refill, ART-018): running (double-tap and hold), Relic Arms paid in Embers (Sling Stone, Clay Tablet; V or Up + Attack), Utterances by command input (Išātu: ↓↘→ + Attack), a Breath-paid weapon art per weapon type (←→ + Attack), and equipment that grants abilities and passives. Debug keys F1–F5.
 
+**Tone (2026-10-16):** grim devotional horror, heavy inspiration from *Blasphemous* and *Fear & Hunger* (GDD §4.6–4.7, ART_BIBLE §1). Item text was rewritten in that voice.
+
 **Playtest wanted (game feel, log the verdict here):** Nabu's prices and the shop's layout, and whether bought map sections read clearly (dim unvisited, lit explored); the map's readability (cell size 24×14 px, colours, the blinking marker); breakable walls (3 hits for hidden ones, 2 for cracked bricks; the crack, rubble and camera pan into a secret room); how often gear drops (common about 1 in 10 kills, rare about 1 in 25); running (is a 14-frame double-tap window right, is 290 px/s too fast?), the feel of entering ↓↘→ and ←→ commands, the Breath and Ember costs, the weapon arts' reach and recovery, the Clay Tablet's arc; the Scythe of Ninurta's reach and slow reap (12-frame wind-up, 38 frames in all); the Spearman's wind-up lengths and ranges, the anti-air reach, how often it throws fireballs or leaps, and the crouching-slash timing.
 
 The user's priority is the game: keep building gameplay ahead of the art pipeline.
@@ -465,6 +467,11 @@ Each row covers design, art (PixelLab), `EnemyData`, behavior and the Codex entr
 | ENM-059 | Hound of Nimrod | SUM | Pack hunter | M | M3 | P1 | todo |
 | ENM-060 | Star Shard | SUM | Falling hazard enemy | S | M3 | P2 | todo |
 | ENM-061 | Act II: drowned variants of ENM-001 to 060 (palette and behavior remixes) | All | Variants | — | M4 | P0 | todo |
+| ENM-063 | Choir Warden (an angel with its wings nailed to a brick frame it drags; strikes at anything that speaks) | GTE | Guard/counter | M | M3 | P1 | todo |
+| ENM-064 | Ophan (a burning wheel of eyes that rolls the walls and ceilings) | CAT | Ceiling crawler | M | M3 | P1 | todo |
+| ENM-065 | Censer-Seraph (six wings, a censer for a head; swings burning incense) | CAT | Swooper and caster | L | M3 | P1 | todo |
+| ENM-066 | Sewn-Mouth Penitent (a pilgrim of the Church who flails as it walks) | SHN | Walker | M | M3 | P1 | todo |
+| ENM-067 | Silent Priest (a Church priest who casts only in signs) | ARC | Caster | M | M3 | P1 | todo |
 | ENM-062 | Act II: the Eleven Spawn of Tiamat (Bašmu, Ugallu, Uridimmu, Kusarikku, Storm Demons, Mušmaḫḫū, and others) — design pass | Act II | Mixed | — | M4 | P0 | todo |
 
 ### BOSS: Bosses
@@ -614,7 +621,7 @@ Each step's ID is `LVL-<CODE>-<step>`, so the Grand Gate blockout is `LVL-GTE-2`
 
 | ID | Task | MS | Pri | Size | Deps | Status |
 |---|---|---|---|---|---|---|
-| NAR-001 | Story bible and lore pass: verify Akkadian and Sumerian names and terms; tone guide | M2 | P1 | M | — | todo |
+| NAR-001 | Story bible and lore pass to the grim devotional direction (GDD §4.6–4.7, set 2026-10-16): rework the v0.1 1893 frame into the alternate world, settle the Church and the Choir, Rask's role and the regions' framing; verify Akkadian and Sumerian names and terms | M2 | P1 | M | — | todo |
 | NAR-002 | Full English script, each line tagged by tongue | M3 | P0 | L | NAR-001 | todo |
 | NAR-003 | Cutscene system: AnimationPlayer sequences, dialogue, camera moves, letterbox, skip | M1 | P0 | M | WLD-004 | todo |
 | NAR-004 | Prologue: Sera vs. Nimrod, 1889 | M3 | P0 | L | ART-009, BOSS-014 | todo |
@@ -1391,3 +1398,12 @@ Add one entry per session, newest at the bottom, using this shape: **date**, the
   - **Tests:** new `tests/visual/shop_test.tscn` 6/6 (Up opens the shop without moving the cursor, a map bought once, a relic granted and worn, too poor buys nothing, leaving doesn't open the pause menu, the map shows the bought section); `map_test` 6/6 (now checks a map's section dim beside lit explored cells); unit 94/94 (8 new in `test_shop.gd`); regression 80/80.
   - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
   - **Next:** the user tries Nabu's shop and the map sections. Later: NPC-008 selling and progress-gated stock, ART-019 Nabu's sprite after the refill.
+- **2026-10-16 (tone: grim devotional horror)**
+  - **The user's direction:** the lore centres on the Tower of Babel in a dark, edgy, religious alternate world of monsters, demons and angels, all corrupted and twisted, with heavy inspiration from *Blasphemous* 1 and 2 and *Fear & Hunger*.
+  - **Recorded in:** GDD §1 (pitch), §2 (new first pillar "Devotion is the horror"; language as blasphemy), §4.1 (backstory darkened: the Choir, the cursed tower, the Church of the Sealed Mouth, the old gods), §4.2 (alternate-world present, a proposal), §4.3 (cast retoned), new §4.6 (the four families: the Choir, the Old Ones, the Damned, the Faithful) and §4.7 (influences, voice, motifs, scope and limits), §7, §10, §11, §14; ART_BIBLE §1 (grim baroque, readable first) and the PixelLab style suffix; a tone line in CLAUDE.md.
+  - **Replaced:** the v0.1 guardrail "God is never depicted or made a villain" became §4.7's limits (the Most High is never shown; the faith is invented and doesn't mock real-world sacred figures; no sexual violence). ART_BIBLE's "not grimdark mush" became "dark never means muddy".
+  - **Applied now:** all 36 item, relic, map, art and spell descriptions rewritten in the new voice (gear kept to the pause menu's line limits), Nabu's greeting, the "no map" notice. Names and story beats are unchanged.
+  - **New rows:** ENM-063..067 (Choir Warden, Ophan, Censer-Seraph, Sewn-Mouth Penitent, Silent Priest). NAR-001 now carries the full lore rework, for when world and story are built.
+  - **Open for the user:** the alternate world's framing replacing 1893; final names of the faith and the angels; whether any *Fear & Hunger* mechanics are wanted (tone only for now).
+  - Gens spent: 0. **About 8.6 left** until the 2026-10-17 reset.
+  - **Next:** the user's answers on the open points; PixelLab work after the refill uses the new style suffix.

@@ -6,5 +6,5 @@
 script = ExtResource("1_shop")
 id = &"shop_nabu"
 keeper = "Archivist Nabu"
-greeting = "The tower remembers every stone. For silver, so can you."
+greeting = "Every stone of this tower was a name once. For silver, I will tell you where they lie."
 stock = Array[StringName]([&"surveyor_map_west", &"surveyor_map_east", &"saffron_mantle", &"seal_of_nergal", &"wanderers_cube", &"gazelle_anklet"])

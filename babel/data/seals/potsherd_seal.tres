@@ -12,5 +12,5 @@ worn = ExtResource("2_duexw")
 dye_ramp = PackedColorArray()
 id = &"potsherd_seal"
 display_name = "Potsherd Seal"
-description = "A cylinder seal pressed from river clay, still damp from the Mudborn that carried it. DEF +1, CON +2."
+description = "Pressed from river clay, still damp from the Mudborn that carried it inside its chest."
 price = 60

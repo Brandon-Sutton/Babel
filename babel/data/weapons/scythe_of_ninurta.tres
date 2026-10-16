@@ -22,5 +22,5 @@ worn = ExtResource("2_v16y5")
 dye_ramp = PackedColorArray()
 id = &"scythe_of_ninurta"
 display_name = "Scythe of Ninurta"
-description = "The farmer-god's war scythe. Takes both hands; reaps wide and slow."
+description = "War scythe of the farmer-god, who sowed the plain with the dead to see what would grow. Both hands; reaps wide and slow."
 price = 320

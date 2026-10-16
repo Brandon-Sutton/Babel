@@ -13,5 +13,5 @@ worn = ExtResource("2_7hc4h")
 dye_ramp = PackedColorArray()
 id = &"ember_censer"
 display_name = "Ember Censer"
-description = "A temple censer. Half of all Relic Arm throws cost no Embers."
+description = "A temple censer that is never allowed to go out. The priests feed it what the faithful leave behind."
 price = 160

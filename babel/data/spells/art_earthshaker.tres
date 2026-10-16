@@ -6,7 +6,7 @@
 script = ExtResource("1_script")
 id = &"art_earthshaker"
 display_name = "Earthshaker"
-description = "Mace art: a blow to the ground that sends a shockwave both ways along the floor."
+description = "Mace art: strike the floor until it remembers it was ground, and a wave runs out both ways."
 command = "B,F"
 window_frames = 20
 cost_mp = 8

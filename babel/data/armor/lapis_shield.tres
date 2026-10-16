@@ -11,5 +11,5 @@ worn = ExtResource("2_kvcir")
 dye_ramp = PackedColorArray()
 id = &"lapis_shield"
 display_name = "Lapis Shield"
-description = "A round shield glazed in lapis like the Ishtar Gate."
+description = "Glazed in the lapis of the Gate, where the goddess's lions still pace inside the brick. It has turned aside spears, and prayers."
 price = 90

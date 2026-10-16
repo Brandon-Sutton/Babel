@@ -6,7 +6,7 @@
 script = ExtResource("1_script")
 id = &"isatu"
 display_name = "Išātu"
-description = "Fire. Three bolts of flame fly from the speaker's mouth."
+description = "Fire, in the First Tongue. To speak it is the oldest sin. Three bolts of flame leave the speaker's mouth, and something in the walls hears."
 command = "D,DF,F"
 window_frames = 24
 cost_mp = 6

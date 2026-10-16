@@ -6,7 +6,7 @@
 script = ExtResource("1_script")
 id = &"art_swift_thrust"
 display_name = "Swift Thrust"
-description = "Sword art: a lunging thrust that carries Elam forward."
+description = "Sword art: a lunging thrust that carries Elam forward, faster than a prayer."
 command = "B,F"
 window_frames = 20
 cost_mp = 4

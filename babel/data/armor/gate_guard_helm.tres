@@ -11,5 +11,5 @@ worn = ExtResource("2_vuksw")
 dye_ramp = PackedColorArray()
 id = &"gate_guard_helm"
 display_name = "Gate Guard's Helm"
-description = "A bronze helm of the old gate watch, dented where its last wearer fell. DEF +3."
+description = "Bronze of the old gate watch, dented where its last wearer was struck down. The dent is still warm."
 price = 120

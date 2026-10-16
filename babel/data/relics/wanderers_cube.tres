@@ -9,5 +9,5 @@ ability = &"lamp_items"
 worn = ExtResource("2_ktdu0")
 id = &"wanderers_cube"
 display_name = "Wanderer's Cube"
-description = "A pilgrim's knucklebone die worn on a cord. Votive lamps give up their offerings twice as often."
+description = "A knucklebone die, carved from the pilgrim who carried it. While you keep it, votive lamps give up their offerings twice as often."
 price = 300

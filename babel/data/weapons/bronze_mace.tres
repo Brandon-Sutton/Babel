@@ -18,5 +18,5 @@ worn = ExtResource("2_gb450")
 dye_ramp = PackedColorArray()
 id = &"bronze_mace"
 display_name = "Bronze Mace"
-description = "A temple guard's flanged mace. Slow and brutal; sends foes reeling."
+description = "A temple guard's flanged mace, for the penitent who would not kneel. Slow and brutal; it sends foes reeling."
 price = 260

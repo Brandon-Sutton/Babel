@@ -13,5 +13,5 @@ worn = ExtResource("2_alogo")
 dye_ramp = PackedColorArray()
 id = &"short_sword"
 display_name = "Short Sword"
-description = "A plain iron blade from the kilns of Shinar. Quick to swing."
+description = "Plain iron from the kilns of Shinar, quenched in water no one should drink. Quick to swing."
 price = 30

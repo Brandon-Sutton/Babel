@@ -13,5 +13,5 @@ worn = ExtResource("2_n1w2l")
 dye_ramp = PackedColorArray()
 id = &"lamp_of_ea"
 display_name = "Lamp of Ea"
-description = "A seal of the god of wisdom and sweet water. Breath returns, 2 per second."
+description = "Seal of the god of sweet waters, who warned one man of the flood and let the rest drown."
 price = 200

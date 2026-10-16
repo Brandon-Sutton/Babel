@@ -11,5 +11,5 @@ dye_material = &"lining"
 dye_ramp = PackedColorArray(0.21960784, 0.023529412, 0.06666667, 1, 0.5411765, 0.078431375, 0.15686275, 1, 0.9372549, 0.41568628, 0.41568628, 1)
 id = &"crimson_mantle"
 display_name = "Crimson Mantle"
-description = "A dark cloak lined in crimson. Light, and lucky. LCK +1."
+description = "The colour of the plain at the hour the tower was struck. It has been washed a thousand times and still smells of it."
 price = 70

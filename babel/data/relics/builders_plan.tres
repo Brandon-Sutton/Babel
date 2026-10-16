@@ -9,4 +9,4 @@ ability = &"map"
 worn = ExtResource("2_gkruo")
 id = &"builders_plan"
 display_name = "Builder's Plan"
-description = "The master builder's plan of the tower, pressed in clay. It shows where you have been and where you have yet to go. Tab to read it."
+description = "The master builder's plan of Etemenanki, pressed into clay mixed with his own ashes. It remembers every room the tower was meant to have. Tab to read it."

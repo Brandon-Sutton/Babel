@@ -6,7 +6,7 @@
 script = ExtResource("1_script")
 id = &"sling_stone"
 display_name = "Sling Stone"
-description = "A shepherd's sling. Hurls a stone straight ahead. 1 Ember."
+description = "A shepherd's sling. On the plain, every stone was once part of something. Hurls one straight ahead. Costs 1 Ember."
 cost = 1
 damage = 10
 flight = &"straight"

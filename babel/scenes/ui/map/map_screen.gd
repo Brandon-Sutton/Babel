@@ -63,7 +63,7 @@ func _process(_delta: float) -> void:
 			if Game.has_ability(&"map"):
 				open()
 			else:
-				Events.notice.emit(tr("NO MAP"), tr("THE TOWER IS UNCHARTED"))
+				Events.notice.emit(tr("NO MAP"), tr("THE TOWER DOES NOT WISH TO BE KNOWN"))
 		return
 	_frame += 1
 	if Input.is_action_just_pressed(&"map") or Input.is_action_just_pressed(&"pause") \

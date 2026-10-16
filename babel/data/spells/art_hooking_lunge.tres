@@ -6,7 +6,7 @@
 script = ExtResource("1_script")
 id = &"art_hooking_lunge"
 display_name = "Hooking Lunge"
-description = "Sickle-sword art: a long lunge that hooks through everything in its path."
+description = "Sickle-sword art: a long hooking lunge, the way the reapers of the plain took the harvest, and later the harvesters."
 command = "B,F"
 window_frames = 20
 cost_mp = 6

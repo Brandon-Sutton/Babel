@@ -6,7 +6,7 @@
 script = ExtResource("1_script")
 id = &"clay_tablet"
 display_name = "Clay Tablet"
-description = "A baked tablet thrown high; it falls through anything below it. 2 Embers."
+description = "A baked tablet of the old law, thrown high. It falls through whatever lies below, as the law does. Costs 2 Embers."
 cost = 2
 damage = 18
 flight = &"arc"

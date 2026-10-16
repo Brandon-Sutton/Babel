@@ -11,5 +11,5 @@ worn = ExtResource("2_rfn3y")
 dye_ramp = PackedColorArray()
 id = &"seal_of_nergal"
 display_name = "Seal of Nergal"
-description = "A cylinder seal of the war god, carved in black basalt. STR +3."
+description = "Black basalt for the lord of war and plague. Its carver died of fever before the last line of the prayer."
 price = 150

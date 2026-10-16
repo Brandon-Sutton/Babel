@@ -9,5 +9,5 @@ ability = &"double_jump"
 worn = ExtResource("2_42lxe")
 id = &"gazelle_anklet"
 display_name = "Gazelle Anklet"
-description = "A gold anklet hung with a gazelle's horn. Leap again in mid-air."
+description = "Gold, hung with the horn of a gazelle offered at the foot of the stair. Its wearer leaps again in mid-air, as the beast tried to when the knife came."
 price = 500

@@ -18,5 +18,5 @@ worn = ExtResource("2_83724")
 dye_ramp = PackedColorArray()
 id = &"sappara"
 display_name = "Sappara"
-description = "Assyrian sickle-sword. Its hooked bronze edge bites deeper but swings slower."
+description = "Sickle-sword of the kings who flayed the cities that would not open. Its hooked edge bites deep and swings slow."
 price = 120

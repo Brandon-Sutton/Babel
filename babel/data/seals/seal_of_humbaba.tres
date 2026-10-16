@@ -11,5 +11,5 @@ worn = ExtResource("2_4qsfl")
 dye_ramp = PackedColorArray()
 id = &"seal_of_humbaba"
 display_name = "Seal of Humbaba"
-description = "A green stone seal cut with the forest guardian's grinning face. Fortune favours its bearer. LCK +4."
+description = "Green stone cut with the grin of the forest's guardian, slain by a king for glory. Fortune follows its bearer, as if in apology."
 price = 200

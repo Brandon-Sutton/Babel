@@ -22,5 +22,5 @@ worn = ExtResource("2_28hrs")
 dye_ramp = PackedColorArray()
 id = &"lion_greatsword"
 display_name = "Lion-Hilt Greatsword"
-description = "A temple guardian's two-handed blade, its hilt cast as a roaring lion. Cleaves wide and slow."
+description = "Its hilt is a lion roaring at heaven. Its bearers were buried standing, still holding it. Cleaves wide and slow."
 price = 400

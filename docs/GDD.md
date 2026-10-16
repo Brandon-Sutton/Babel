@@ -6,28 +6,29 @@
 **Engine:** Godot 4.6.1, GDScript
 **Art:** pixel art generated with PixelLab, then finished by hand
 
-**Status:** v0.1 outline, 2026-10-14. This is a living document. Items marked ⟨open⟩ are undecided. Build tasks are tracked in [BACKLOG.md](BACKLOG.md), and the visual spec is in [ART_BIBLE.md](ART_BIBLE.md).
+**Status:** v0.2 outline. v0.1 2026-10-14; **tone set 2026-10-16: grim devotional horror in a twisted religious alternate world** (§1, §2, §4.6–4.7). This is a living document. Items marked ⟨open⟩ are undecided. Build tasks are tracked in [BACKLOG.md](BACKLOG.md), and the visual spec is in [ART_BIBLE.md](ART_BIBLE.md).
 
 ---
 
 ## 1. Pitch
 
-It is 1893. Telegraph wires circle the globe and humanity is beginning to speak with one voice again. In response, the Tower of Babel rises from the plain of Shinar.
+The Tower of Babel was never destroyed. When the tongues were confounded, the unfinished tower was cursed instead: it cannot fall and it cannot be finished, and everyone who died building it is still inside it. Four thousand years on, it is the cathedral of a world that worships the curse. The **Church of the Sealed Mouth** teaches that speech is the first sin, and its penitents sew their lips and cut out their tongues to be forgiven. The angels who came down to scatter the builders, **the Choir**, never went back: they keep the tower as its jailers and rot in their own holiness. Beneath it, the old gods and demons of the plain gnaw at the foundations.
 
-**Elam** is the last mortal who still speaks the First Tongue. He has been ageless since the day the tongues were confounded. He wakes in a buried brick kiln and climbs the tower he helped build four thousand years ago. His goal is to stop **Nimrod, the Hunter-King**, from speaking the Name that opens the gate of heaven.
+**Elam** is the scribe who shattered the Tablet of Destinies and brought the Confounding down. He is the last mouth that still speaks the First Tongue, and the curse will not let him die while the tower can still be finished. Now the tower stirs again. He wakes in a buried kiln and climbs it, through the damned, the faithful and the broken Choir, to stop **Nimrod, the Hunter-King**, from speaking the Name that opens heaven.
 
-BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN). It keeps SotN's core: one vast interconnected building explored with elegance, RPG depth (levels, equipment, loot, spells cast by command input, familiars and transformations), and a mid-game reveal that turns the world upside down. Here the reveal is the tower's drowned reflection, which hangs down into the primordial waters of the **Abzu**.
+BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN) in structure: one vast interconnected building explored with elegance, RPG depth (levels, equipment, loot, spells cast by command input, familiars and transformations), and a mid-game reveal that turns the world upside down. Here the reveal is the tower's drowned reflection, which hangs down into the primordial waters of the **Abzu**. Its tone and world take **heavy inspiration from *Blasphemous* 1 and 2 and *Fear & Hunger***: devotional horror, a faith that is itself the monster, grotesque relics and cruel miracles (§4.6–4.7).
 
 ## 2. Design pillars
 
-1. **One tower, every age of pride.** Every civilization that dreamed of reaching heaven added a layer to the tower. Babylonian mudbrick forms the base, followed by Bruegel's Roman arches, Gothic spires, Renaissance clockwork, and Victorian iron and telegraph wire at the top. Each region is a new era, yet it is all one continuous building.
-2. **Language is power.** The First Tongue is the magic system:
+1. **Devotion is the horror (decided 2026-10-16).** The world is religious through and through, and every part of it is twisted: miracles maim, relics are pieces of people, angels are jailers rotting in their own holiness, demons are the old gods of the plain, and the church worships the curse that broke humankind. It is dark and edgy, but made with care: the grotesque is ornate, sad and beautiful, never cheap shock (§4.6–4.7).
+2. **One tower, every age of pride.** Every age that dreamed of reaching heaven added a layer to the tower, each in its own architecture and its own heresy: mudbrick at the base, then arches like Bruegel's Babel, Gothic spires, Renaissance clockwork, and iron and wire at the top. Each region is a new age, yet it is all one continuous building. ⟨open: how much late technology the alternate world keeps (§14)⟩
+3. **Language is power, and blasphemy.** The First Tongue is the magic system, and in the Church's eyes speaking it is the oldest sin: every Utterance Elam casts is a blasphemy, and the tower hears it.
    - Spells are spoken words entered as "syllables" (command inputs).
    - Doors are sealed by words.
    - NPCs speak confounded languages that you gradually learn.
    - The story's key twist depends on finally understanding what someone is saying.
-3. **Exploration always pays.** Every dead end hides something: a breakable wall, a secret room, a rare drop or more map percentage. Relics reopen old spaces. The map itself is a trophy.
-4. **Lavish pixels with depth.** The goal is SotN's elegance at 640×360, using dense parallax, normal-mapped 2D lighting, atmosphere and smooth sprite animation. Sprites are never mixed-resolution and never smoothly scaled.
+4. **Exploration always pays.** Every dead end hides something: a breakable wall, a secret room, a rare drop or more map percentage. Relics reopen old spaces. The map itself is a trophy.
+5. **Lavish pixels with depth.** The goal is SotN's readable elegance in a grim baroque look (ART_BIBLE §1) at 640×360, using dense parallax, normal-mapped 2D lighting, atmosphere and smooth sprite animation. Sprites are never mixed-resolution and never smoothly scaled.
 
 ## 3. SotN DNA: keep, evolve, avoid
 
@@ -50,32 +51,37 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN). I
 
 ### 4.1 Mythic backstory
 
-- Before the Confusion, everyone spoke one language: **the First Tongue**, the language in which the world was named.
-- **Nimrod**, Hunter-King of Shinar, built **Etemenanki** ("House of the Foundation of Heaven and Earth") in order to storm heaven. His plan was to inscribe the **Tablet of Destinies** in the First Tongue and speak the Name from the summit.
-- **Elam** was his royal scribe and master mason. He understood what the Name would do and shattered the Tablet at the summit. At that moment the tongues were confounded. The builders could no longer understand each other, and the work stopped.
-- Elam alone kept the First Tongue, and it binds him: **he cannot die while the tower can still be finished.** He sleeps whenever the tower sleeps.
-- The tower never fell. It sank beneath the plain, and it rises whenever humanity's pride and shared speech grow strong enough. Every age that dreamed of heaven left its architecture on it.
+- Before the Confusion, everyone spoke one language: **the First Tongue**, the language in which the world was named, and in which a name has power over what it names.
+- **Nimrod**, Hunter-King of Shinar, built **Etemenanki** ("House of the Foundation of Heaven and Earth") to storm heaven. He shot an arrow at the sky, and it came back bloodied. Then he set out to inscribe the **Tablet of Destinies** in the First Tongue and speak the Name from the summit, to make himself a god.
+- The tower was raised from mudbrick tempered with the bodies of the builders who fell. Their ghosts are still in the brick.
+- **Elam**, his royal scribe and master mason, understood what the Name would do and shattered the Tablet at the summit. In that moment **the Choir** descended and confounded the tongues. The builders could no longer understand each other; many tore at their own mouths. The work stopped.
+- The Choir could not unmake the tower, so they cursed it: **it cannot fall and it cannot be finished.** They stayed to guard it, and have kept their watch so long that their holiness has curdled: wings nailed to the brickwork, eyes multiplied, faces worn smooth by the one note of the Confounding they still sing.
+- Elam alone kept the First Tongue, and it binds him: **he cannot die while the tower can still be finished.** He sleeps whenever the tower sleeps. He knows the Confounding was his doing, and carries it as penance.
+- From the ruin grew the **Church of the Sealed Mouth**. It teaches that speech was humankind's first sin and the Confounding its just punishment. The faithful sew their mouths to be forgiven, its priests speak only in signs, and its saints are those who cut out their own tongues; its relics are what is left of them. ⟨open: final name of the faith⟩
+- The **old gods and demons of the plain** (Lamashtu, Pazuzu, Humbaba, Namtar, the spawn of Tiamat) were here before the tower, and feed on it from below.
+- The tower sank beneath the plain, and it rises whenever enough voices are raised as one. Every age that rose with it left its architecture on it.
 - The 72 shards of the Tablet (one for each tongue of the nations) are scattered through the tower. They are the **Glyphs**, the game's lore collectibles.
 
-### 4.2 The present: 1893
+### 4.2 The present (proposal, 2026-10-16; to be settled in NAR-001)
 
-- The world's fairs, the Eiffel Tower and telegraph cables under every ocean mean humanity is talking as one again. The tower rises in Ottoman Mesopotamia, near the ruins of Babylon.
-- **Prologue (1889):** Sera Valcourt comes from a line of tower-breakers and wields the **Measuring Chain**. She climbs the tower during the last rising and puts Nimrod back to sleep at the summit. Then she vanishes.
-- **1893:** The tower rises again, faster this time. Elam wakes.
+- The game is set in an **alternate world** shaped by the Confounding, not in our history. ⟨open: the v0.1 frame (the year 1893, the Eiffel Tower, telegraph cables, Ottoman Mesopotamia, a Danish philologist) is to be reworked into it⟩
+- **The Jubilee of One Voice:** the Church gathers its pilgrims for a great silent liturgy at the tower's foot, the first time in an age that so many have been of one mind. It is enough. The tower stirs. Ashipu, the Church's high priest, arranged it.
+- **Prologue (a generation ago):** Sera Valcourt of the **Measurers**, an order that breaks the tower whenever it rises, climbs during the last Stirring and puts Nimrod back to sleep at the summit. Then she vanishes.
+- **Now:** the tower rises again, faster. Elam wakes.
 
 ### 4.3 Characters
 
 | Character | Role (SotN analog) | Notes |
 |---|---|---|
-| **Elam** | Protagonist (Alucard) | Ageless scribe-mason of Nimrod's court and keeper of the First Tongue. **His look follows the user's reference art in `assets/` at the repo root (2026-10-14):** a tall, lean man with short swept silver-grey hair and a stern face. He wears a long dark charcoal frock coat with purple-and-silver plate armor on the shoulders, chest and forearms, a crimson vest, tall laced boots with silver buckles, and a long dark cape lined in crimson. Calm, sorrowful and dryly witty. He speaks rarely. The sprite is in ART_BIBLE §10.1. |
-| **Sera Valcourt** | Richter | The tower-breaker who won the last rising. Elam finds her at the summit as the "Herald of the Tower," speaking only a confounded tongue. She is bound by Ashipu. Her weapon, the Measuring Chain, is a surveyor's chain used like a whip. |
-| **Dr. Adela Rask** | Maria | Danish philologist with the archaeological dig. She is searching for Sera, who is her friend. She gives Elam the **Interpreter's Lens**. In Act II she can be lost or rescued, which affects the ending. |
-| **Nimrod, the Hunter-King** | Dracula | Builder of the tower: a giant archer who, in legend, shot an arrow at heaven that came back bloodied. He sleeps in the tower's reflected foundation. |
-| **Ashipu, the Many-Mouthed** | Shaft | Nimrod's high priest and exorcist. He wears a golden mask with a sewn-shut mouth, and his robes are covered in mouths that speak every language. He engineers the rising and controls Sera. |
-| **Namtar, Herald of Fate** | Death | A Mesopotamian death-herald. He strips Elam's gear at the Grand Gate and returns as a recurring threat and later a boss. |
-| **Archivist Nabu** | Librarian | A ghost scribe in the Hall of Tablets who runs the shop, the bestiary (Codex), the map sales and the lore archive. |
-| **Urshanabi** | Ferryman | Ferryman of the waters of death in the *Epic of Gilgamesh*. He ferries Elam across the Cisterns. |
-| **Siduri** | (new) | The tavern-keeper at the edge of the world, from Gilgamesh, who keeps a terrace tavern. She gives hints, side quests and rest. |
+| **Elam** | Protagonist (Alucard) | Ageless scribe-mason of Nimrod's court and keeper of the First Tongue; the man who brought the Confounding down, carrying it as penance. **His look follows the user's reference art in `assets/` at the repo root (2026-10-14):** a tall, lean man with short swept silver-grey hair and a stern face. He wears a long dark charcoal frock coat with purple-and-silver plate armor on the shoulders, chest and forearms, a crimson vest, tall laced boots with silver buckles, and a long dark cape lined in crimson. Calm, sorrowful and dryly bitter. He speaks rarely. The sprite is in ART_BIBLE §10.1. |
+| **Sera Valcourt** | Richter | A tower-breaker of the Measurers, who won the last rising. Elam finds her at the summit as the "Herald of the Tower," her mouth sewn by Ashipu, speaking only a confounded tongue. Her weapon, the Measuring Chain, is a surveyor's chain used like a whip, its links stamped with the names of the fallen. |
+| **Adela Rask** | Maria | ⟨open, NAR-001⟩ A scholar of the forbidden tongues, hunted by the Church as a heretic. She is searching for Sera, who is her friend. She gives Elam the **Interpreter's Lens**. In Act II she can be lost or rescued, which affects the ending. |
+| **Nimrod, the Hunter-King** | Dracula | Builder of the tower: a giant archer who shot an arrow at heaven that came back bloodied. Half-ascended, he sleeps in the tower's reflected foundation, crowned with the wings of the angels he brought down. |
+| **Ashipu, the Many-Mouthed** | Shaft | High priest of the Church of the Sealed Mouth, once Nimrod's exorcist. He wears a golden mask with a sewn-shut mouth, and his robes are covered in mouths that speak every language. He engineers the rising and controls Sera. |
+| **Namtar, Herald of Fate** | Death | The death-herald of the old gods, who carries plague and fate. He strips Elam's gear at the Grand Gate and returns as a recurring threat and later a boss. |
+| **Archivist Nabu** | Librarian | A ghost scribe of the forbidden archive in the Hall of Tablets, who sells what the Church burned. He runs the shop, the bestiary (Codex), the map sales and the lore archive. |
+| **Urshanabi** | Ferryman | Ferryman of the waters of death in the *Epic of Gilgamesh*, who asks a fare no living person should pay. He ferries Elam across the Cisterns. |
+| **Siduri** | (new) | The tavern-keeper at the edge of the world, from Gilgamesh, pouring wine for the damned on the terraces. She gives hints, side quests and rest. |
 
 ### 4.4 Act structure
 
@@ -93,6 +99,26 @@ BABEL is a spiritual successor to *Castlevania: Symphony of the Night* (SotN). I
 | **B: The Scattering** | Elam defeats Nimrod without rescuing Rask. |
 | **C: One Speech** | Elam defeats Nimrod after rescuing Rask. |
 | **D: The First Word** (secret epilogue) | Ending C plus all 72 Glyphs. |
+
+### 4.6 Angels, demons and the damned
+
+Every enemy and most characters belong to one of four families, which set their look and the voice of their Codex entries.
+
+| Family | What they are | Examples |
+|---|---|---|
+| **The Choir** (angels) | The host that confounded the tongues and stayed as the tower's jailers. Holy, beautiful and rotten: wings nailed to brick, eyes multiplied, faces worn smooth by singing the one note of the Confounding. They strike at anything that speaks. | Choir Warden, Ophan (a burning wheel of eyes), Censer-Seraph, the Lamassu bound at the Gate ⟨proposals⟩ |
+| **The Old Ones** (demons) | The gods and demons of the plain, older than the tower, feeding on it from below. Hungry and sly, and sometimes the only ones who tell the truth. | Lamashtu, Pazuzu, Humbaba, Namtar, the Spawn of Tiamat |
+| **The Damned** (monsters) | The builders and pilgrims the tower kept: bodies baked into brick, penitents who climbed until nothing human was left. | Mudborn, Mud Bats, Pitch Ooze, flagellants, the Brick-Father |
+| **The Faithful** (the Church) | The Church of the Sealed Mouth's guards, priests and zealots, mouths sewn, who kill to keep the silence. | Gate Spearman, sewn-mouth priests, Ashipu |
+
+### 4.7 Tone, voice and content (decided 2026-10-16)
+
+- **Influences:** *Blasphemous* 1 and 2 (devotional grotesque art, penance and guilt, cryptic liturgical lore told in item and NPC fragments, bosses that are beautiful and cruel) and *Fear & Hunger* (grimdark cruelty, dread, desperate ascension, a world where hope is a trap), with SotN for structure.
+- **Voice:** item, enemy and lore text is short, solemn and oblique, in the register of a liturgy or a confession, with the occasional plain, cruel sentence. Lore comes in fragments for the player to piece together; nothing is explained outright. No jokes in lore text. Characters speak in plain, elevated English.
+- **Motifs:** mouths and tongues (sewn, cut out, multiplied); bricks made of people; gold leaf over rot; votive candles and kiln fire; nails, cords and wax seals; wings nailed down; the unfinished (scaffolds, broken stairs, half-built rooms); the one note of the Confounding; penance and guilt.
+- **In scope:** gore, body horror, desecration, cruelty and despair, shown with craft and meaning: ornate, devotional and sad, never shock for its own sake.
+- **Limits:** no sexual violence or sexualised gore. The faith is invented: it draws on Abrahamic and Mesopotamian imagery (angels, saints, relics, demons, the Tower) but does not depict or mock real-world religions' sacred figures. The Most High is never shown: the horror is in His servants, His silence, and what people made of His curse. Whether the Confounding was justice or cruelty is left to the player.
+- **Applies everywhere:** names, item and enemy descriptions, NPC lines, PixelLab prompts (ART_BIBLE §7.2) and art. The existing item text was rewritten in this voice on 2026-10-16.
 
 ## 5. World
 
@@ -390,7 +416,7 @@ New weapon types (spears, knuckles, bows…) each get their own set. A single we
 
 ## 7. Enemies and bosses
 
-The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I has about 60 enemies, and palette-swapped variants push the Codex toward 100 or more entries.
+The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I has about 60 enemies, and palette-swapped variants push the Codex toward 100 or more entries. Every enemy belongs to one of the four families in §4.6 (the Choir, the Old Ones, the Damned, the Faithful).
 
 **Behavior archetypes:**
 - Walker, charger and jumper
@@ -445,11 +471,11 @@ The full roster with IDs is in [BACKLOG.md](BACKLOG.md#enm-enemy-roster). Act I 
 
 ## 10. Art direction (summary)
 
-The look is SotN's gothic elegance at 640×360 with 16 px tiles and an approximately 90 px hero. Depth comes from 4–7 parallax layers per region, atmospheric tinting by depth, normal-mapped sprites under 2D lights with banded (quantized) lighting, and HDR glow for magic. Each region has its own era palette built on a shared master ramp of bitumen black, lapis, gold, terracotta, bone and crimson. The full specification is in [ART_BIBLE.md](ART_BIBLE.md).
+The look is **grim baroque**: SotN's readable elegance with devotional horror in the spirit of *Blasphemous* (ornate religious architecture and iconography, gore and body horror drawn with care, deep shadows lit by candles and kiln fire), at 640×360 with 16 px tiles and an approximately 90 px hero. Depth comes from 4–7 parallax layers per region, atmospheric tinting by depth, normal-mapped sprites under 2D lights with banded (quantized) lighting, and HDR glow for magic. Each region has its own era palette built on a shared master ramp of bitumen black, lapis, gold, terracotta, bone and crimson. The full specification is in [ART_BIBLE.md](ART_BIBLE.md).
 
 ## 11. Audio direction
 
-- **Music:** SotN-style gothic baroque and rock fusion mixed with Mesopotamian color: lyre, oud, frame drums, ney flute and choir. Each region has its own theme, and an `AudioStreamInteractive` switches between exploration, combat and boss sections.
+- **Music:** dark liturgical baroque with Mesopotamian lament: lyre, oud, frame drums, ney flute, and choir. The Choir's one sustained note of the Confounding is a recurring motif. Each region has its own theme, and an `AudioStreamInteractive` switches between exploration, combat and boss sections.
 - **The Murmur:** the tower constantly whispers in many languages. The whispering swells near secrets and goes silent in Quiet Rooms, which is how the save rooms feel safe.
 - **SFX:** punchy and crunchy, in the spirit of 32-bit-era games.
 - **Voice:** voiced key story lines only ⟨open; stretch goal⟩.
@@ -492,4 +518,6 @@ Act I must never be cut below the quality of the slice.
 - Music sourcing and voice-over budget.
 - Should Sera mode ship at launch?
 - Map size: confirm the 400-cell Act I after the M1 slice reveals the real cost per room.
-- Tone check on religious material: the game depicts myth and human pride. God is never depicted or made a villain.
+- The alternate world's framing (§4.2): rework the v0.1 1893 frame, its real-world places and the Danish philologist (NAR-001); decide how much late technology (iron, wire) the world keeps.
+- Final names of the faith (working: the Church of the Sealed Mouth) and of the angels (working: the Choir).
+- *Fear & Hunger*-style mechanics (hunger, sanity, lasting injuries) are not planned: the inspiration is tone only, unless the user asks for them.

@@ -6,9 +6,10 @@ This document defines how BABEL looks and how its art is made. It is the source 
 
 ---
 
-## 1. Target look: "Symphony of the Night, with more pixels and more depth"
+## 1. Target look: "grim baroque: Symphony of the Night's readability, devotional horror's soul"
 
-- **Gothic elegance first.** The silhouettes are tall and slender, with flowing mantles, ornate architecture and big readable bosses. The mood is melancholy grandeur, not grimdark mush.
+- **Devotional horror, readable first (decided 2026-10-16).** Heavy inspiration from *Blasphemous* 1 and 2 and *Fear & Hunger* (GDD §4.6–4.7): ornate religious architecture and iconography (gold leaf, reliquaries, votive candles, sewn mouths, wings nailed to brick), gore and body horror drawn with care, deep shadows lit by candle, ember and kiln light, and a desaturated base with crimson, tarnished gold and bone accents.
+- **Dark never means muddy.** The silhouettes stay tall and readable, with flowing mantles and big bosses, and every enemy, hazard and pickup reads at a glance against its background. The grotesque is ornate and sad, never shapeless.
 - **More pixels per thing:**
   - Elam is about 90 px tall, versus about 48 px for Alucard. That gives roughly 3.5× the pixel area per character.
   - The screen is 640×360, about 4× SotN's pixel count, so rooms can carry far more architectural detail.
@@ -235,7 +236,8 @@ Before calling any PixelLab tool, load its schema with ToolSearch (`select:mcp__
 ### 7.2 Prompt templates
 
 - **Style suffix** (append to every sprite prompt):
-  `side view, 2D action RPG sprite, dark gothic Mesopotamian fantasy, 32-bit console era pixel art, rich hue-shifted shading, selective dark outline, light from upper left`
+  `side view, 2D action RPG sprite, grim devotional dark fantasy, ornate religious horror, ancient Mesopotamian and baroque, decayed and grotesque, 32-bit console era pixel art, rich hue-shifted shading, selective dark outline, light from upper left`
+  (Tone set 2026-10-16. Keep franchise names such as *Blasphemous* out of prompts; describe the look instead.)
 - **Character:**
   `<who>, <silhouette and costume>, <2-3 palette words>, full body, facing right, <style suffix>`
 - **Enemy:** as for a character, plus `<threatening pose>` and `<how it attacks>` (this gives the animation stage something to work from).

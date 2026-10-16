@@ -11,5 +11,5 @@ worn = ExtResource("2_esx7q")
 dye_ramp = PackedColorArray()
 id = &"seal_of_shamash"
 display_name = "Seal of Shamash"
-description = "A cylinder seal of the sun god. Fortune favours its bearer. LCK +5."
+description = "The sun who sees all and judges all, and has looked away from this tower for four thousand years. Fortune favours its bearer."
 price = 150

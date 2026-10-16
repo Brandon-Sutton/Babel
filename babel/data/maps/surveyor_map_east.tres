@@ -8,5 +8,5 @@ region = &"test"
 area = Rect2i(2, 0, 1, 1)
 id = &"surveyor_map_east"
 display_name = "Surveyor's Map: East Hall"
-description = "A surveyor's copy of the East Hall, pressed into the Builder's Plan. It says nothing of what lies behind its walls."
+description = "A surveyor's copy of the East Hall, pressed into the Builder's Plan. He did not draw what lies behind its walls, and was not seen again."
 price = 50

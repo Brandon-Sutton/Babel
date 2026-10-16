@@ -11,5 +11,5 @@ dye_material = &"plates"
 dye_ramp = PackedColorArray(0.18039216, 0.20392157, 0.14901961, 1, 0.36862746, 0.41568628, 0.28235295, 1, 0.627451, 0.65882355, 0.47058824, 1)
 id = &"riverclay_mail"
 display_name = "Riverclay Mail"
-description = "Plates of fired river clay laced over leather. Heavy, but it turns a spear. DEF +6, CON +1."
+description = "Fired from the same river clay as the Mudborn. On cold nights, it moves."
 price = 180

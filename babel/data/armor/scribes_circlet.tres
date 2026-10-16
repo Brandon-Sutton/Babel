@@ -12,5 +12,5 @@ worn = ExtResource("2_p0oef")
 dye_ramp = PackedColorArray()
 id = &"scribes_circlet"
 display_name = "Scribe's Circlet"
-description = "A thin gold band worn by the tablet-keepers of the court. INT +2."
+description = "Worn by the tablet-keepers, who wrote down the king's every word. After the Confounding they wrote until their fingers bled, and none of it meant anything."
 price = 80
